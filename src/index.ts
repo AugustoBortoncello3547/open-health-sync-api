@@ -1,10 +1,7 @@
 import dotenv from "dotenv";
 import { fastify } from "fastify";
 import { fastifyCors } from "@fastify/cors";
-import {
-  validatorCompiler,
-  serializerCompiler,
-} from "fastify-type-provider-zod";
+import { validatorCompiler, serializerCompiler } from "fastify-type-provider-zod";
 import { fastifySwagger } from "@fastify/swagger";
 import { fastifySwaggerUi } from "@fastify/swagger-ui";
 import { aplicacaoRoutes } from "./routes/AplicacaoRoutes.js";
