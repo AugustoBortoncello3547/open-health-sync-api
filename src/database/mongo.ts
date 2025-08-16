@@ -23,6 +23,7 @@ export class MongoClient {
         await mongoose.connect(URL, {
           user: username,
           pass: password,
+          dbName: "openHealthSyncApi",
         } as ConnectOptions);
         console.log("MongoDB conectado com sucesso!");
       } catch (error) {
