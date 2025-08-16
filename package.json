@@ -16,6 +16,7 @@
   "devDependencies": {
     "@eslint/js": "^9.33.0",
     "@eslint/json": "^0.13.1",
+    "@types/mongoose": "^5.11.96",
     "@types/node": "^24.2.1",
     "eslint": "^9.33.0",
     "eslint-config-prettier": "^10.1.8",
@@ -33,6 +34,7 @@
     "dotenv": "^17.2.1",
     "fastify": "^5.5.0",
     "fastify-type-provider-zod": "^5.0.3",
+    "mongoose": "^8.17.1",
     "zod": "^4.0.17"
   }
 }

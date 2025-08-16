@@ -10,32 +10,40 @@ import {
   type ZodTypeProvider,
 } from "fastify-type-provider-zod";
 import { registerRoutes } from "./routes/index.js";
+import { MongoClient } from "./database/mongo.js";
 
-dotenv.config();
+async function startServer() {
+  dotenv.config();
 
-const app = fastify().withTypeProvider<ZodTypeProvider>();
+  const app = fastify().withTypeProvider<ZodTypeProvider>();
 
-app.setValidatorCompiler(validatorCompiler);
-app.setSerializerCompiler(serializerCompiler);
+  const client = MongoClient.getInstance();
+  await client.connect();
 
-app.register(fastifyCors, { origin: "*" });
-app.register(fastifySwagger, {
-  openapi: {
-    info: {
-      title: "Open Health Sync API",
-      version: "1.0.0",
+  app.setValidatorCompiler(validatorCompiler);
+  app.setSerializerCompiler(serializerCompiler);
+
+  app.register(fastifyCors, { origin: "*" });
+  app.register(fastifySwagger, {
+    openapi: {
+      info: {
+        title: "Open Health Sync API",
+        version: "1.0.0",
+      },
     },
-  },
-  transform: jsonSchemaTransform,
-});
+    transform: jsonSchemaTransform,
+  });
 
-app.register(fastifySwaggerUi, {
-  routePrefix: "/docs",
-});
+  app.register(fastifySwaggerUi, {
+    routePrefix: "/docs",
+  });
 
-app.register(registerRoutes);
+  app.register(registerRoutes);
 
-const port = process.env.PORT || 3333;
-app.listen({ port: port }).then(() => {
-  console.log("HTTP Server is runnig");
-});
+  const port = process.env.PORT || 3333;
+  app.listen({ port: port }).then(() => {
+    console.log("HTTP Server is runnig");
+  });
+}
+
+startServer();
