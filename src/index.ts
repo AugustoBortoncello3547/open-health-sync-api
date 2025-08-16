@@ -9,7 +9,7 @@ import {
   validatorCompiler,
   type ZodTypeProvider,
 } from "fastify-type-provider-zod";
-import { aplicacaoRoutes } from "./routes/AplicacaoRoutes.js";
+import { registerRoutes } from "./routes/index.js";
 
 dotenv.config();
 
@@ -33,7 +33,7 @@ app.register(fastifySwaggerUi, {
   routePrefix: "/docs",
 });
 
-app.register(aplicacaoRoutes);
+app.register(registerRoutes);
 
 const port = process.env.PORT || 3333;
 app.listen({ port: port }).then(() => {
