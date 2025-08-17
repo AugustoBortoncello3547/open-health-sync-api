@@ -5,6 +5,7 @@ declare global {
       MONGODB_URL: string;
       MONGODB_USER: string;
       MONGODB_PASSWORD: string;
+      SALT_PASSWORD_HASH: number;
     }
   }
 }
