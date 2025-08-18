@@ -25,6 +25,7 @@ async function startServer() {
         },
       },
     },
+    disableRequestLogging: true,
   }).withTypeProvider<ZodTypeProvider>();
 
   const client = MongoClient.getInstance();
