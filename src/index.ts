@@ -15,7 +15,17 @@ import { MongoClient } from "./database/mongo.js";
 async function startServer() {
   dotenv.config();
 
-  const app = fastify().withTypeProvider<ZodTypeProvider>();
+  const app = fastify({
+    logger: {
+      transport: {
+        target: "pino-pretty",
+        options: {
+          translateTime: "HH:MM:ss Z",
+          ignore: "pid,hostname",
+        },
+      },
+    },
+  }).withTypeProvider<ZodTypeProvider>();
 
   const client = MongoClient.getInstance();
   await client.connect();
