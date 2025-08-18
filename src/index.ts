@@ -29,8 +29,8 @@ async function startServer() {
     disableRequestLogging: true,
   }).withTypeProvider<ZodTypeProvider>();
 
-  const client = MongoClient.getInstance();
-  await client.connect();
+  const mongoDBClient = MongoClient.getInstance();
+  await mongoDBClient.connect();
 
   app.setValidatorCompiler(validatorCompiler);
   app.setSerializerCompiler(serializerCompiler);
@@ -57,7 +57,18 @@ async function startServer() {
 
   const port = process.env.PORT || 3333;
   app.listen({ port: port }).then(() => {
-    console.log("HTTP Server is runnig");
+    console.log("HTTP Server is runnig...");
+  });
+
+  // Shutdown mais seguro
+  const listeners = ["SIGINT", "SIGTERM"];
+  listeners.forEach((signal) => {
+    process.on(signal, async () => {
+      console.log("HTTP Server shuting down...");
+      await app.close();
+      await mongoDBClient.disconnect();
+      process.exit(0);
+    });
   });
 }
 
