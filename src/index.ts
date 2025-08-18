@@ -48,7 +48,8 @@ async function startServer() {
     routePrefix: "/docs",
   });
 
-  app.register(registerRoutes);
+  const apiVersion = process.env.API_VERSION || "v1";
+  app.register(registerRoutes, { prefix: apiVersion });
 
   const port = process.env.PORT || 3333;
   app.listen({ port: port }).then(() => {
