@@ -13,14 +13,10 @@ export class CreateAplicacaoController implements ICreateAplicaoController {
     const salt = bcrypt.genSaltSync(saltRounds);
     const passwordHash = bcrypt.hashSync(senha, salt);
 
-    try {
-      const id = await this.createAplicaoRepository.createAplicacao({
-        senha: passwordHash,
-        ...aplicacao,
-      });
-      reply.status(HttpStatusCode.CREATED).send({ id });
-    } catch (error) {
-      reply.status(HttpStatusCode.INTERNAL_SERVER_ERROR).send({ message: "Erro Interno no servidor" });
-    }
+    const id = await this.createAplicaoRepository.createAplicacao({
+      senha: passwordHash,
+      ...aplicacao,
+    });
+    reply.status(HttpStatusCode.CREATED).send({ id });
   }
 }

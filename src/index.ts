@@ -9,8 +9,9 @@ import {
   validatorCompiler,
   type ZodTypeProvider,
 } from "fastify-type-provider-zod";
-import { registerRoutes } from "./routes/index.js";
+import { mainApiErrorHandler } from "./controllers/errors/main-api-error-handler.js";
 import { MongoClient } from "./database/mongo.js";
+import { registerRoutes } from "./routes/index.js";
 
 async function startServer() {
   dotenv.config();
@@ -51,6 +52,8 @@ async function startServer() {
 
   const apiVersion = process.env.API_VERSION || "v1";
   app.register(registerRoutes, { prefix: apiVersion });
+
+  app.setErrorHandler(mainApiErrorHandler);
 
   const port = process.env.PORT || 3333;
   app.listen({ port: port }).then(() => {

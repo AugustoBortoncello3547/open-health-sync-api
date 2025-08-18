@@ -8,15 +8,11 @@ export class GetAplicacaoController implements IGetAplicaoController {
   async handle(request: FastifyRequest<{ Params: GetAplicacaoParams }>, reply: FastifyReply): Promise<void> {
     const { idAplicacao } = request.params;
 
-    try {
-      const aplicacao = await this.getAplicaoRepository.getAplicacao(idAplicacao);
-      reply.status(HttpStatusCode.OK).send({
-        ...aplicacao,
-        criadoEm: aplicacao.criadoEm.toISOString(),
-        atualizadoEm: aplicacao.atualizadoEm.toISOString(),
-      });
-    } catch (error) {
-      reply.status(HttpStatusCode.INTERNAL_SERVER_ERROR).send({ message: "Erro Interno no servidor" });
-    }
+    const aplicacao = await this.getAplicaoRepository.getAplicacao(idAplicacao);
+    reply.status(HttpStatusCode.OK).send({
+      ...aplicacao,
+      criadoEm: aplicacao.criadoEm.toISOString(),
+      atualizadoEm: aplicacao.atualizadoEm.toISOString(),
+    });
   }
 }

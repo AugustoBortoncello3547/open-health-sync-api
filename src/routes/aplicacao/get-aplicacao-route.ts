@@ -40,14 +40,25 @@ export function getAplicacaoRoute(app: FastifyTypedInstance) {
             criadoEm: z.string(),
             atualizadoEm: z.string(),
           }),
-          404: z.string().describe("Aplicação não encontrada"),
+          404: z
+            .object({
+              error: z.string(),
+              message: z.string(),
+            })
+            .describe("Aplicação não encontrada"),
+          400: z
+            .object({
+              error: z.string(),
+              message: z.string(),
+            })
+            .describe("Requisição malformatada"),
         },
       },
     },
     (request: FastifyRequest<{ Params: GetAplicacaoParams }>, reply: FastifyReply) => {
       const mongoGetAplicacaoRepository = new MongoGetAplicacaoRepository();
       const getAplicacaoController = new GetAplicacaoController(mongoGetAplicacaoRepository);
-      getAplicacaoController.handle(request, reply);
+      return getAplicacaoController.handle(request, reply);
     },
   );
 }
