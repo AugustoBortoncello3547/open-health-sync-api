@@ -39,6 +39,6 @@ export type GetAplicacaoParams = {
 };
 
 export interface IGetAplicaoRepository {
-  getAplicacao(id: string): Promise<Aplicacao>;
-  getAplicaoByUsuario(usuario: string): Promise<Aplicacao>;
+  getAplicacao(id: string): Promise<Aplicacao | null>;
+  getAplicaoByUsuario(usuario: string): Promise<Aplicacao | null>;
 }

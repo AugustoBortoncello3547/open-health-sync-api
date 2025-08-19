@@ -4,19 +4,17 @@ import type {
   IGetAplicaoRepository,
   TAplicacaoMongo,
 } from "../../../controllers/aplicacao/get-aplicacap/types.js";
-import { AplicacaoNaoEncontradaError } from "../../../errors/aplicacao-nao-encontrada-error.js";
 import { AplicacaoModel } from "../../../models/aplicacao-model.js";
-import { InvalidIdError } from "../../../errors/invalid-id-error.js";
 
 export class MongoGetAplicacaoRepository implements IGetAplicaoRepository {
-  async getAplicacao(id: string): Promise<Aplicacao> {
+  async getAplicacao(id: string): Promise<Aplicacao | null> {
     if (!mongoose.isValidObjectId(id)) {
-      throw new InvalidIdError();
+      return null;
     }
 
     const aplicacao = await AplicacaoModel.findById(id).lean<TAplicacaoMongo>().exec();
     if (!aplicacao) {
-      throw new AplicacaoNaoEncontradaError();
+      return null;
     }
 
     const { _id, ...rest } = aplicacao;
@@ -26,11 +24,11 @@ export class MongoGetAplicacaoRepository implements IGetAplicaoRepository {
     };
   }
 
-  async getAplicaoByUsuario(usuario: string): Promise<Aplicacao> {
+  async getAplicaoByUsuario(usuario: string): Promise<Aplicacao | null> {
     const aplicacao = await AplicacaoModel.findOne({ usuario }).lean<TAplicacaoMongo>().exec();
 
     if (!aplicacao) {
-      throw new AplicacaoNaoEncontradaError();
+      return null;
     }
 
     const { _id, ...rest } = aplicacao;
