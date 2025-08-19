@@ -25,4 +25,18 @@ export class MongoGetAplicacaoRepository implements IGetAplicaoRepository {
       ...rest,
     };
   }
+
+  async getAplicaoByUsuario(usuario: string): Promise<Aplicacao> {
+    const aplicacao = await AplicacaoModel.findOne({ usuario }).lean<TAplicacaoMongo>().exec();
+
+    if (!aplicacao) {
+      throw new AplicacaoNaoEncontradaError();
+    }
+
+    const { _id, ...rest } = aplicacao;
+    return {
+      id: _id.toString(),
+      ...rest,
+    };
+  }
 }

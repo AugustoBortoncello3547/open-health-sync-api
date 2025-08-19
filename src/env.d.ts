@@ -7,6 +7,8 @@ declare global {
       MONGODB_USER: string;
       MONGODB_PASSWORD: string;
       SALT_PASSWORD_HASH: number;
+      JWT_SECRET: string;
+      JWT_EXPIRE_TIME: number;
     }
   }
 }
