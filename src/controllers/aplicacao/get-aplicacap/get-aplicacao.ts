@@ -1,6 +1,6 @@
 import type { FastifyReply, FastifyRequest } from "fastify";
 import { HttpStatusCode } from "../../../enums/http-status-code-enum.js";
-import { AplicacaoNaoEncontradaError } from "../../../errors/aplicacao-nao-encontrada-error.js";
+import { AplicacaoNotFoundError } from "../../../errors/aplicacao-not-found-error.js";
 import type { GetAplicacaoParams, IGetAplicaoController, IGetAplicaoRepository } from "./types.js";
 
 export class GetAplicacaoController implements IGetAplicaoController {
@@ -11,7 +11,7 @@ export class GetAplicacaoController implements IGetAplicaoController {
 
     const aplicacao = await this.getAplicaoRepository.getAplicacao(idAplicacao);
     if (!aplicacao) {
-      throw new AplicacaoNaoEncontradaError();
+      throw new AplicacaoNotFoundError();
     }
 
     reply.status(HttpStatusCode.OK).send({
