@@ -9,6 +9,7 @@ declare global {
       SALT_PASSWORD_HASH: number;
       JWT_SECRET: string;
       JWT_EXPIRE_TIME: number;
+      MONGOOSE_ENCRYPT_ENC_KEY: string;
     }
   }
 }

@@ -1,7 +1,12 @@
+import dotenv from "dotenv";
 import { Schema, model } from "mongoose";
-import { ufEnum } from "../enums/uf-enum.js";
-import { tipoPessoaEnum } from "../enums/tipo-pessoa-enum.js";
+import encrypt from "mongoose-encryption";
+import type { TAplicacaoSchema } from "../controllers/aplicacao/get-aplicacap/types.js";
 import { StatusAplicacaoEnum } from "../enums/aplicacao/status-aplicacao-enum.js";
+import { tipoPessoaEnum } from "../enums/tipo-pessoa-enum.js";
+import { ufEnum } from "../enums/uf-enum.js";
+
+dotenv.config();
 
 const EnderecoSchema = new Schema(
   {
@@ -44,4 +49,10 @@ const AplicacaoSchema = new Schema(
   },
 );
 
-export const AplicacaoModel = model("Aplicacao", AplicacaoSchema);
+const encKey = process.env.MONGOOSE_ENCRYPT_ENC_KEY || "";
+AplicacaoSchema.plugin(encrypt, {
+  secret: encKey,
+  encryptedFields: ["dados"],
+});
+
+export const AplicacaoModel = model<TAplicacaoSchema>("Aplicacao", AplicacaoSchema);

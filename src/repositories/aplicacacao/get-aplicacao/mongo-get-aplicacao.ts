@@ -12,12 +12,14 @@ export class MongoGetAplicacaoRepository implements IGetAplicaoRepository {
       return null;
     }
 
-    const aplicacao = await AplicacaoModel.findById(id).lean<TAplicacaoMongo>().exec();
-    if (!aplicacao) {
+    let aplicacaoDoc = await AplicacaoModel.findById(id).exec();
+    if (!aplicacaoDoc) {
       return null;
     }
 
-    const { _id, ...rest } = aplicacao;
+    const aplicacaoObj = aplicacaoDoc.toObject<TAplicacaoMongo>();
+    const { _id, __v, ...rest } = aplicacaoObj;
+
     return {
       id: _id.toString(),
       ...rest,
