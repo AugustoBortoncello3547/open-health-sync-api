@@ -1,7 +1,7 @@
 import type { FastifyReply, FastifyRequest } from "fastify";
 import z from "zod";
-import { GetAplicacaoController } from "../../controllers/aplicacao/get-aplicacap/get-aplicacao.js";
-import type { GetAplicacaoParams } from "../../controllers/aplicacao/get-aplicacap/types.js";
+import { GetAplicacaoController } from "../../controllers/aplicacao/get-aplicacao/get-aplicacao.js";
+import type { GetAplicacaoParams } from "../../controllers/aplicacao/get-aplicacao/types.js";
 import { MongoGetAplicacaoRepository } from "../../repositories/aplicacacao/get-aplicacao/mongo-get-aplicacao.js";
 import type { FastifyTypedInstance } from "../../types.js";
 

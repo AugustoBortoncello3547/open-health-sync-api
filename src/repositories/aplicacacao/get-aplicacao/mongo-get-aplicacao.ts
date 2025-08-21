@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import type { IGetAplicaoRepository, TAplicacaoMongo } from "../../../controllers/aplicacao/get-aplicacap/types.js";
+import type { IGetAplicaoRepository, TAplicacaoMongo } from "../../../controllers/aplicacao/get-aplicacao/types.js";
 import { AplicacaoModel } from "../../../models/aplicacao-model.js";
 import type { TAplicacao } from "../../../controllers/aplicacao/types.js";
 

@@ -3,7 +3,7 @@ import { type FastifyReply, type FastifyRequest } from "fastify";
 import jwt from "jsonwebtoken";
 import { HttpStatusCode } from "../../enums/http-status-code-enum.js";
 import { UnauthorizedError } from "../../errors/unauthorized-error.js";
-import type { IGetAplicaoRepository } from "../aplicacao/get-aplicacap/types.js";
+import type { IGetAplicaoRepository } from "../aplicacao/get-aplicacao/types.js";
 import type { AuthApiParams, IAuthAplicaoController } from "./types.js";
 
 export class AuthApiController implements IAuthAplicaoController {
