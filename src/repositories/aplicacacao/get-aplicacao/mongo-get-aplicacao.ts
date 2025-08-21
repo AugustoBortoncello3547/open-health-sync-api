@@ -1,13 +1,10 @@
 import mongoose from "mongoose";
-import type {
-  Aplicacao,
-  IGetAplicaoRepository,
-  TAplicacaoMongo,
-} from "../../../controllers/aplicacao/get-aplicacap/types.js";
+import type { IGetAplicaoRepository, TAplicacaoMongo } from "../../../controllers/aplicacao/get-aplicacap/types.js";
 import { AplicacaoModel } from "../../../models/aplicacao-model.js";
+import type { TAplicacao } from "../../../controllers/aplicacao/types.js";
 
 export class MongoGetAplicacaoRepository implements IGetAplicaoRepository {
-  async getAplicacao(id: string): Promise<Aplicacao | null> {
+  async getAplicacao(id: string): Promise<TAplicacao | null> {
     if (!mongoose.isValidObjectId(id)) {
       return null;
     }
@@ -26,7 +23,7 @@ export class MongoGetAplicacaoRepository implements IGetAplicaoRepository {
     };
   }
 
-  async getAplicaoByUsuario(usuario: string): Promise<Aplicacao | null> {
+  async getAplicaoByUsuario(usuario: string): Promise<TAplicacao | null> {
     const aplicacao = await AplicacaoModel.findOne({ usuario }).lean<TAplicacaoMongo>().exec();
 
     if (!aplicacao) {
