@@ -13,8 +13,8 @@ export async function authRoute(app: FastifyTypedInstance) {
         tags: ["Autenticação"],
         description: "Autenticar na API",
         body: z.object({
-          usuario: z.string(),
-          senha: z.string(),
+          email: z.email("Email informado não é válido"),
+          senha: z.string("A senha é obrigatória"),
         }),
         response: {
           200: z

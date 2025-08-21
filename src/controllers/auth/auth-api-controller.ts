@@ -10,13 +10,13 @@ export class AuthApiController implements IAuthAplicaoController {
   constructor(private readonly getAplicaoRepository: IGetAplicaoRepository) {}
 
   async autenticate(request: FastifyRequest<{ Body: AuthApiParams }>, reply: FastifyReply): Promise<void> {
-    const { usuario, senha } = request.body;
+    const { email, senha } = request.body;
 
-    const aplicacao = await this.getAplicaoRepository.getAplicaoByUsuario(usuario);
+    const aplicacao = await this.getAplicaoRepository.getAplicaoByEmail(email);
     if (!aplicacao) {
       throw new UnauthorizedError("Usuário ou senha inválidos.");
     }
-    const { id: idAplicacao, senha: passwordHashed, usuario: usernameAplicacao } = aplicacao;
+    const { id: idAplicacao, senha: passwordHashed, email: emailAplicacao } = aplicacao;
     const passwordsAreIgual = await compare(senha, passwordHashed);
     if (!passwordsAreIgual) {
       throw new UnauthorizedError("Usuário ou senha inválidos.");
@@ -24,7 +24,7 @@ export class AuthApiController implements IAuthAplicaoController {
 
     const secretJWT = process.env.JWT_SECRET || "";
     const expireTimeJWT = Number(process.env.JWT_EXPIRE_TIME) || 60;
-    const jwtToken = jwt.sign({ idAplicacao, usuario: usernameAplicacao }, secretJWT, {
+    const jwtToken = jwt.sign({ idAplicacao, usuario: emailAplicacao }, secretJWT, {
       expiresIn: `${expireTimeJWT}m`,
     });
 

@@ -23,8 +23,8 @@ export class MongoGetAplicacaoRepository implements IGetAplicaoRepository {
     };
   }
 
-  async getAplicaoByUsuario(usuario: string): Promise<TAplicacao | null> {
-    const aplicacao = await AplicacaoModel.findOne({ usuario }).lean<TAplicacaoMongo>().exec();
+  async getAplicaoByEmail(email: string): Promise<TAplicacao | null> {
+    const aplicacao = await AplicacaoModel.findOne({ email }).lean<TAplicacaoMongo>().exec();
 
     if (!aplicacao) {
       return null;

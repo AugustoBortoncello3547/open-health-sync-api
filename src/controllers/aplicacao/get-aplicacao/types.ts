@@ -8,7 +8,7 @@ export interface IGetAplicaoController {
 
 export interface IGetAplicaoRepository {
   getAplicacao(id: string): Promise<TAplicacao | null>;
-  getAplicaoByUsuario(usuario: string): Promise<TAplicacao | null>;
+  getAplicaoByEmail(email: string): Promise<TAplicacao | null>;
 }
 
 type TAplicacaoBase = Omit<TAplicacao, "id" | "atualizadoEm" | "criadoEm">;

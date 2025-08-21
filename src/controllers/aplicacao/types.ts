@@ -4,14 +4,13 @@ import type { ufEnum } from "../../enums/uf-enum.js";
 
 export type TAplicacao = {
   id: string;
-  usuario: string;
+  email: string;
   senha: string;
   status: StatusAplicacaoEnum;
   dados: {
     nome: string;
     tipoPessoa: tipoPessoaEnum;
     cpfCnpj: string;
-    email: string;
     telefone: string;
     endereco: {
       endereco: string;

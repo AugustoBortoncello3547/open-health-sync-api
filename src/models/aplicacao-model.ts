@@ -28,7 +28,6 @@ const DadosSchema = new Schema(
     nome: { type: String, required: true },
     tipoPessoa: { type: String, enum: Object.values(tipoPessoaEnum), required: true },
     cpfCnpj: { type: String, required: true },
-    email: { type: String, required: true },
     telefone: { type: String, required: true },
     endereco: { type: EnderecoSchema, required: true },
   },
@@ -39,7 +38,7 @@ const DadosSchema = new Schema(
 
 const AplicacaoSchema = new Schema(
   {
-    usuario: { type: String, required: true },
+    email: { type: String, required: true },
     senha: { type: String, required: true },
     status: { type: String, enum: Object.values(StatusAplicacaoEnum), required: true },
     dados: { type: DadosSchema, required: true },

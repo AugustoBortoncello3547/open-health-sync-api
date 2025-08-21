@@ -18,14 +18,13 @@ export function getAplicacaoRoute(app: FastifyTypedInstance) {
         response: {
           200: z.object({
             id: z.string(),
-            usuario: z.string(),
+            email: z.string(),
             senha: z.string(),
             status: z.string(),
             dados: z.object({
               nome: z.string(),
               tipoPessoa: z.string(),
               cpfCnpj: z.string(),
-              email: z.string(),
               telefone: z.string(),
               endereco: z.object({
                 endereco: z.string(),

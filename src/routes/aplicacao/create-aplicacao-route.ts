@@ -15,7 +15,7 @@ export async function createAplicacaoRoute(app: FastifyTypedInstance) {
         tags: ["Aplicação"],
         description: "Criar nova aplicação",
         body: z.object({
-          usuario: z.string("O campo usuário é obrigatório"),
+          email: z.email("O e-mail informado não é válido"),
           senha: z
             .string("A senha é obrigatória")
             .min(8, { message: "A senha deve conter no mínimo 8 caracteres" })
@@ -24,7 +24,6 @@ export async function createAplicacaoRoute(app: FastifyTypedInstance) {
             nome: z.string("O nome é obrigatório"),
             tipoPessoa: z.enum(tipoPessoaEnum, "O tipo de pessoa é obrigatório"),
             cpfCnpj: z.string("O CPF/CNPJ é obrigatório"),
-            email: z.email("O e-mail informado não é válido"),
             telefone: z.string().optional(),
             endereco: z.object({
               endereco: z.string().optional(),

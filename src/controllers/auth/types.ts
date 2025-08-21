@@ -5,6 +5,6 @@ export interface IAuthAplicaoController {
 }
 
 export type AuthApiParams = {
-  usuario: string;
+  email: string;
   senha: string;
 };
