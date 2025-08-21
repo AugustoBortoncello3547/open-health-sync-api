@@ -1,16 +1,17 @@
 import type { FastifyReply, FastifyRequest } from "fastify";
-import type { StatusAplicacaoEnum } from "../../../enums/aplicacao/status-aplicacao-enum.js";
 import type { tipoPessoaEnum } from "../../../enums/tipo-pessoa-enum.js";
 import type { ufEnum } from "../../../enums/uf-enum.js";
+import type { StatusAplicacaoEnum } from "../../../enums/aplicacao/status-aplicacao-enum.js";
 
 export interface ICreateAplicaoController {
-  handle(request: FastifyRequest<{ Body: CreateAplicacaoParams }>, reply: FastifyReply): Promise<void>;
+  handle(request: FastifyRequest<{ Body: TCreateAplicacaoParams }>, reply: FastifyReply): Promise<void>;
 }
-
-export interface CreateAplicacaoParams {
+export type TCreateAplicacao = TCreateAplicacaoParams & {
+  status: StatusAplicacaoEnum;
+};
+export interface TCreateAplicacaoParams {
   usuario: string;
   senha: string;
-  status: StatusAplicacaoEnum;
   dados: {
     nome: string;
     tipoPessoa: tipoPessoaEnum;
@@ -30,5 +31,5 @@ export interface CreateAplicacaoParams {
 }
 
 export interface ICreateAplicaoRepository {
-  createAplicacao(params: CreateAplicacaoParams): Promise<string>;
+  createAplicacao(aplicacacao: TCreateAplicacao): Promise<string>;
 }
