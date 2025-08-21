@@ -6,6 +6,7 @@ import { tipoPessoaEnum } from "../../enums/tipo-pessoa-enum.js";
 import { ufEnum } from "../../enums/uf-enum.js";
 import { MongoCreateAplicacaoRepository } from "../../repositories/aplicacacao/create-aplicacao/mongo-create-aplicacao.js";
 import type { FastifyTypedInstance } from "../../types.js";
+import { MongoGetAplicacaoRepository } from "../../repositories/aplicacacao/get-aplicacao/mongo-get-aplicacao.js";
 
 export async function createAplicacaoRoute(app: FastifyTypedInstance) {
   app.post(
@@ -59,14 +60,22 @@ export async function createAplicacaoRoute(app: FastifyTypedInstance) {
               })
               .optional(),
           }),
+          409: z.object({
+            error: z.string().describe("Tipo do erro"),
+            message: z.string().describe("Mensagem resumida e legível do erro"),
+          }),
           500: z.object({ message: z.string() }).describe("Erro Interno no servidor"),
         },
       },
     },
     (request: FastifyRequest<{ Body: TCreateAplicacaoParams }>, reply: FastifyReply) => {
       const mongoCreateAplicacaoRepository = new MongoCreateAplicacaoRepository();
-      const createAplicacaoController = new CreateAplicacaoController(mongoCreateAplicacaoRepository);
-      createAplicacaoController.handle(request, reply);
+      const mongoGetAplicacaoRepository = new MongoGetAplicacaoRepository();
+      const createAplicacaoController = new CreateAplicacaoController(
+        mongoCreateAplicacaoRepository,
+        mongoGetAplicacaoRepository,
+      );
+      return createAplicacaoController.handle(request, reply);
     },
   );
 }
