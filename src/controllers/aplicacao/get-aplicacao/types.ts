@@ -9,6 +9,7 @@ export interface IGetAplicaoController {
 export interface IGetAplicaoRepository {
   getAplicacao(id: string): Promise<TAplicacao | null>;
   getAplicaoByEmail(email: string): Promise<TAplicacao | null>;
+  countAplicacoesByEmail(email: string): Promise<number>;
 }
 
 type TAplicacaoBase = Omit<TAplicacao, "id" | "atualizadoEm" | "criadoEm">;

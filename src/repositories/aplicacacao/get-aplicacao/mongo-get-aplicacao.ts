@@ -36,4 +36,8 @@ export class MongoGetAplicacaoRepository implements IGetAplicaoRepository {
       ...rest,
     };
   }
+
+  async countAplicacoesByEmail(email: string): Promise<number> {
+    return AplicacaoModel.countDocuments({ email }).exec();
+  }
 }

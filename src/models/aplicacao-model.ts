@@ -10,13 +10,13 @@ dotenv.config();
 
 const EnderecoSchema = new Schema(
   {
-    endereco: { type: String, required: true },
-    numero: { type: String, required: true },
-    bairro: { type: String, required: true },
-    complemento: { type: String },
-    cep: { type: String, required: true },
-    uf: { type: String, enum: Object.values(ufEnum), required: true },
-    cidade: { type: String, required: true },
+    endereco: { type: String, required: false },
+    numero: { type: String, required: false },
+    bairro: { type: String, required: false },
+    complemento: { type: String, required: false },
+    cep: { type: String, required: false },
+    uf: { type: String, enum: Object.values(ufEnum), required: false },
+    cidade: { type: String, required: false },
   },
   {
     _id: false,
@@ -25,11 +25,11 @@ const EnderecoSchema = new Schema(
 
 const DadosSchema = new Schema(
   {
-    nome: { type: String, required: true },
-    tipoPessoa: { type: String, enum: Object.values(tipoPessoaEnum), required: true },
-    cpfCnpj: { type: String, required: true },
-    telefone: { type: String, required: true },
-    endereco: { type: EnderecoSchema, required: true },
+    nome: { type: String, required: false },
+    tipoPessoa: { type: String, enum: Object.values(tipoPessoaEnum), required: false },
+    cpfCnpj: { type: String, required: false },
+    telefone: { type: String, required: false },
+    endereco: { type: EnderecoSchema, required: false },
   },
   {
     _id: false,
@@ -38,10 +38,10 @@ const DadosSchema = new Schema(
 
 const AplicacaoSchema = new Schema(
   {
-    email: { type: String, required: true },
-    senha: { type: String, required: true },
-    status: { type: String, enum: Object.values(StatusAplicacaoEnum), required: true },
-    dados: { type: DadosSchema, required: true },
+    email: { type: String, required: false },
+    senha: { type: String, required: false },
+    status: { type: String, enum: Object.values(StatusAplicacaoEnum), required: false },
+    dados: { type: DadosSchema, required: false },
   },
   {
     timestamps: { createdAt: "criadoEm", updatedAt: "atualizadoEm" },
