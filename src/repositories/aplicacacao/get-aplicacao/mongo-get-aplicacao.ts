@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
-import type { IGetAplicacaoRepository, TAplicacaoMongo } from "../../../controllers/aplicacao/get-aplicacao/types.js";
+import type { IGetAplicacaoRepository } from "../../../controllers/aplicacao/get-aplicacao/types.js";
+import type { TAplicacao, TAplicacaoMongo } from "../../../controllers/aplicacao/types.js";
 import { AplicacaoModel } from "../../../models/aplicacao-model.js";
-import type { TAplicacao } from "../../../controllers/aplicacao/types.js";
 
 export class MongoGetAplicacaoRepository implements IGetAplicacaoRepository {
   async getAplicacao(id: string): Promise<TAplicacao | null> {

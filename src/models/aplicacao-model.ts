@@ -1,7 +1,7 @@
 import dotenv from "dotenv";
 import { Schema, model } from "mongoose";
 import encrypt from "mongoose-encryption";
-import type { TAplicacaoSchema } from "../controllers/aplicacao/get-aplicacao/types.js";
+import type { TAplicacaoSchema } from "../controllers/aplicacao/types.js";
 import { StatusAplicacaoEnum } from "../enums/aplicacao/status-aplicacao-enum.js";
 import { tipoPessoaEnum } from "../enums/tipo-pessoa-enum.js";
 import { ufEnum } from "../enums/uf-enum.js";
