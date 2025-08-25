@@ -1,4 +1,5 @@
 import type { FastifyInstance } from "fastify";
+import { createAmbienteRoute } from "./ambiente/create-ambiente-route.js";
 import { createAplicacaoRoute } from "./aplicacao/create-aplicacao-route.js";
 import { getAplicacaoRoute } from "./aplicacao/get-aplicacao-route.js";
 import { updateAplicacaoRoute } from "./aplicacao/update-aplicacao-route.js";
@@ -12,4 +13,7 @@ export function registerRoutes(app: FastifyInstance) {
 
   // Auth
   app.register(authRoute);
+
+  // Ambiente
+  app.register(createAmbienteRoute);
 }
