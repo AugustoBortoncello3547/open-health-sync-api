@@ -26,7 +26,7 @@ export class CreateAplicacaoController implements ICreateAplicaoController {
 
     const id = await this.createAplicaoRepository.createAplicacao({
       senha: passwordHash,
-      status: StatusAplicacaoEnum.Ativado,
+      status: StatusAplicacaoEnum.ATIVADO,
       ...aplicacao,
     });
     reply.status(HttpStatusCode.CREATED).send({ id });

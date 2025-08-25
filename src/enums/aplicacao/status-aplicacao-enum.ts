@@ -1,7 +1,7 @@
 export enum StatusAplicacaoEnum {
-  Pendente = "PENDENTE",
-  Ativado = "ATIVADO",
-  Recusado = "RECUSADO",
-  Cancelado = "CANCELADO",
-  Atrasado = "ATRASADO",
+  PENDENTE = "PENDENTE",
+  ATIVADO = "ATIVADO",
+  RECUSADO = "RECUSADO",
+  CANCELADO = "CANCELADO",
+  ATRASADO = "ATRASADO",
 }
