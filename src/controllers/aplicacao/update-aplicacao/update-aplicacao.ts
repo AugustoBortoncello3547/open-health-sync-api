@@ -1,19 +1,19 @@
 import type { FastifyReply, FastifyRequest } from "fastify";
 import { HttpStatusCode } from "../../../enums/http-status-code-enum.js";
 import { AplicacaoNotFoundError } from "../../../errors/aplicacao-not-found-error.js";
-import type { IGetAplicaoRepository } from "../get-aplicacao/types.js";
+import { EmailAlreadyInUseError } from "../../../errors/email-already-in-use-error.js";
+import type { IGetAplicacaoRepository } from "../get-aplicacao/types.js";
 import type {
-  IUpdateAplicaoController,
-  IUpdateAplicaoRepository,
+  IUpdateAplicacaoController,
+  IUpdateAplicacaoRepository,
   TUpdateAplicacao,
   TUpdateAplicacaoParams,
 } from "./types.js";
-import { EmailAlreadyInUseError } from "../../../errors/email-already-in-use-error.js";
 
-export class UpdateAplicacaoController implements IUpdateAplicaoController {
+export class UpdateAplicacaoController implements IUpdateAplicacaoController {
   constructor(
-    private readonly getAplicaoRepository: IGetAplicaoRepository,
-    private readonly updateAplicaoRepository: IUpdateAplicaoRepository,
+    private readonly getAplicacaoRepository: IGetAplicacaoRepository,
+    private readonly updateAplicacaoRepository: IUpdateAplicacaoRepository,
   ) {}
 
   async handle(
@@ -23,7 +23,7 @@ export class UpdateAplicacaoController implements IUpdateAplicaoController {
     const aplicacacaoRequest = request.body;
     const { idAplicacao } = request.params;
 
-    const aplicacao = await this.getAplicaoRepository.getAplicacao(idAplicacao);
+    const aplicacao = await this.getAplicacaoRepository.getAplicacao(idAplicacao);
     if (!aplicacao) {
       throw new AplicacaoNotFoundError();
     }
@@ -31,7 +31,7 @@ export class UpdateAplicacaoController implements IUpdateAplicaoController {
     const emailUpdateRequest = aplicacacaoRequest.email;
     if (emailUpdateRequest) {
       const hasAplicacaoWithSameEmail =
-        (await this.getAplicaoRepository.countAplicacoesByEmail(emailUpdateRequest)) > 0;
+        (await this.getAplicacaoRepository.countAplicacoesByEmail(emailUpdateRequest)) > 0;
       if (hasAplicacaoWithSameEmail) {
         throw new EmailAlreadyInUseError();
       }
@@ -48,7 +48,7 @@ export class UpdateAplicacaoController implements IUpdateAplicaoController {
       this.mergeDeep(aplicacao.dados, aplicacacaoRequest.dados);
     }
 
-    const id = await this.updateAplicaoRepository.updateAplicacao(aplicacao.id, aplicacao);
+    const id = await this.updateAplicacaoRepository.updateAplicacao(aplicacao.id, aplicacao);
     reply.status(HttpStatusCode.OK).send({ id });
   }
 

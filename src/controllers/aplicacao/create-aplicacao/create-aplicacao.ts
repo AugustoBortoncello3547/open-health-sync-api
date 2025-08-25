@@ -2,20 +2,20 @@ import bcrypt from "bcrypt";
 import type { FastifyReply, FastifyRequest } from "fastify";
 import { StatusAplicacaoEnum } from "../../../enums/aplicacao/status-aplicacao-enum.js";
 import { HttpStatusCode } from "../../../enums/http-status-code-enum.js";
-import type { ICreateAplicaoController, ICreateAplicaoRepository, TCreateAplicacaoParams } from "./types.js";
-import type { IGetAplicaoRepository } from "../get-aplicacao/types.js";
+import type { ICreateAplicacaoController, ICreateAplicacaoRepository, TCreateAplicacaoParams } from "./types.js";
+import type { IGetAplicacaoRepository } from "../get-aplicacao/types.js";
 import { EmailAlreadyInUseError } from "../../../errors/email-already-in-use-error.js";
 
-export class CreateAplicacaoController implements ICreateAplicaoController {
+export class CreateAplicacaoController implements ICreateAplicacaoController {
   constructor(
-    private readonly createAplicaoRepository: ICreateAplicaoRepository,
-    private readonly getAplicaoRepository: IGetAplicaoRepository,
+    private readonly createAplicacaoRepository: ICreateAplicacaoRepository,
+    private readonly getAplicacaoRepository: IGetAplicacaoRepository,
   ) {}
 
   async handle(request: FastifyRequest<{ Body: TCreateAplicacaoParams }>, reply: FastifyReply): Promise<void> {
     const { senha, ...aplicacao } = request.body;
 
-    const aplicacaoDB = await this.getAplicaoRepository.getAplicaoByEmail(aplicacao.email);
+    const aplicacaoDB = await this.getAplicacaoRepository.getAplicacaoByEmail(aplicacao.email);
     if (aplicacaoDB) {
       throw new EmailAlreadyInUseError();
     }
@@ -24,7 +24,7 @@ export class CreateAplicacaoController implements ICreateAplicaoController {
     const salt = bcrypt.genSaltSync(saltRounds);
     const passwordHash = bcrypt.hashSync(senha, salt);
 
-    const id = await this.createAplicaoRepository.createAplicacao({
+    const id = await this.createAplicacaoRepository.createAplicacao({
       senha: passwordHash,
       status: StatusAplicacaoEnum.ATIVADO,
       ...aplicacao,

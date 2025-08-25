@@ -1,10 +1,10 @@
 import type {
-  IUpdateAplicaoRepository,
+  IUpdateAplicacaoRepository,
   TUpdateAplicacao,
 } from "../../../controllers/aplicacao/update-aplicacao/types.js";
 import { AplicacaoModel } from "../../../models/aplicacao-model.js";
 
-export class MongoUpdateAplicacaoRepository implements IUpdateAplicaoRepository {
+export class MongoUpdateAplicacaoRepository implements IUpdateAplicacaoRepository {
   async updateAplicacao(idAplicacao: string, updateAplicacao: TUpdateAplicacao): Promise<string> {
     const aplicacao = await AplicacaoModel.findById(idAplicacao);
     if (!aplicacao) {

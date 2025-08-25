@@ -3,16 +3,16 @@ import { type FastifyReply, type FastifyRequest } from "fastify";
 import jwt from "jsonwebtoken";
 import { HttpStatusCode } from "../../enums/http-status-code-enum.js";
 import { UnauthorizedError } from "../../errors/unauthorized-error.js";
-import type { IGetAplicaoRepository } from "../aplicacao/get-aplicacao/types.js";
-import type { AuthApiParams, IAuthAplicaoController } from "./types.js";
+import type { IGetAplicacaoRepository } from "../aplicacao/get-aplicacao/types.js";
+import type { AuthApiParams, IAuthAplicacaoController } from "./types.js";
 
-export class AuthApiController implements IAuthAplicaoController {
-  constructor(private readonly getAplicaoRepository: IGetAplicaoRepository) {}
+export class AuthApiController implements IAuthAplicacaoController {
+  constructor(private readonly getAplicacaoRepository: IGetAplicacaoRepository) {}
 
   async autenticate(request: FastifyRequest<{ Body: AuthApiParams }>, reply: FastifyReply): Promise<void> {
     const { email, senha } = request.body;
 
-    const aplicacao = await this.getAplicaoRepository.getAplicaoByEmail(email);
+    const aplicacao = await this.getAplicacaoRepository.getAplicacaoByEmail(email);
     if (!aplicacao) {
       throw new UnauthorizedError("Usuário ou senha inválidos.");
     }

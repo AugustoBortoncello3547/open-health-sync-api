@@ -1,6 +1,6 @@
 import type { FastifyReply, FastifyRequest } from "fastify";
 
-export interface IAuthAplicaoController {
+export interface IAuthAplicacaoController {
   autenticate(request: FastifyRequest<{ Body: AuthApiParams }>, reply: FastifyReply): Promise<void>;
 }
 

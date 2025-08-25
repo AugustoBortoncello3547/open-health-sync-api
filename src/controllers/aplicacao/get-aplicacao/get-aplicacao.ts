@@ -1,15 +1,15 @@
 import type { FastifyReply, FastifyRequest } from "fastify";
 import { HttpStatusCode } from "../../../enums/http-status-code-enum.js";
 import { AplicacaoNotFoundError } from "../../../errors/aplicacao-not-found-error.js";
-import type { GetAplicacaoParams, IGetAplicaoController, IGetAplicaoRepository } from "./types.js";
+import type { GetAplicacaoParams, IGetAplicacaoController, IGetAplicacaoRepository } from "./types.js";
 
-export class GetAplicacaoController implements IGetAplicaoController {
-  constructor(private readonly getAplicaoRepository: IGetAplicaoRepository) {}
+export class GetAplicacaoController implements IGetAplicacaoController {
+  constructor(private readonly getAplicacaoRepository: IGetAplicacaoRepository) {}
 
   async handle(request: FastifyRequest<{ Params: GetAplicacaoParams }>, reply: FastifyReply): Promise<void> {
     const { idAplicacao } = request.params;
 
-    const aplicacao = await this.getAplicaoRepository.getAplicacao(idAplicacao);
+    const aplicacao = await this.getAplicacaoRepository.getAplicacao(idAplicacao);
     if (!aplicacao) {
       throw new AplicacaoNotFoundError();
     }
