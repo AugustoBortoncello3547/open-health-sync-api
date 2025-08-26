@@ -1,15 +1,10 @@
 import dotenv from "dotenv";
-import type { Document, ObjectId } from "mongoose";
 import { Schema, model } from "mongoose";
 import encrypt from "mongoose-encryption";
-import type { TAmbiente } from "../controllers/Ambiente/types.js";
+import type { TAmbienteSchema } from "../controllers/Ambiente/types.js";
 import { StatusAmbienteEnum } from "../enums/Ambiente/status-ambiente-enum.js";
 
 dotenv.config();
-
-type TAmbienteBase = Omit<TAmbiente, "id" | "atualizadoEm" | "criadoEm">;
-
-export type TAmbienteSchema = TAmbienteBase & Document<ObjectId>;
 
 const AmbienteSchema = new Schema(
   {
