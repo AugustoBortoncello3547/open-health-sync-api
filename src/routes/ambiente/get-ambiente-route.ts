@@ -12,35 +12,54 @@ export function getAmbienteRoute(app: FastifyTypedInstance) {
     {
       schema: {
         tags: ["Ambiente"],
-        description: "Obtém um ambiente",
+        description: "Obtém um ambiente.",
         params: z.object({
-          idAmbiente: z.string(),
+          idAmbiente: z.string().describe("Identificador do ambiente, podendo ser o id interno ou o idExterno."),
         }),
         response: {
           200: z.object({
-            id: z.string(),
-            idExterno: z.string(),
-            idAplicacao: z.string(),
-            nome: z.string(),
-            status: z.enum(StatusAmbienteEnum),
-            apiKey: z.string(),
-            urlWebhook: z.string(),
-            tokenWebhook: z.string(),
-            atualizadoEm: z.string(),
-            criadoEm: z.string(),
+            id: z.string().describe("Identificador interno do ambiente, gerado pelo sistema."),
+            idExterno: z.string().describe("Identificador externo do ambiente, definido pelo cliente na criação."),
+            nome: z.string().describe("Nome do ambiente."),
+            status: z.enum(StatusAmbienteEnum).describe("Status atual do ambiente."),
+            apiKey: z
+              .string()
+              .describe(
+                "Chave de autenticação exclusiva do ambiente, usada para salvar dados dos pacientes e seus dados.",
+              ),
+            urlWebhook: z
+              .string()
+              .describe("URL do webhook para envio de notificações ou atualizações dos pacientes e seus dados."),
+            tokenWebhook: z
+              .string()
+              .describe("Token de autenticação usado para validar requisições enviadas ao webhook."),
+            atualizadoEm: z.string().describe("Data e hora da última atualização do ambiente."),
+            criadoEm: z.string().describe("Data e hora de criação do ambiente."),
           }),
+          400: z
+            .object({
+              error: z.string(),
+              message: z.string(),
+            })
+            .describe("A requisição não pôde ser processada devido a dados inválidos ou formato incorreto do payload."),
+          401: z
+            .object({
+              error: z.string(),
+              message: z.string(),
+            })
+            .describe("Autenticação necessária ou inválida. O token ou credenciais fornecidos não são válidos."),
           404: z
             .object({
               error: z.string(),
               message: z.string(),
             })
             .describe("Ambiente não encontrado"),
-          400: z
+          500: z
             .object({
               error: z.string(),
               message: z.string(),
             })
-            .describe("Requisição malformatada"),
+            .describe("Erro interno do servidor. Algo inesperado ocorreu ao processar a requisição."),
         },
       },
     },
