@@ -5,23 +5,38 @@ import type { IGetAmbienteRepository } from "../../../controllers/Ambiente/get-a
 
 export class MongoGetAmbienteRepository implements IGetAmbienteRepository {
   async getAmbiente(id: string): Promise<TAmbiente | null> {
-    let AmbienteDoc = null;
+    let ambienteDoc = null;
 
     // Primeiro tentamos buscar pelo id da collection do mongo
     if (mongoose.isValidObjectId(id)) {
-      AmbienteDoc = await AmbienteModel.findById(id).exec();
+      ambienteDoc = await AmbienteModel.findById(id).exec();
     }
 
     // Se não achou nada, tenta buscar pelo idExterno
-    if (!AmbienteDoc) {
-      AmbienteDoc = await AmbienteModel.findOne({ idExterno: id }).exec();
+    if (!ambienteDoc) {
+      return await this.getAmbienteOnlyByIdExterno(id);
     }
 
-    if (!AmbienteDoc) {
+    if (!ambienteDoc) {
       return null;
     }
 
-    const ambienteObj = AmbienteDoc.toObject<TAmbienteMongo>();
+    const ambienteObj = ambienteDoc.toObject<TAmbienteMongo>();
+    const { _id, __v, ...rest } = ambienteObj;
+
+    return {
+      id: _id.toString(),
+      ...rest,
+    };
+  }
+
+  async getAmbienteOnlyByIdExterno(idExterno: string): Promise<TAmbiente | null> {
+    const ambienteDoc = await AmbienteModel.findOne({ idExterno }).exec();
+    if (!ambienteDoc) {
+      return null;
+    }
+
+    const ambienteObj = ambienteDoc.toObject<TAmbienteMongo>();
     const { _id, __v, ...rest } = ambienteObj;
 
     return {

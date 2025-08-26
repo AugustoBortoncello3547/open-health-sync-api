@@ -4,6 +4,7 @@ import { CreateAmbienteController } from "../../controllers/Ambiente/create-ambi
 import type { TCreateAmbienteParams } from "../../controllers/Ambiente/create-ambiente/types.js";
 import { MongoCreateAmbienteRepository } from "../../repositories/ambiente/create-ambiente/mongo-create-ambiente.js";
 import type { FastifyTypedInstance } from "../../types.js";
+import { MongoGetAmbienteRepository } from "../../repositories/ambiente/get-ambiente/mongo-get-ambiente.js";
 
 export async function createAmbienteRoute(app: FastifyTypedInstance) {
   app.post(
@@ -79,7 +80,11 @@ export async function createAmbienteRoute(app: FastifyTypedInstance) {
     },
     (request: FastifyRequest<{ Body: TCreateAmbienteParams }>, reply: FastifyReply) => {
       const mongoCreateAmbienteRepository = new MongoCreateAmbienteRepository();
-      const createAmbienteController = new CreateAmbienteController(mongoCreateAmbienteRepository);
+      const mongoGetAmbienteRepository = new MongoGetAmbienteRepository();
+      const createAmbienteController = new CreateAmbienteController(
+        mongoCreateAmbienteRepository,
+        mongoGetAmbienteRepository,
+      );
       return createAmbienteController.handle(request, reply);
     },
   );

@@ -7,6 +7,7 @@ export interface IGetAmbienteController {
 
 export interface IGetAmbienteRepository {
   getAmbiente(id: string): Promise<TAmbiente | null>;
+  getAmbienteOnlyByIdExterno(idExterno: string): Promise<TAmbiente | null>;
 }
 
 export type GetAmbienteParams = {
