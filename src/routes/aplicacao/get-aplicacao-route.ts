@@ -2,6 +2,7 @@ import type { FastifyReply, FastifyRequest } from "fastify";
 import z from "zod";
 import { GetAplicacaoController } from "../../controllers/aplicacao/get-aplicacao/get-aplicacao.js";
 import type { GetAplicacaoParams } from "../../controllers/aplicacao/get-aplicacao/types.js";
+import { StatusAplicacaoEnum } from "../../enums/aplicacao/status-aplicacao-enum.js";
 import { MongoGetAplicacaoRepository } from "../../repositories/aplicacacao/get-aplicacao/mongo-get-aplicacao.js";
 import type { FastifyTypedInstance } from "../../types.js";
 
@@ -20,7 +21,7 @@ export function getAplicacaoRoute(app: FastifyTypedInstance) {
             id: z.string(),
             email: z.string(),
             senha: z.string(),
-            status: z.string(),
+            status: z.enum(StatusAplicacaoEnum),
             dados: z.object({
               nome: z.string(),
               tipoPessoa: z.string(),
