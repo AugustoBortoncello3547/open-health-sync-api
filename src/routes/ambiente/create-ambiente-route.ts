@@ -27,7 +27,7 @@ export async function createAmbienteRoute(app: FastifyTypedInstance) {
         }),
         response: {
           201: z
-            .object({ id: z.string().describe("O id gerado pela aplicação.") })
+            .object({ id: z.string().describe("O id do ambiente gerado pela API.") })
             .describe("Ambiente criado com sucesso."),
           400: z
             .object({

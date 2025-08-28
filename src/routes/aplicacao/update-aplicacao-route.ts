@@ -42,12 +42,21 @@ export async function updateAplicacaoRoute(app: FastifyTypedInstance) {
             .optional(),
         }),
         response: {
-          200: z.object({ id: z.string() }).describe("Aplicação atualizada com sucesso!"),
-          400: z.object({
-            error: z.string().describe("Tipo do erro"),
-            message: z.string().describe("Mensagem resumida do erro"),
-          }),
-          500: z.object({ message: z.string() }).describe("Erro Interno no servidor"),
+          200: z
+            .object({ id: z.string().describe("O id da aplicação atualizada.") })
+            .describe("Aplicação atualizada com sucesso!"),
+          400: z
+            .object({
+              error: z.string(),
+              message: z.string(),
+            })
+            .describe("A requisição não pôde ser processada devido a dados inválidos ou formato incorreto do payload."),
+          500: z
+            .object({
+              error: z.string(),
+              message: z.string(),
+            })
+            .describe("Erro interno do servidor. Algo inesperado ocorreu ao processar a requisição."),
         },
       },
     },
