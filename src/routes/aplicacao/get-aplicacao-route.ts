@@ -21,7 +21,6 @@ export function getAplicacaoRoute(app: FastifyTypedInstance) {
             .object({
               id: z.string().describe("O id da aplicação."),
               email: z.string().describe("O email únicao da aplicação."),
-              senha: z.string().describe("A senha da aplicação."),
               status: z.enum(StatusAplicacaoEnum).describe("O status da aplicação."),
               dados: z
                 .object({
