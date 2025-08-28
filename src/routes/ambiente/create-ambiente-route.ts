@@ -1,7 +1,7 @@
 import type { FastifyReply, FastifyRequest } from "fastify";
 import z from "zod";
-import { CreateAmbienteController } from "../../controllers/Ambiente/create-ambiente/create-ambiente.js";
-import type { TCreateAmbienteParams } from "../../controllers/Ambiente/create-ambiente/types.js";
+import { CreateAmbienteController } from "../../controllers/ambiente/create-ambiente/create-ambiente.js";
+import type { TCreateAmbienteParams } from "../../controllers/ambiente/create-ambiente/types.js";
 import { MongoCreateAmbienteRepository } from "../../repositories/ambiente/create-ambiente/mongo-create-ambiente.js";
 import type { FastifyTypedInstance } from "../../types.js";
 import { MongoGetAmbienteRepository } from "../../repositories/ambiente/get-ambiente/mongo-get-ambiente.js";

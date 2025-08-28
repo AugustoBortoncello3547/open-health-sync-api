@@ -1,7 +1,7 @@
 import type {
   ICreateAmbienteRepository,
   TCreateAmbiente,
-} from "../../../controllers/Ambiente/create-ambiente/types.js";
+} from "../../../controllers/ambiente/create-ambiente/types.js";
 import { AmbienteModel } from "../../../models/ambiente-model.js";
 
 export class MongoCreateAmbienteRepository implements ICreateAmbienteRepository {

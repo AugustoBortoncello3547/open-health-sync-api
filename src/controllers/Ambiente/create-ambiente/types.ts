@@ -1,5 +1,5 @@
 import type { FastifyReply, FastifyRequest } from "fastify";
-import type { StatusAmbienteEnum } from "../../../enums/Ambiente/status-ambiente-enum.js";
+import type { StatusAmbienteEnum } from "../../../enums/ambiente/status-ambiente-enum.js";
 import type { TAmbiente } from "../types.js";
 
 export interface ICreateAmbienteController {
