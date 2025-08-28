@@ -1,10 +1,14 @@
 import bcrypt from "bcrypt";
+import { cnpj, cpf } from "cpf-cnpj-validator";
 import type { FastifyReply, FastifyRequest } from "fastify";
 import { StatusAplicacaoEnum } from "../../../enums/aplicacao/status-aplicacao-enum.js";
 import { HttpStatusCode } from "../../../enums/http-status-code-enum.js";
-import type { ICreateAplicacaoController, ICreateAplicacaoRepository, TCreateAplicacaoParams } from "./types.js";
-import type { IGetAplicacaoRepository } from "../get-aplicacao/types.js";
+import { tipoPessoaEnum } from "../../../enums/tipo-pessoa-enum.js";
 import { EmailAlreadyInUseError } from "../../../errors/email-already-in-use-error.js";
+import { InvalidCnpjError } from "../../../errors/invalid-cnpj-error.js";
+import { InvalidCpfError } from "../../../errors/invalid-cpf-error.js";
+import type { IGetAplicacaoRepository } from "../get-aplicacao/types.js";
+import type { ICreateAplicacaoController, ICreateAplicacaoRepository, TCreateAplicacaoParams } from "./types.js";
 
 export class CreateAplicacaoController implements ICreateAplicacaoController {
   constructor(
@@ -14,6 +18,14 @@ export class CreateAplicacaoController implements ICreateAplicacaoController {
 
   async handle(request: FastifyRequest<{ Body: TCreateAplicacaoParams }>, reply: FastifyReply): Promise<void> {
     const { senha, ...aplicacao } = request.body;
+
+    if (aplicacao.dados.tipoPessoa === tipoPessoaEnum.FISICA && !cpf.isValid(aplicacao.dados.cpfCnpj)) {
+      throw new InvalidCpfError();
+    }
+
+    if (aplicacao.dados.tipoPessoa === tipoPessoaEnum.JURIDICA && !cnpj.isValid(aplicacao.dados.cpfCnpj)) {
+      throw new InvalidCnpjError();
+    }
 
     const aplicacaoDB = await this.getAplicacaoRepository.getAplicacaoByEmail(aplicacao.email);
     if (aplicacaoDB) {
