@@ -5,3 +5,5 @@ export enum StatusAplicacaoEnum {
   CANCELADO = "CANCELADO",
   ATRASADO = "ATRASADO",
 }
+
+export const BLOCKED_STATUS = [StatusAplicacaoEnum.CANCELADO, StatusAplicacaoEnum.RECUSADO];

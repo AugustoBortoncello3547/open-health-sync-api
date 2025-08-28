@@ -5,6 +5,7 @@ import type { GetAmbienteParams } from "../../controllers/Ambiente/get-ambiente/
 import { StatusAmbienteEnum } from "../../enums/Ambiente/status-ambiente-enum.js";
 import { MongoGetAmbienteRepository } from "../../repositories/ambiente/get-ambiente/mongo-get-ambiente.js";
 import type { FastifyTypedInstance } from "../../types.js";
+import { authMiddleware } from "../../middlewares/auth/auth-middleware.js";
 
 export function getAmbienteRoute(app: FastifyTypedInstance) {
   app.get(
@@ -13,6 +14,10 @@ export function getAmbienteRoute(app: FastifyTypedInstance) {
       schema: {
         tags: ["Ambiente"],
         description: "Obtém um ambiente.",
+        security: [{ bearerAuth: [] }],
+        headers: z.object({
+          authorization: z.string().optional(),
+        }),
         params: z.object({
           idAmbiente: z.string().describe("Identificador do ambiente, podendo ser o id interno ou o idExterno."),
         }),
@@ -62,8 +67,13 @@ export function getAmbienteRoute(app: FastifyTypedInstance) {
             .describe("Erro interno do servidor. Algo inesperado ocorreu ao processar a requisição."),
         },
       },
+      preHandler: authMiddleware,
     },
-    (request: FastifyRequest<{ Params: GetAmbienteParams }>, reply: FastifyReply) => {
+    (
+      request: FastifyRequest<{ Params: GetAmbienteParams; Headers: { authorization?: string } }>,
+      reply: FastifyReply,
+    ) => {
+      console.log("Chegou");
       const mongoGetAmbienteRepository = new MongoGetAmbienteRepository();
       const getAmbienteController = new GetAmbienteController(mongoGetAmbienteRepository);
       return getAmbienteController.handle(request, reply);

@@ -5,6 +5,7 @@ import type { TCreateAmbienteParams } from "../../controllers/Ambiente/create-am
 import { MongoCreateAmbienteRepository } from "../../repositories/ambiente/create-ambiente/mongo-create-ambiente.js";
 import type { FastifyTypedInstance } from "../../types.js";
 import { MongoGetAmbienteRepository } from "../../repositories/ambiente/get-ambiente/mongo-get-ambiente.js";
+import { authMiddleware } from "../../middlewares/auth/auth-middleware.js";
 
 export async function createAmbienteRoute(app: FastifyTypedInstance) {
   app.post(
@@ -13,6 +14,10 @@ export async function createAmbienteRoute(app: FastifyTypedInstance) {
       schema: {
         tags: ["Ambiente"],
         description: "Criar novo ambiente.",
+        security: [{ bearerAuth: [] }],
+        headers: z.object({
+          authorization: z.string().optional(),
+        }),
         body: z.object({
           idExterno: z.string().optional().describe("Identificador externo do ambiente, definido pelo cliente."),
           nome: z.string().describe("Nome do ambiente."),
@@ -77,8 +82,12 @@ export async function createAmbienteRoute(app: FastifyTypedInstance) {
             .describe("Erro interno do servidor. Algo inesperado ocorreu ao processar a requisição."),
         },
       },
+      preHandler: authMiddleware,
     },
-    (request: FastifyRequest<{ Body: TCreateAmbienteParams }>, reply: FastifyReply) => {
+    (
+      request: FastifyRequest<{ Body: TCreateAmbienteParams; Headers: { authorization?: string } }>,
+      reply: FastifyReply,
+    ) => {
       const mongoCreateAmbienteRepository = new MongoCreateAmbienteRepository();
       const mongoGetAmbienteRepository = new MongoGetAmbienteRepository();
       const createAmbienteController = new CreateAmbienteController(

@@ -42,6 +42,15 @@ async function startServer() {
         title: "Open Health Sync API",
         version: "1.0.0",
       },
+      components: {
+        securitySchemes: {
+          bearerAuth: {
+            type: "http",
+            scheme: "bearer",
+            bearerFormat: "JWT",
+          },
+        },
+      },
     },
     transform: jsonSchemaTransform,
   });

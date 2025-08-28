@@ -1,10 +1,11 @@
 import { compare } from "bcrypt";
 import { type FastifyReply, type FastifyRequest } from "fastify";
 import jwt from "jsonwebtoken";
+import { BLOCKED_STATUS } from "../../enums/aplicacao/status-aplicacao-enum.js";
 import { HttpStatusCode } from "../../enums/http-status-code-enum.js";
 import { UnauthorizedError } from "../../errors/unauthorized-error.js";
 import type { IGetAplicacaoRepository } from "../aplicacao/get-aplicacao/types.js";
-import type { AuthApiParams, IAuthAplicacaoController } from "./types.js";
+import type { AuthApiParams, IAuthAplicacaoController, TJwtProps } from "./types.js";
 
 export class AuthApiController implements IAuthAplicacaoController {
   constructor(private readonly getAplicacaoRepository: IGetAplicacaoRepository) {}
@@ -24,7 +25,7 @@ export class AuthApiController implements IAuthAplicacaoController {
 
     const secretJWT = process.env.JWT_SECRET || "";
     const expireTimeJWT = Number(process.env.JWT_EXPIRE_TIME) || 60;
-    const jwtToken = jwt.sign({ idAplicacao, usuario: emailAplicacao }, secretJWT, {
+    const jwtToken = jwt.sign({ idAplicacao, email: emailAplicacao }, secretJWT, {
       expiresIn: `${expireTimeJWT}m`,
     });
 
@@ -34,5 +35,48 @@ export class AuthApiController implements IAuthAplicacaoController {
       expiresIn: expireTimeJWT,
       expiresAt,
     });
+  }
+
+  async verifyToken(
+    request: FastifyRequest<{ Headers: { authorization?: string } }>,
+    reply: FastifyReply,
+  ): Promise<void> {
+    const authHeader = request.headers.authorization;
+    if (!authHeader) {
+      throw new UnauthorizedError("Token não informado.");
+    }
+
+    const [scheme, token] = authHeader.split(" ");
+    if (scheme !== "Bearer" || !token) {
+      throw new UnauthorizedError("Formato de token inválido.");
+    }
+
+    const decodeTokenData = await this.extractDatafromToken(token);
+    if (!decodeTokenData) {
+      throw new UnauthorizedError("Token fornececido não é valido.");
+    }
+
+    const { idAplicacao: idAplicacaoToken, email: emailAplicacaoToken } = decodeTokenData;
+    const aplicacacao = await this.getAplicacaoRepository.getAplicacao(idAplicacaoToken);
+    if (!aplicacacao) {
+      throw new UnauthorizedError("Aplicação não encotrada.");
+    }
+
+    if (BLOCKED_STATUS.includes(aplicacacao.status)) {
+      throw new UnauthorizedError("Aplicação está bloqueada.");
+    }
+
+    if (aplicacacao.email !== emailAplicacaoToken) {
+      throw new UnauthorizedError("Este Token não se refere ao email atual da aplicação.");
+    }
+  }
+
+  async extractDatafromToken(token: string): Promise<TJwtProps | null> {
+    try {
+      const secretJWT = process.env.JWT_SECRET || "";
+      return (await jwt.verify(token, secretJWT)) as TJwtProps;
+    } catch {
+      return null;
+    }
   }
 }
