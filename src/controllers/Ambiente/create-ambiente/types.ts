@@ -3,7 +3,10 @@ import type { StatusAmbienteEnum } from "../../../enums/ambiente/status-ambiente
 import type { TAmbiente } from "../types.js";
 
 export interface ICreateAmbienteController {
-  handle(request: FastifyRequest<{ Body: TCreateAmbienteParams }>, reply: FastifyReply): Promise<void>;
+  handle(
+    request: FastifyRequest<{ Body: TCreateAmbienteParams; Headers: { authorization?: string } }>,
+    reply: FastifyReply,
+  ): Promise<void>;
 }
 
 export type TCreateAmbienteParams = Omit<

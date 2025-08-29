@@ -5,6 +5,7 @@ import { HttpStatusCode } from "../../../enums/http-status-code-enum.js";
 import { AmbienteWithIdExternoAlreadyInUseError } from "../../../errors/ambiente-with-idexterno-already-in-use-error.js";
 import type { IGetAmbienteRepository } from "../get-ambiente/types.js";
 import type { ICreateAmbienteController, ICreateAmbienteRepository, TCreateAmbienteParams } from "./types.js";
+import { JwtTokenController } from "../../token/jwt-token-controller.js";
 
 export class CreateAmbienteController implements ICreateAmbienteController {
   constructor(
@@ -12,16 +13,23 @@ export class CreateAmbienteController implements ICreateAmbienteController {
     private readonly getAmbienteRepository: IGetAmbienteRepository,
   ) {}
 
-  async handle(request: FastifyRequest<{ Body: TCreateAmbienteParams }>, reply: FastifyReply): Promise<void> {
+  async handle(
+    request: FastifyRequest<{ Body: TCreateAmbienteParams; Headers: { authorization?: string } }>,
+    reply: FastifyReply,
+  ): Promise<void> {
+    const authHeader = request.headers.authorization;
     const ambiente = request.body;
 
-    const ambienteWithSameIdExterno = await this.getAmbienteRepository.getAmbienteOnlyByIdExterno(ambiente.idExterno);
+    const jwtTokenController = new JwtTokenController();
+    const { idAplicacao } = await jwtTokenController.getTokenData(authHeader);
+    const ambienteWithSameIdExterno = await this.getAmbienteRepository.getAmbienteOnlyByIdExterno(
+      ambiente.idExterno,
+      idAplicacao,
+    );
     if (ambienteWithSameIdExterno) {
       throw new AmbienteWithIdExternoAlreadyInUseError();
     }
 
-    // TODO: Vamos ter o idAplicacao via JWT
-    const idAplicacao = "Teste123Temp";
     const generatedApiKey = await this.generateAmbienteApiKey();
     const id = await this.createAmbienteRepository.createAmbiente({
       status: StatusAmbienteEnum.ATIVO,

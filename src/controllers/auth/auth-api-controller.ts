@@ -4,11 +4,13 @@ import jwt from "jsonwebtoken";
 import { BLOCKED_STATUS } from "../../enums/aplicacao/status-aplicacao-enum.js";
 import { HttpStatusCode } from "../../enums/http-status-code-enum.js";
 import { UnauthorizedError } from "../../errors/unauthorized-error.js";
+import { MongoGetAplicacaoRepository } from "../../repositories/aplicacacao/get-aplicacao/mongo-get-aplicacao.js";
 import type { IGetAplicacaoRepository } from "../aplicacao/get-aplicacao/types.js";
-import type { AuthApiParams, IAuthAplicacaoController, TJwtProps } from "./types.js";
+import { JwtTokenController } from "../token/jwt-token-controller.js";
+import type { AuthApiParams, IAuthAplicacaoController } from "./types.js";
 
 export class AuthApiController implements IAuthAplicacaoController {
-  constructor(private readonly getAplicacaoRepository: IGetAplicacaoRepository) {}
+  constructor(private readonly getAplicacaoRepository: IGetAplicacaoRepository = new MongoGetAplicacaoRepository()) {}
 
   async autenticate(request: FastifyRequest<{ Body: AuthApiParams }>, reply: FastifyReply): Promise<void> {
     const { email, senha } = request.body;
@@ -42,21 +44,23 @@ export class AuthApiController implements IAuthAplicacaoController {
     reply: FastifyReply,
   ): Promise<void> {
     const authHeader = request.headers.authorization;
-    if (!authHeader) {
+    const jwtTokenController = new JwtTokenController();
+    const { scheme, token } = jwtTokenController.getTokenFromAuthorizationHeader(authHeader);
+
+    if (!scheme && !token) {
       throw new UnauthorizedError("Token não informado.");
     }
 
-    const [scheme, token] = authHeader.split(" ");
     if (scheme !== "Bearer" || !token) {
       throw new UnauthorizedError("Formato de token inválido.");
     }
 
-    const decodeTokenData = await this.extractDatafromToken(token);
-    if (!decodeTokenData) {
+    const { idAplicacao: idAplicacaoToken, email: emailAplicacaoToken } =
+      await jwtTokenController.extractDatafromToken(token);
+    if (!idAplicacaoToken || !emailAplicacaoToken) {
       throw new UnauthorizedError("Token fornececido não é valido.");
     }
 
-    const { idAplicacao: idAplicacaoToken, email: emailAplicacaoToken } = decodeTokenData;
     const aplicacacao = await this.getAplicacaoRepository.getAplicacao(idAplicacaoToken);
     if (!aplicacacao) {
       throw new UnauthorizedError("Aplicação não encotrada.");
@@ -68,15 +72,6 @@ export class AuthApiController implements IAuthAplicacaoController {
 
     if (aplicacacao.email !== emailAplicacaoToken) {
       throw new UnauthorizedError("Este Token não se refere ao email atual da aplicação.");
-    }
-  }
-
-  async extractDatafromToken(token: string): Promise<TJwtProps | null> {
-    try {
-      const secretJWT = process.env.JWT_SECRET || "";
-      return (await jwt.verify(token, secretJWT)) as TJwtProps;
-    } catch {
-      return null;
     }
   }
 }
