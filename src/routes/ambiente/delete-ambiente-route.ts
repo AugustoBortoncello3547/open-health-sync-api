@@ -22,7 +22,7 @@ export function deleteAmbienteRoute(app: FastifyTypedInstance) {
           idAmbiente: z.string().describe("Identificador do ambiente, podendo ser o id interno ou o idExterno."),
         }),
         response: {
-          200: z.null(),
+          200: z.null().describe("Ambiente deletado com sucesso."),
           400: z
             .object({
               error: z.string(),
