@@ -11,15 +11,15 @@ import { listAmbienteRoute } from "./ambiente/list-ambiente-route.js";
 export function registerRoutes(app: FastifyInstance) {
   // Aplicacao
   app.register(createAplicacaoRoute);
-  app.register(updateAplicacaoRoute);
   app.register(getAplicacaoRoute);
+  app.register(updateAplicacaoRoute);
 
   // Auth
   app.register(authRoute);
 
   // Ambiente
   app.register(createAmbienteRoute);
+  app.register(listAmbienteRoute);
   app.register(getAmbienteRoute);
   app.register(deleteAmbienteRoute);
-  app.register(listAmbienteRoute);
 }
