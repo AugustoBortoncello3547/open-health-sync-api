@@ -6,6 +6,7 @@ import { createAplicacaoRoute } from "./aplicacao/create-aplicacao-route.js";
 import { getAplicacaoRoute } from "./aplicacao/get-aplicacao-route.js";
 import { updateAplicacaoRoute } from "./aplicacao/update-aplicacao-route.js";
 import { authRoute } from "./auth/auth-route.js";
+import { listAmbienteRoute } from "./ambiente/list-ambiente-route.js";
 
 export function registerRoutes(app: FastifyInstance) {
   // Aplicacao
@@ -20,4 +21,5 @@ export function registerRoutes(app: FastifyInstance) {
   app.register(createAmbienteRoute);
   app.register(getAmbienteRoute);
   app.register(deleteAmbienteRoute);
+  app.register(listAmbienteRoute);
 }

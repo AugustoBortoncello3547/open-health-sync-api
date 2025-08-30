@@ -24,8 +24,8 @@ export class GetAmbienteController implements IGetAmbienteController {
 
     reply.status(HttpStatusCode.OK).send({
       ...ambiente,
-      criadoEm: ambiente.criadoEm.toISOString(),
       atualizadoEm: ambiente.atualizadoEm.toISOString(),
+      criadoEm: ambiente.criadoEm.toISOString(),
     });
   }
 }
