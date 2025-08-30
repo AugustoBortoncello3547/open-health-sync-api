@@ -2,7 +2,7 @@ import type { FastifyReply, FastifyRequest } from "fastify";
 import z from "zod";
 import { DeleteAmbienteController } from "../../controllers/ambiente/delete-ambiente/delete-ambiente.js";
 import type { DeleteAmbienteParams } from "../../controllers/ambiente/delete-ambiente/types.js";
-import { authMiddleware } from "../../middlewares/auth/auth-middleware.js";
+import { authHook } from "../../hooks/auth-hook.js";
 import { MongoDeleteAmbienteRepository } from "../../repositories/ambiente/delete-ambiente/mongo-delete-ambiente.js";
 import { MongoGetAmbienteRepository } from "../../repositories/ambiente/get-ambiente/mongo-get-ambiente.js";
 import type { FastifyTypedInstance } from "../../types.js";
@@ -49,7 +49,7 @@ export function deleteAmbienteRoute(app: FastifyTypedInstance) {
             .describe("Erro interno do servidor. Algo inesperado ocorreu ao processar a requisição."),
         },
       },
-      preHandler: authMiddleware,
+      preHandler: authHook,
     },
     (
       request: FastifyRequest<{ Params: DeleteAmbienteParams; Headers: { authorization?: string } }>,

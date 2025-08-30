@@ -3,7 +3,7 @@ import z from "zod";
 import { GetAmbienteController } from "../../controllers/ambiente/get-ambiente/get-ambiente.js";
 import type { GetAmbienteParams } from "../../controllers/ambiente/get-ambiente/types.js";
 import { StatusAmbienteEnum } from "../../enums/ambiente/status-ambiente-enum.js";
-import { authMiddleware } from "../../middlewares/auth/auth-middleware.js";
+import { authHook } from "../../hooks/auth-hook.js";
 import { MongoGetAmbienteRepository } from "../../repositories/ambiente/get-ambiente/mongo-get-ambiente.js";
 import type { FastifyTypedInstance } from "../../types.js";
 
@@ -67,7 +67,7 @@ export function getAmbienteRoute(app: FastifyTypedInstance) {
             .describe("Erro interno do servidor. Algo inesperado ocorreu ao processar a requisição."),
         },
       },
-      preHandler: authMiddleware,
+      preHandler: authHook,
     },
     (
       request: FastifyRequest<{ Params: GetAmbienteParams; Headers: { authorization?: string } }>,
