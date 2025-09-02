@@ -1,7 +1,7 @@
 import { randomBytes } from "crypto";
 import type { FastifyReply, FastifyRequest } from "fastify";
 import { StatusAmbienteEnum } from "../../../enums/ambiente/status-ambiente-enum.js";
-import { HttpStatusCode } from "../../../enums/http-status-code-enum.js";
+import { HttpStatusCodeEnum } from "../../../enums/http-status-code-enum.js";
 import { AmbienteWithIdExternoAlreadyInUseError } from "../../../errors/ambiente-with-idexterno-already-in-use-error.js";
 import type { IGetAmbienteRepository } from "../get-ambiente/types.js";
 import type { ICreateAmbienteController, ICreateAmbienteRepository, TCreateAmbienteParams } from "./types.js";
@@ -37,7 +37,7 @@ export class CreateAmbienteController implements ICreateAmbienteController {
       idAplicacao: idAplicacao,
       ...ambiente,
     });
-    reply.status(HttpStatusCode.CREATED).send({ id });
+    reply.status(HttpStatusCodeEnum.CREATED).send({ id });
   }
 
   async generateAmbienteApiKey(): Promise<string> {

@@ -1,5 +1,5 @@
 import type { FastifyReply, FastifyRequest } from "fastify";
-import { HttpStatusCode } from "../../../enums/http-status-code-enum.js";
+import { HttpStatusCodeEnum } from "../../../enums/http-status-code-enum.js";
 import { JwtTokenController } from "../../token/jwt-token-controller.js";
 import type { IListAmbienteController, IListAmbienteRepository, ListAmbienteParams } from "./types.js";
 
@@ -25,7 +25,7 @@ export class ListAmbienteController implements IListAmbienteController {
       };
     });
 
-    reply.status(HttpStatusCode.OK).send({
+    reply.status(HttpStatusCodeEnum.OK).send({
       registros: normalizedAmbientes,
       total: ambientes.length,
       limit: filters.limit,

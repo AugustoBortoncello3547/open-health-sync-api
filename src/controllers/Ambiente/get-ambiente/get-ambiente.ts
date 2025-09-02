@@ -1,5 +1,5 @@
 import type { FastifyReply, FastifyRequest } from "fastify";
-import { HttpStatusCode } from "../../../enums/http-status-code-enum.js";
+import { HttpStatusCodeEnum } from "../../../enums/http-status-code-enum.js";
 import { AmbienteNotFoundError } from "../../../errors/ambiente-not-found-error.js";
 import { JwtTokenController } from "../../token/jwt-token-controller.js";
 import type { GetAmbienteParams, IGetAmbienteController, IGetAmbienteRepository } from "./types.js";
@@ -22,7 +22,7 @@ export class GetAmbienteController implements IGetAmbienteController {
       throw new AmbienteNotFoundError();
     }
 
-    reply.status(HttpStatusCode.OK).send({
+    reply.status(HttpStatusCodeEnum.OK).send({
       ...ambiente,
       atualizadoEm: ambiente.atualizadoEm.toISOString(),
       criadoEm: ambiente.criadoEm.toISOString(),

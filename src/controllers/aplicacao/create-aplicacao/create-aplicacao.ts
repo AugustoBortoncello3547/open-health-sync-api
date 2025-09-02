@@ -2,7 +2,7 @@ import bcrypt from "bcrypt";
 import { cnpj, cpf } from "cpf-cnpj-validator";
 import type { FastifyReply, FastifyRequest } from "fastify";
 import { StatusAplicacaoEnum } from "../../../enums/aplicacao/status-aplicacao-enum.js";
-import { HttpStatusCode } from "../../../enums/http-status-code-enum.js";
+import { HttpStatusCodeEnum } from "../../../enums/http-status-code-enum.js";
 import { tipoPessoaEnum } from "../../../enums/tipo-pessoa-enum.js";
 import { EmailAlreadyInUseError } from "../../../errors/email-already-in-use-error.js";
 import { InvalidCnpjError } from "../../../errors/invalid-cnpj-error.js";
@@ -41,6 +41,6 @@ export class CreateAplicacaoController implements ICreateAplicacaoController {
       status: StatusAplicacaoEnum.ATIVADO,
       ...aplicacao,
     });
-    reply.status(HttpStatusCode.CREATED).send({ id });
+    reply.status(HttpStatusCodeEnum.CREATED).send({ id });
   }
 }

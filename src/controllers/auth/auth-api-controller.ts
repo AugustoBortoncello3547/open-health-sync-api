@@ -2,7 +2,7 @@ import { compare } from "bcrypt";
 import { type FastifyReply, type FastifyRequest } from "fastify";
 import jwt from "jsonwebtoken";
 import { BLOCKED_STATUS } from "../../enums/aplicacao/status-aplicacao-enum.js";
-import { HttpStatusCode } from "../../enums/http-status-code-enum.js";
+import { HttpStatusCodeEnum } from "../../enums/http-status-code-enum.js";
 import { RoleApiEnum } from "../../enums/role-api-enum.js";
 import { UnauthorizedError } from "../../errors/unauthorized-error.js";
 import { MongoGetAplicacaoRepository } from "../../repositories/aplicacacao/get-aplicacao/mongo-get-aplicacao.js";
@@ -43,7 +43,7 @@ export class AuthApiController implements IAuthAplicacaoController {
     });
 
     const expiresAt = new Date(Date.now() + expireTimeJWT * 60 * 1000);
-    reply.status(HttpStatusCode.OK).send({
+    reply.status(HttpStatusCodeEnum.OK).send({
       token: jwtToken,
       expiresIn: expireTimeJWT,
       expiresAt,

@@ -1,9 +1,9 @@
-import { HttpStatusCode } from "../enums/http-status-code-enum.js";
+import { HttpStatusCodeEnum } from "../enums/http-status-code-enum.js";
 import { OpenHealthSyncBaseError } from "./open-health-sync-api-base-error.js";
 
 export class AplicacaoNotFoundError extends OpenHealthSyncBaseError {
   constructor() {
-    super(`Aplicação não encontrada.`, HttpStatusCode.NOT_FOUND);
+    super(`Aplicação não encontrada.`, HttpStatusCodeEnum.NOT_FOUND);
     this.name = "AplicacaoNotFoundError";
   }
 }

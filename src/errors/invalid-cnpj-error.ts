@@ -1,9 +1,9 @@
-import { HttpStatusCode } from "../enums/http-status-code-enum.js";
+import { HttpStatusCodeEnum } from "../enums/http-status-code-enum.js";
 import { OpenHealthSyncBaseError } from "./open-health-sync-api-base-error.js";
 
 export class InvalidCnpjError extends OpenHealthSyncBaseError {
   constructor() {
-    super("CNPJ informado não é válido.", HttpStatusCode.BAD_REQUEST);
+    super("CNPJ informado não é válido.", HttpStatusCodeEnum.BAD_REQUEST);
     this.name = "InvalidCnpjError";
   }
 }

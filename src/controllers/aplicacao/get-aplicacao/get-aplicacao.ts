@@ -1,5 +1,5 @@
 import type { FastifyReply, FastifyRequest } from "fastify";
-import { HttpStatusCode } from "../../../enums/http-status-code-enum.js";
+import { HttpStatusCodeEnum } from "../../../enums/http-status-code-enum.js";
 import { AplicacaoNotFoundError } from "../../../errors/aplicacao-not-found-error.js";
 import type { GetAplicacaoParams, IGetAplicacaoController, IGetAplicacaoRepository } from "./types.js";
 
@@ -14,7 +14,7 @@ export class GetAplicacaoController implements IGetAplicacaoController {
       throw new AplicacaoNotFoundError();
     }
 
-    reply.status(HttpStatusCode.OK).send({
+    reply.status(HttpStatusCodeEnum.OK).send({
       ...aplicacao,
       criadoEm: aplicacao.criadoEm.toISOString(),
       atualizadoEm: aplicacao.atualizadoEm.toISOString(),

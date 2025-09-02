@@ -1,5 +1,5 @@
 import type { FastifyReply, FastifyRequest } from "fastify";
-import { HttpStatusCode } from "../../../enums/http-status-code-enum.js";
+import { HttpStatusCodeEnum } from "../../../enums/http-status-code-enum.js";
 import { AplicacaoNotFoundError } from "../../../errors/aplicacao-not-found-error.js";
 import { EmailAlreadyInUseError } from "../../../errors/email-already-in-use-error.js";
 import type { IGetAplicacaoRepository } from "../get-aplicacao/types.js";
@@ -49,7 +49,7 @@ export class UpdateAplicacaoController implements IUpdateAplicacaoController {
     }
 
     const id = await this.updateAplicacaoRepository.updateAplicacao(aplicacao.id, aplicacao);
-    reply.status(HttpStatusCode.OK).send({ id });
+    reply.status(HttpStatusCodeEnum.OK).send({ id });
   }
 
   mergeDeep(target: any, source: any) {

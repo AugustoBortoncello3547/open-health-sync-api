@@ -1,7 +1,7 @@
 import type { FastifyReply, FastifyRequest } from "fastify";
 import type { DeleteAmbienteParams, IDeleteAmbienteController, IDeleteAmbienteRepository } from "./types.js";
 import { JwtTokenController } from "../../token/jwt-token-controller.js";
-import { HttpStatusCode } from "../../../enums/http-status-code-enum.js";
+import { HttpStatusCodeEnum } from "../../../enums/http-status-code-enum.js";
 import type { IGetAmbienteRepository } from "../get-ambiente/types.js";
 import { AmbienteNotFoundError } from "../../../errors/ambiente-not-found-error.js";
 
@@ -29,6 +29,6 @@ export class DeleteAmbienteController implements IDeleteAmbienteController {
     // TODO: validar se não tem pacientes no ambiente
 
     await this.deleteAmbienteRepository.deleteAmbiente(ambiente.id, idAplicacao);
-    reply.status(HttpStatusCode.NO_CONTENT);
+    reply.status(HttpStatusCodeEnum.NO_CONTENT);
   }
 }
