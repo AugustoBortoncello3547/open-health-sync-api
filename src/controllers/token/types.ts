@@ -1,3 +1,5 @@
+import type { RoleApiEnum } from "../../enums/role-api-enum.js";
+
 export interface IJwtTokenController {
   getTokenFromAuthorizationHeader(authHeader?: string): TResponseGTetTokenFromAuthorizationHeader;
   extractDatafromToken(token: string): Promise<TJwtProps>;
@@ -12,4 +14,5 @@ export type TResponseGTetTokenFromAuthorizationHeader = {
 export type TJwtProps = {
   idAplicacao: string;
   email: string;
+  role: RoleApiEnum;
 };

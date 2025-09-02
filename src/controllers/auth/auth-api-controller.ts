@@ -3,10 +3,12 @@ import { type FastifyReply, type FastifyRequest } from "fastify";
 import jwt from "jsonwebtoken";
 import { BLOCKED_STATUS } from "../../enums/aplicacao/status-aplicacao-enum.js";
 import { HttpStatusCode } from "../../enums/http-status-code-enum.js";
+import { RoleApiEnum } from "../../enums/role-api-enum.js";
 import { UnauthorizedError } from "../../errors/unauthorized-error.js";
 import { MongoGetAplicacaoRepository } from "../../repositories/aplicacacao/get-aplicacao/mongo-get-aplicacao.js";
 import type { IGetAplicacaoRepository } from "../aplicacao/get-aplicacao/types.js";
 import { JwtTokenController } from "../token/jwt-token-controller.js";
+import type { TJwtProps } from "../token/types.js";
 import type { AuthApiParams, IAuthAplicacaoController } from "./types.js";
 
 export class AuthApiController implements IAuthAplicacaoController {
@@ -27,7 +29,12 @@ export class AuthApiController implements IAuthAplicacaoController {
 
     const secretJWT = process.env.JWT_SECRET || "";
     const expireTimeJWT = Number(process.env.JWT_EXPIRE_TIME) || 60;
-    const jwtToken = jwt.sign({ idAplicacao, email: emailAplicacao }, secretJWT, {
+    const jwtData: TJwtProps = {
+      idAplicacao,
+      email: emailAplicacao,
+      role: RoleApiEnum.USER,
+    };
+    const jwtToken = jwt.sign(jwtData, secretJWT, {
       expiresIn: `${expireTimeJWT}m`,
     });
 
@@ -55,10 +62,17 @@ export class AuthApiController implements IAuthAplicacaoController {
       throw new UnauthorizedError("Formato de token inválido.");
     }
 
-    const { idAplicacao: idAplicacaoToken, email: emailAplicacaoToken } =
-      await jwtTokenController.extractDatafromToken(token);
+    const {
+      idAplicacao: idAplicacaoToken,
+      email: emailAplicacaoToken,
+      role,
+    } = await jwtTokenController.extractDatafromToken(token);
     if (!idAplicacaoToken || !emailAplicacaoToken) {
       throw new UnauthorizedError("Token fornececido não é valido.");
+    }
+
+    if (role !== RoleApiEnum.USER) {
+      throw new UnauthorizedError("Aplicação sem permissão para acessar o recurso.");
     }
 
     const aplicacacao = await this.getAplicacaoRepository.getAplicacao(idAplicacaoToken);
