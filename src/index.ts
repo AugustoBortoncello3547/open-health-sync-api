@@ -12,6 +12,7 @@ import {
 import { MongoClient } from "./database/mongo.js";
 import { globalErrorHandlerHook } from "./hooks/global-error-handler-hook.js";
 import { registerRoutes } from "./routes/index.js";
+import { notFoundErrorHandlerHook } from "./hooks/not-found-error-handler-hook.js";
 
 async function startServer() {
   dotenv.config();
@@ -62,6 +63,7 @@ async function startServer() {
   const apiVersion = process.env.API_VERSION || "v1";
   app.register(registerRoutes, { prefix: apiVersion });
 
+  app.setNotFoundHandler(notFoundErrorHandlerHook);
   app.setErrorHandler(globalErrorHandlerHook);
 
   const port = process.env.PORT || 3333;
