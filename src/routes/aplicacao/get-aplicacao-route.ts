@@ -5,6 +5,7 @@ import type { GetAplicacaoParams } from "../../controllers/aplicacao/get-aplicac
 import { StatusAplicacaoEnum } from "../../enums/aplicacao/status-aplicacao-enum.js";
 import { MongoGetAplicacaoRepository } from "../../repositories/aplicacacao/get-aplicacao/mongo-get-aplicacao.js";
 import type { FastifyTypedInstance } from "../../types.js";
+import { adminAuthHook } from "../../hooks/admin-auth-hook.js";
 
 export function getAplicacaoRoute(app: FastifyTypedInstance) {
   app.get(
@@ -13,6 +14,7 @@ export function getAplicacaoRoute(app: FastifyTypedInstance) {
       schema: {
         tags: ["Aplicação"],
         description: "Obtém uma aplicação",
+        security: [{ bearerAuth: [] }],
         params: z.object({
           idAplicacao: z.string().describe("O id da aplicação."),
         }),
@@ -65,8 +67,12 @@ export function getAplicacaoRoute(app: FastifyTypedInstance) {
             .describe("Erro interno do servidor. Algo inesperado ocorreu ao processar a requisição."),
         },
       },
+      preHandler: adminAuthHook,
     },
-    (request: FastifyRequest<{ Params: GetAplicacaoParams }>, reply: FastifyReply) => {
+    (
+      request: FastifyRequest<{ Params: GetAplicacaoParams; Headers: { authorization?: string } }>,
+      reply: FastifyReply,
+    ) => {
       const mongoGetAplicacaoRepository = new MongoGetAplicacaoRepository();
       const getAplicacaoController = new GetAplicacaoController(mongoGetAplicacaoRepository);
       return getAplicacaoController.handle(request, reply);

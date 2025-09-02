@@ -27,12 +27,16 @@ export class AuthApiController implements IAuthAplicacaoController {
       throw new UnauthorizedError("Usuário ou senha inválidos.");
     }
 
+    const idAplicacaoAdmin = process.env.ID_APLICACAO_ADMIN || "";
+    const isAplicacaoAdminAuthenticating = idAplicacaoAdmin === idAplicacao;
+    const jwtRole = isAplicacaoAdminAuthenticating ? RoleApiEnum.ADMIN : RoleApiEnum.USER;
+
     const secretJWT = process.env.JWT_SECRET || "";
     const expireTimeJWT = Number(process.env.JWT_EXPIRE_TIME) || 60;
     const jwtData: TJwtProps = {
       idAplicacao,
       email: emailAplicacao,
-      role: RoleApiEnum.USER,
+      role: jwtRole,
     };
     const jwtToken = jwt.sign(jwtData, secretJWT, {
       expiresIn: `${expireTimeJWT}m`,
@@ -49,6 +53,7 @@ export class AuthApiController implements IAuthAplicacaoController {
   async verifyToken(
     request: FastifyRequest<{ Headers: { authorization?: string } }>,
     reply: FastifyReply,
+    roleToCheck: RoleApiEnum,
   ): Promise<void> {
     const authHeader = request.headers.authorization;
     const jwtTokenController = new JwtTokenController();
@@ -71,7 +76,7 @@ export class AuthApiController implements IAuthAplicacaoController {
       throw new UnauthorizedError("Token fornececido não é valido.");
     }
 
-    if (role !== RoleApiEnum.USER) {
+    if (role !== roleToCheck) {
       throw new UnauthorizedError("Aplicação sem permissão para acessar o recurso.");
     }
 

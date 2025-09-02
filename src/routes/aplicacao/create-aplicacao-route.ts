@@ -7,6 +7,7 @@ import { ufEnum } from "../../enums/uf-enum.js";
 import { MongoCreateAplicacaoRepository } from "../../repositories/aplicacacao/create-aplicacao/mongo-create-aplicacao.js";
 import type { FastifyTypedInstance } from "../../types.js";
 import { MongoGetAplicacaoRepository } from "../../repositories/aplicacacao/get-aplicacao/mongo-get-aplicacao.js";
+import { adminAuthHook } from "../../hooks/admin-auth-hook.js";
 
 export async function createAplicacaoRoute(app: FastifyTypedInstance) {
   app.post(
@@ -15,6 +16,7 @@ export async function createAplicacaoRoute(app: FastifyTypedInstance) {
       schema: {
         tags: ["Aplicação"],
         description: "Criar nova aplicação",
+        security: [{ bearerAuth: [] }],
         body: z.object({
           email: z
             .email("O e-mail informado não é válido.")
@@ -100,8 +102,12 @@ export async function createAplicacaoRoute(app: FastifyTypedInstance) {
             .describe("Erro interno do servidor. Algo inesperado ocorreu ao processar a requisição."),
         },
       },
+      preHandler: adminAuthHook,
     },
-    (request: FastifyRequest<{ Body: TCreateAplicacaoParams }>, reply: FastifyReply) => {
+    (
+      request: FastifyRequest<{ Body: TCreateAplicacaoParams; Headers: { authorization?: string } }>,
+      reply: FastifyReply,
+    ) => {
       const mongoCreateAplicacaoRepository = new MongoCreateAplicacaoRepository();
       const mongoGetAplicacaoRepository = new MongoGetAplicacaoRepository();
       const createAplicacaoController = new CreateAplicacaoController(

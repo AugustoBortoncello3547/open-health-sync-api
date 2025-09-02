@@ -8,6 +8,7 @@ import { ufEnum } from "../../enums/uf-enum.js";
 import { MongoGetAplicacaoRepository } from "../../repositories/aplicacacao/get-aplicacao/mongo-get-aplicacao.js";
 import { MongoUpdateAplicacaoRepository } from "../../repositories/aplicacacao/update-aplicacao/mongo-update-aplicacao.js";
 import type { FastifyTypedInstance } from "../../types.js";
+import { adminAuthHook } from "../../hooks/admin-auth-hook.js";
 
 export async function updateAplicacaoRoute(app: FastifyTypedInstance) {
   app.put(
@@ -16,6 +17,7 @@ export async function updateAplicacaoRoute(app: FastifyTypedInstance) {
       schema: {
         tags: ["Aplicação"],
         description: "Atualizar aplicação",
+        security: [{ bearerAuth: [] }],
         params: z.object({
           idAplicacao: z.string(),
         }),
@@ -59,8 +61,16 @@ export async function updateAplicacaoRoute(app: FastifyTypedInstance) {
             .describe("Erro interno do servidor. Algo inesperado ocorreu ao processar a requisição."),
         },
       },
+      preHandler: adminAuthHook,
     },
-    (request: FastifyRequest<{ Body: TUpdateAplicacao; Params: TUpdateAplicacaoParams }>, reply: FastifyReply) => {
+    (
+      request: FastifyRequest<{
+        Body: TUpdateAplicacao;
+        Params: TUpdateAplicacaoParams;
+        Headers: { authorization?: string };
+      }>,
+      reply: FastifyReply,
+    ) => {
       const mongoUpdateAplicacaoRepository = new MongoUpdateAplicacaoRepository();
       const mongoGetAplicacaoRepository = new MongoGetAplicacaoRepository();
       const updateAplicacaoController = new UpdateAplicacaoController(
