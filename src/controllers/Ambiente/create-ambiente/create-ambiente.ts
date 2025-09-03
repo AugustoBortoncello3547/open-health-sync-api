@@ -3,14 +3,16 @@ import type { FastifyReply, FastifyRequest } from "fastify";
 import { StatusAmbienteEnum } from "../../../enums/ambiente/status-ambiente-enum.js";
 import { HttpStatusCodeEnum } from "../../../enums/http-status-code-enum.js";
 import { AmbienteWithIdExternoAlreadyInUseError } from "../../../errors/ambiente-with-idexterno-already-in-use-error.js";
+import { MongoCreateAmbienteRepository } from "../../../repositories/ambiente/create-ambiente/mongo-create-ambiente.js";
+import { MongoGetAmbienteRepository } from "../../../repositories/ambiente/get-ambiente/mongo-get-ambiente.js";
+import { JwtTokenController } from "../../token/jwt-token-controller.js";
 import type { IGetAmbienteRepository } from "../get-ambiente/types.js";
 import type { ICreateAmbienteController, ICreateAmbienteRepository, TCreateAmbienteParams } from "./types.js";
-import { JwtTokenController } from "../../token/jwt-token-controller.js";
 
 export class CreateAmbienteController implements ICreateAmbienteController {
   constructor(
-    private readonly createAmbienteRepository: ICreateAmbienteRepository,
-    private readonly getAmbienteRepository: IGetAmbienteRepository,
+    private readonly createAmbienteRepository: ICreateAmbienteRepository = new MongoCreateAmbienteRepository(),
+    private readonly getAmbienteRepository: IGetAmbienteRepository = new MongoGetAmbienteRepository(),
   ) {}
 
   async handle(

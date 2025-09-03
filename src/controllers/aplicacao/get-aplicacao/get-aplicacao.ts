@@ -1,10 +1,11 @@
 import type { FastifyReply, FastifyRequest } from "fastify";
 import { HttpStatusCodeEnum } from "../../../enums/http-status-code-enum.js";
 import { AplicacaoNotFoundError } from "../../../errors/aplicacao-not-found-error.js";
+import { MongoGetAplicacaoRepository } from "../../../repositories/aplicacacao/get-aplicacao/mongo-get-aplicacao.js";
 import type { GetAplicacaoParams, IGetAplicacaoController, IGetAplicacaoRepository } from "./types.js";
 
 export class GetAplicacaoController implements IGetAplicacaoController {
-  constructor(private readonly getAplicacaoRepository: IGetAplicacaoRepository) {}
+  constructor(private readonly getAplicacaoRepository: IGetAplicacaoRepository = new MongoGetAplicacaoRepository()) {}
 
   async handle(request: FastifyRequest<{ Params: GetAplicacaoParams }>, reply: FastifyReply): Promise<void> {
     const { idAplicacao } = request.params;

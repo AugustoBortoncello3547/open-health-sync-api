@@ -1,11 +1,12 @@
 import type { FastifyReply, FastifyRequest } from "fastify";
 import { HttpStatusCodeEnum } from "../../../enums/http-status-code-enum.js";
 import { AmbienteNotFoundError } from "../../../errors/ambiente-not-found-error.js";
+import { MongoGetAmbienteRepository } from "../../../repositories/ambiente/get-ambiente/mongo-get-ambiente.js";
 import { JwtTokenController } from "../../token/jwt-token-controller.js";
 import type { GetAmbienteParams, IGetAmbienteController, IGetAmbienteRepository } from "./types.js";
 
 export class GetAmbienteController implements IGetAmbienteController {
-  constructor(private readonly getAmbienteRepository: IGetAmbienteRepository) {}
+  constructor(private readonly getAmbienteRepository: IGetAmbienteRepository = new MongoGetAmbienteRepository()) {}
 
   async handle(
     request: FastifyRequest<{ Params: GetAmbienteParams; Headers: { authorization?: string } }>,

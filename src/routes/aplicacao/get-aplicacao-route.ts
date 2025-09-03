@@ -3,9 +3,8 @@ import z from "zod";
 import { GetAplicacaoController } from "../../controllers/aplicacao/get-aplicacao/get-aplicacao.js";
 import type { GetAplicacaoParams } from "../../controllers/aplicacao/get-aplicacao/types.js";
 import { StatusAplicacaoEnum } from "../../enums/aplicacao/status-aplicacao-enum.js";
-import { MongoGetAplicacaoRepository } from "../../repositories/aplicacacao/get-aplicacao/mongo-get-aplicacao.js";
-import type { FastifyTypedInstance } from "../../types.js";
 import { adminAuthHook } from "../../hooks/admin-auth-hook.js";
+import type { FastifyTypedInstance } from "../../types.js";
 
 export function getAplicacaoRoute(app: FastifyTypedInstance) {
   app.get(
@@ -73,8 +72,7 @@ export function getAplicacaoRoute(app: FastifyTypedInstance) {
       request: FastifyRequest<{ Params: GetAplicacaoParams; Headers: { authorization?: string } }>,
       reply: FastifyReply,
     ) => {
-      const mongoGetAplicacaoRepository = new MongoGetAplicacaoRepository();
-      const getAplicacaoController = new GetAplicacaoController(mongoGetAplicacaoRepository);
+      const getAplicacaoController = new GetAplicacaoController();
       return getAplicacaoController.handle(request, reply);
     },
   );

@@ -4,7 +4,6 @@ import { GetAmbienteController } from "../../controllers/ambiente/get-ambiente/g
 import type { GetAmbienteParams } from "../../controllers/ambiente/get-ambiente/types.js";
 import { StatusAmbienteEnum } from "../../enums/ambiente/status-ambiente-enum.js";
 import { authHook } from "../../hooks/auth-hook.js";
-import { MongoGetAmbienteRepository } from "../../repositories/ambiente/get-ambiente/mongo-get-ambiente.js";
 import type { FastifyTypedInstance } from "../../types.js";
 
 export function getAmbienteRoute(app: FastifyTypedInstance) {
@@ -73,8 +72,7 @@ export function getAmbienteRoute(app: FastifyTypedInstance) {
       request: FastifyRequest<{ Params: GetAmbienteParams; Headers: { authorization?: string } }>,
       reply: FastifyReply,
     ) => {
-      const mongoGetAmbienteRepository = new MongoGetAmbienteRepository();
-      const getAmbienteController = new GetAmbienteController(mongoGetAmbienteRepository);
+      const getAmbienteController = new GetAmbienteController();
       return getAmbienteController.handle(request, reply);
     },
   );

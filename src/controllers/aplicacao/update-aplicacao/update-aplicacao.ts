@@ -2,6 +2,8 @@ import type { FastifyReply, FastifyRequest } from "fastify";
 import { HttpStatusCodeEnum } from "../../../enums/http-status-code-enum.js";
 import { AplicacaoNotFoundError } from "../../../errors/aplicacao-not-found-error.js";
 import { EmailAlreadyInUseError } from "../../../errors/email-already-in-use-error.js";
+import { MongoGetAplicacaoRepository } from "../../../repositories/aplicacacao/get-aplicacao/mongo-get-aplicacao.js";
+import { MongoUpdateAplicacaoRepository } from "../../../repositories/aplicacacao/update-aplicacao/mongo-update-aplicacao.js";
 import type { IGetAplicacaoRepository } from "../get-aplicacao/types.js";
 import type {
   IUpdateAplicacaoController,
@@ -12,8 +14,8 @@ import type {
 
 export class UpdateAplicacaoController implements IUpdateAplicacaoController {
   constructor(
-    private readonly getAplicacaoRepository: IGetAplicacaoRepository,
-    private readonly updateAplicacaoRepository: IUpdateAplicacaoRepository,
+    private readonly getAplicacaoRepository: IGetAplicacaoRepository = new MongoGetAplicacaoRepository(),
+    private readonly updateAplicacaoRepository: IUpdateAplicacaoRepository = new MongoUpdateAplicacaoRepository(),
   ) {}
 
   async handle(

@@ -1,9 +1,8 @@
-import z from "zod";
-import type { FastifyTypedInstance } from "../../types.js";
 import type { FastifyReply, FastifyRequest } from "fastify";
-import { MongoGetAplicacaoRepository } from "../../repositories/aplicacacao/get-aplicacao/mongo-get-aplicacao.js";
+import z from "zod";
 import { AuthApiController } from "../../controllers/auth/auth-api-controller.js";
 import type { AuthApiParams } from "../../controllers/auth/types.js";
+import type { FastifyTypedInstance } from "../../types.js";
 
 export async function authRoute(app: FastifyTypedInstance) {
   app.post(
@@ -35,8 +34,7 @@ export async function authRoute(app: FastifyTypedInstance) {
       },
     },
     (request: FastifyRequest<{ Body: AuthApiParams }>, reply: FastifyReply) => {
-      const mongoGetAplicacaoRepository = new MongoGetAplicacaoRepository();
-      const authApiController = new AuthApiController(mongoGetAplicacaoRepository);
+      const authApiController = new AuthApiController();
       return authApiController.autenticate(request, reply);
     },
   );

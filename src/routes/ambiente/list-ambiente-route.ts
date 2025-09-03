@@ -4,7 +4,6 @@ import { ListAmbienteController } from "../../controllers/ambiente/list-ambiente
 import type { ListAmbienteParams } from "../../controllers/ambiente/list-ambiente/types.js";
 import { StatusAmbienteEnum } from "../../enums/ambiente/status-ambiente-enum.js";
 import { authHook } from "../../hooks/auth-hook.js";
-import { MongoListAmbienteRepository } from "../../repositories/ambiente/list-ambiente/mongo-list-ambiente.js";
 import type { FastifyTypedInstance } from "../../types.js";
 
 export function listAmbienteRoute(app: FastifyTypedInstance) {
@@ -81,8 +80,7 @@ export function listAmbienteRoute(app: FastifyTypedInstance) {
       request: FastifyRequest<{ Querystring: ListAmbienteParams; Headers: { authorization?: string } }>,
       reply: FastifyReply,
     ) => {
-      const mongoListAmbienteRepository = new MongoListAmbienteRepository();
-      const listAmbienteController = new ListAmbienteController(mongoListAmbienteRepository);
+      const listAmbienteController = new ListAmbienteController();
       return listAmbienteController.handle(request, reply);
     },
   );

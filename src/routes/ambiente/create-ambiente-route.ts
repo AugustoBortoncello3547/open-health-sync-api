@@ -3,8 +3,6 @@ import z from "zod";
 import { CreateAmbienteController } from "../../controllers/ambiente/create-ambiente/create-ambiente.js";
 import type { TCreateAmbienteParams } from "../../controllers/ambiente/create-ambiente/types.js";
 import { authHook } from "../../hooks/auth-hook.js";
-import { MongoCreateAmbienteRepository } from "../../repositories/ambiente/create-ambiente/mongo-create-ambiente.js";
-import { MongoGetAmbienteRepository } from "../../repositories/ambiente/get-ambiente/mongo-get-ambiente.js";
 import type { FastifyTypedInstance } from "../../types.js";
 
 export async function createAmbienteRoute(app: FastifyTypedInstance) {
@@ -88,12 +86,7 @@ export async function createAmbienteRoute(app: FastifyTypedInstance) {
       request: FastifyRequest<{ Body: TCreateAmbienteParams; Headers: { authorization?: string } }>,
       reply: FastifyReply,
     ) => {
-      const mongoCreateAmbienteRepository = new MongoCreateAmbienteRepository();
-      const mongoGetAmbienteRepository = new MongoGetAmbienteRepository();
-      const createAmbienteController = new CreateAmbienteController(
-        mongoCreateAmbienteRepository,
-        mongoGetAmbienteRepository,
-      );
+      const createAmbienteController = new CreateAmbienteController();
       return createAmbienteController.handle(request, reply);
     },
   );

@@ -1,10 +1,11 @@
 import type { FastifyReply, FastifyRequest } from "fastify";
 import { HttpStatusCodeEnum } from "../../../enums/http-status-code-enum.js";
+import { MongoListAmbienteRepository } from "../../../repositories/ambiente/list-ambiente/mongo-list-ambiente.js";
 import { JwtTokenController } from "../../token/jwt-token-controller.js";
 import type { IListAmbienteController, IListAmbienteRepository, ListAmbienteParams } from "./types.js";
 
 export class ListAmbienteController implements IListAmbienteController {
-  constructor(private readonly listAmbienteRepository: IListAmbienteRepository) {}
+  constructor(private readonly listAmbienteRepository: IListAmbienteRepository = new MongoListAmbienteRepository()) {}
 
   async handle(
     request: FastifyRequest<{ Querystring: ListAmbienteParams; Headers: { authorization?: string } }>,

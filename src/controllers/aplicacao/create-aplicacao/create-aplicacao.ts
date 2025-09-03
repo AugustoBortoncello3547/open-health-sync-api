@@ -7,13 +7,15 @@ import { tipoPessoaEnum } from "../../../enums/tipo-pessoa-enum.js";
 import { EmailAlreadyInUseError } from "../../../errors/email-already-in-use-error.js";
 import { InvalidCnpjError } from "../../../errors/invalid-cnpj-error.js";
 import { InvalidCpfError } from "../../../errors/invalid-cpf-error.js";
+import { MongoCreateAplicacaoRepository } from "../../../repositories/aplicacacao/create-aplicacao/mongo-create-aplicacao.js";
+import { MongoGetAplicacaoRepository } from "../../../repositories/aplicacacao/get-aplicacao/mongo-get-aplicacao.js";
 import type { IGetAplicacaoRepository } from "../get-aplicacao/types.js";
 import type { ICreateAplicacaoController, ICreateAplicacaoRepository, TCreateAplicacaoParams } from "./types.js";
 
 export class CreateAplicacaoController implements ICreateAplicacaoController {
   constructor(
-    private readonly createAplicacaoRepository: ICreateAplicacaoRepository,
-    private readonly getAplicacaoRepository: IGetAplicacaoRepository,
+    private readonly createAplicacaoRepository: ICreateAplicacaoRepository = new MongoCreateAplicacaoRepository(),
+    private readonly getAplicacaoRepository: IGetAplicacaoRepository = new MongoGetAplicacaoRepository(),
   ) {}
 
   async handle(request: FastifyRequest<{ Body: TCreateAplicacaoParams }>, reply: FastifyReply): Promise<void> {

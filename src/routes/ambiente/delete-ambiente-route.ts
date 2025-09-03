@@ -3,8 +3,6 @@ import z from "zod";
 import { DeleteAmbienteController } from "../../controllers/ambiente/delete-ambiente/delete-ambiente.js";
 import type { DeleteAmbienteParams } from "../../controllers/ambiente/delete-ambiente/types.js";
 import { authHook } from "../../hooks/auth-hook.js";
-import { MongoDeleteAmbienteRepository } from "../../repositories/ambiente/delete-ambiente/mongo-delete-ambiente.js";
-import { MongoGetAmbienteRepository } from "../../repositories/ambiente/get-ambiente/mongo-get-ambiente.js";
 import type { FastifyTypedInstance } from "../../types.js";
 
 export function deleteAmbienteRoute(app: FastifyTypedInstance) {
@@ -55,12 +53,7 @@ export function deleteAmbienteRoute(app: FastifyTypedInstance) {
       request: FastifyRequest<{ Params: DeleteAmbienteParams; Headers: { authorization?: string } }>,
       reply: FastifyReply,
     ) => {
-      const mongoGetAmbienteRepository = new MongoGetAmbienteRepository();
-      const mongoDeleteAmbienteRepository = new MongoDeleteAmbienteRepository();
-      const deleteAmbienteController = new DeleteAmbienteController(
-        mongoGetAmbienteRepository,
-        mongoDeleteAmbienteRepository,
-      );
+      const deleteAmbienteController = new DeleteAmbienteController();
       return deleteAmbienteController.handle(request, reply);
     },
   );

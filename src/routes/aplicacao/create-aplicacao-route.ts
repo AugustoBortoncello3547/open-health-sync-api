@@ -4,10 +4,8 @@ import { CreateAplicacaoController } from "../../controllers/aplicacao/create-ap
 import type { TCreateAplicacaoParams } from "../../controllers/aplicacao/create-aplicacao/types.js";
 import { tipoPessoaEnum } from "../../enums/tipo-pessoa-enum.js";
 import { ufEnum } from "../../enums/uf-enum.js";
-import { MongoCreateAplicacaoRepository } from "../../repositories/aplicacacao/create-aplicacao/mongo-create-aplicacao.js";
-import type { FastifyTypedInstance } from "../../types.js";
-import { MongoGetAplicacaoRepository } from "../../repositories/aplicacacao/get-aplicacao/mongo-get-aplicacao.js";
 import { adminAuthHook } from "../../hooks/admin-auth-hook.js";
+import type { FastifyTypedInstance } from "../../types.js";
 
 export async function createAplicacaoRoute(app: FastifyTypedInstance) {
   app.post(
@@ -108,12 +106,7 @@ export async function createAplicacaoRoute(app: FastifyTypedInstance) {
       request: FastifyRequest<{ Body: TCreateAplicacaoParams; Headers: { authorization?: string } }>,
       reply: FastifyReply,
     ) => {
-      const mongoCreateAplicacaoRepository = new MongoCreateAplicacaoRepository();
-      const mongoGetAplicacaoRepository = new MongoGetAplicacaoRepository();
-      const createAplicacaoController = new CreateAplicacaoController(
-        mongoCreateAplicacaoRepository,
-        mongoGetAplicacaoRepository,
-      );
+      const createAplicacaoController = new CreateAplicacaoController();
       return createAplicacaoController.handle(request, reply);
     },
   );

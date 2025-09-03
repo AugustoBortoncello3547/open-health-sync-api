@@ -5,10 +5,8 @@ import { UpdateAplicacaoController } from "../../controllers/aplicacao/update-ap
 import { StatusAplicacaoEnum } from "../../enums/aplicacao/status-aplicacao-enum.js";
 import { tipoPessoaEnum } from "../../enums/tipo-pessoa-enum.js";
 import { ufEnum } from "../../enums/uf-enum.js";
-import { MongoGetAplicacaoRepository } from "../../repositories/aplicacacao/get-aplicacao/mongo-get-aplicacao.js";
-import { MongoUpdateAplicacaoRepository } from "../../repositories/aplicacacao/update-aplicacao/mongo-update-aplicacao.js";
-import type { FastifyTypedInstance } from "../../types.js";
 import { adminAuthHook } from "../../hooks/admin-auth-hook.js";
+import type { FastifyTypedInstance } from "../../types.js";
 
 export async function updateAplicacaoRoute(app: FastifyTypedInstance) {
   app.put(
@@ -71,12 +69,7 @@ export async function updateAplicacaoRoute(app: FastifyTypedInstance) {
       }>,
       reply: FastifyReply,
     ) => {
-      const mongoUpdateAplicacaoRepository = new MongoUpdateAplicacaoRepository();
-      const mongoGetAplicacaoRepository = new MongoGetAplicacaoRepository();
-      const updateAplicacaoController = new UpdateAplicacaoController(
-        mongoGetAplicacaoRepository,
-        mongoUpdateAplicacaoRepository,
-      );
+      const updateAplicacaoController = new UpdateAplicacaoController();
       return updateAplicacaoController.handle(request, reply);
     },
   );
