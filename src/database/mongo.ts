@@ -14,15 +14,11 @@ export class MongoClient {
   }
 
   public async connect(): Promise<typeof mongoose> {
-    const URL = process.env.MONGODB_URL || "mongodb://localhost:27017/meuBanco";
-    const username = process.env.MONGODB_USER;
-    const password = process.env.MONGODB_PASSWORD;
+    const MongoDBUri = process.env.MONGODB_URI || "mongodb://root:password@localhost:27017";
 
     if (mongoose.connection.readyState === 0) {
       try {
-        await mongoose.connect(URL, {
-          user: username,
-          pass: password,
+        await mongoose.connect(MongoDBUri, {
           dbName: "openHealthSyncApi",
         } as ConnectOptions);
         console.log("MongoDB conectado com sucesso!");
