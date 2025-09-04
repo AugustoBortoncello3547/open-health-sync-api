@@ -70,7 +70,7 @@ export class AuthApiController implements IAuthAplicacaoController {
       role,
     } = await jwtTokenController.extractDatafromToken(token);
     if (!idAplicacaoToken || !emailAplicacaoToken || !role) {
-      throw new UnauthorizedError("Token fornececido não é valido.");
+      throw new UnauthorizedError("Token fornecido não é valido.");
     }
 
     if (role !== roleToCheck) {
