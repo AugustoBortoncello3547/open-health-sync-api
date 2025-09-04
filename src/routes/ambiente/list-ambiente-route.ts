@@ -3,6 +3,7 @@ import z from "zod";
 import { ListAmbienteController } from "../../controllers/ambiente/list-ambiente/list-ambiente.js";
 import type { ListAmbienteParams } from "../../controllers/ambiente/list-ambiente/types.js";
 import { StatusAmbienteEnum } from "../../enums/ambiente/status-ambiente-enum.js";
+import { HttpStatusCodeEnum } from "../../enums/http-status-code-enum.js";
 import { authHook } from "../../hooks/auth-hook.js";
 import type { FastifyTypedInstance } from "../../types.js";
 
@@ -76,12 +77,17 @@ export function listAmbienteRoute(app: FastifyTypedInstance) {
       },
       preHandler: authHook,
     },
-    (
+    async (
       request: FastifyRequest<{ Querystring: ListAmbienteParams; Headers: { authorization?: string } }>,
       reply: FastifyReply,
     ) => {
+      const authHeader = request.headers.authorization;
+      const listAmbienteFilters = request.query;
+
       const listAmbienteController = new ListAmbienteController();
-      return listAmbienteController.handle(request, reply);
+      const listAmbienteResponse = await listAmbienteController.handle(listAmbienteFilters, authHeader);
+
+      reply.status(HttpStatusCodeEnum.OK).send(listAmbienteResponse);
     },
   );
 }

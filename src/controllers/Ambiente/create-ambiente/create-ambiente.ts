@@ -1,13 +1,11 @@
 import { randomBytes } from "crypto";
-import type { FastifyReply, FastifyRequest } from "fastify";
 import { StatusAmbienteEnum } from "../../../enums/ambiente/status-ambiente-enum.js";
-import { HttpStatusCodeEnum } from "../../../enums/http-status-code-enum.js";
 import { AmbienteWithIdExternoAlreadyInUseError } from "../../../errors/ambiente-with-idexterno-already-in-use-error.js";
 import { MongoCreateAmbienteRepository } from "../../../repositories/ambiente/create-ambiente/mongo-create-ambiente.js";
 import { MongoGetAmbienteRepository } from "../../../repositories/ambiente/get-ambiente/mongo-get-ambiente.js";
 import { JwtTokenController } from "../../token/jwt-token-controller.js";
 import type { IGetAmbienteRepository } from "../get-ambiente/types.js";
-import type { ICreateAmbienteController, ICreateAmbienteRepository, TCreateAmbienteParams } from "./types.js";
+import type { ICreateAmbienteController, ICreateAmbienteRepository, TCreateAmbienteRequest } from "./types.js";
 
 export class CreateAmbienteController implements ICreateAmbienteController {
   constructor(
@@ -15,17 +13,11 @@ export class CreateAmbienteController implements ICreateAmbienteController {
     private readonly getAmbienteRepository: IGetAmbienteRepository = new MongoGetAmbienteRepository(),
   ) {}
 
-  async handle(
-    request: FastifyRequest<{ Body: TCreateAmbienteParams; Headers: { authorization?: string } }>,
-    reply: FastifyReply,
-  ): Promise<void> {
-    const authHeader = request.headers.authorization;
-    const ambiente = request.body;
-
+  async handle(createAmbienteRequest: TCreateAmbienteRequest, authHeader?: string): Promise<string> {
     const jwtTokenController = new JwtTokenController();
     const { idAplicacao } = await jwtTokenController.getTokenData(authHeader);
     const ambienteWithSameIdExterno = await this.getAmbienteRepository.getAmbienteOnlyByIdExterno(
-      ambiente.idExterno,
+      createAmbienteRequest.idExterno,
       idAplicacao,
     );
     if (ambienteWithSameIdExterno) {
@@ -33,13 +25,13 @@ export class CreateAmbienteController implements ICreateAmbienteController {
     }
 
     const generatedApiKey = await this.generateAmbienteApiKey();
-    const id = await this.createAmbienteRepository.createAmbiente({
+    const idAmbiente = await this.createAmbienteRepository.createAmbiente({
       status: StatusAmbienteEnum.ATIVO,
       apiKey: generatedApiKey,
       idAplicacao: idAplicacao,
-      ...ambiente,
+      ...createAmbienteRequest,
     });
-    reply.status(HttpStatusCodeEnum.CREATED).send({ id });
+    return idAmbiente;
   }
 
   async generateAmbienteApiKey(): Promise<string> {

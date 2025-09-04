@@ -1,23 +1,26 @@
-import type { FastifyReply, FastifyRequest } from "fastify";
-import type { TAmbiente, TAmbienteSchema } from "../types.js";
 import type { FilterQuery } from "mongoose";
+import type { TAmbiente, TAmbienteResponse, TAmbienteSchema } from "../types.js";
 
 export interface IListAmbienteController {
-  handle(
-    request: FastifyRequest<{ Querystring: ListAmbienteParams; Headers: { authorization?: string } }>,
-    reply: FastifyReply,
-  ): Promise<void>;
+  handle(listAmbienteFilters: ListAmbienteParams, authHeader?: string): Promise<TListAmbienteResponse>;
 }
 
 export interface IListAmbienteRepository {
   listAmbiente(filters: ListAmbienteParams, idAplicacao: string): Promise<TAmbiente[]>;
 }
 
+export type TListAmbienteResponse = {
+  registros: TAmbienteResponse[];
+  total: number;
+  limit: number;
+  offset: number;
+};
+
 export type ListAmbienteParams = {
-  nome?: string;
-  status?: string;
-  limit?: number;
-  offset?: number;
+  nome: string;
+  status: string;
+  limit: number;
+  offset: number;
 };
 
 export type TQueryListAmbiente = FilterQuery<TAmbienteSchema>;

@@ -1,7 +1,8 @@
 import type { FastifyReply, FastifyRequest } from "fastify";
 import z from "zod";
 import { CreateAmbienteController } from "../../controllers/ambiente/create-ambiente/create-ambiente.js";
-import type { TCreateAmbienteParams } from "../../controllers/ambiente/create-ambiente/types.js";
+import type { TCreateAmbienteRequest } from "../../controllers/ambiente/create-ambiente/types.js";
+import { HttpStatusCodeEnum } from "../../enums/http-status-code-enum.js";
 import { authHook } from "../../hooks/auth-hook.js";
 import type { FastifyTypedInstance } from "../../types.js";
 
@@ -82,12 +83,17 @@ export async function createAmbienteRoute(app: FastifyTypedInstance) {
       },
       preHandler: authHook,
     },
-    (
-      request: FastifyRequest<{ Body: TCreateAmbienteParams; Headers: { authorization?: string } }>,
+    async (
+      request: FastifyRequest<{ Body: TCreateAmbienteRequest; Headers: { authorization?: string } }>,
       reply: FastifyReply,
     ) => {
+      const authHeader = request.headers.authorization;
+      const createAmbienteRequest = request.body;
+
       const createAmbienteController = new CreateAmbienteController();
-      return createAmbienteController.handle(request, reply);
+      const id = await createAmbienteController.handle(createAmbienteRequest, authHeader);
+
+      reply.status(HttpStatusCodeEnum.CREATED).send({ id });
     },
   );
 }

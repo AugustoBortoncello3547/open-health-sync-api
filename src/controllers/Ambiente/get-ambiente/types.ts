@@ -1,11 +1,7 @@
-import type { FastifyReply, FastifyRequest } from "fastify";
-import type { TAmbiente } from "../types.js";
+import type { TAmbiente, TAmbienteResponse } from "../types.js";
 
 export interface IGetAmbienteController {
-  handle(
-    request: FastifyRequest<{ Params: GetAmbienteParams; Headers: { authorization?: string } }>,
-    reply: FastifyReply,
-  ): Promise<void>;
+  handle(idAmbiente: string, authHeader?: string): Promise<TAmbienteResponse>;
 }
 
 export interface IGetAmbienteRepository {

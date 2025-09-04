@@ -1,20 +1,13 @@
-import type { FastifyReply, FastifyRequest } from "fastify";
-import { HttpStatusCodeEnum } from "../../../enums/http-status-code-enum.js";
 import { AmbienteNotFoundError } from "../../../errors/ambiente-not-found-error.js";
 import { MongoGetAmbienteRepository } from "../../../repositories/ambiente/get-ambiente/mongo-get-ambiente.js";
 import { JwtTokenController } from "../../token/jwt-token-controller.js";
-import type { GetAmbienteParams, IGetAmbienteController, IGetAmbienteRepository } from "./types.js";
+import type { TAmbienteResponse } from "../types.js";
+import type { IGetAmbienteController, IGetAmbienteRepository } from "./types.js";
 
 export class GetAmbienteController implements IGetAmbienteController {
   constructor(private readonly getAmbienteRepository: IGetAmbienteRepository = new MongoGetAmbienteRepository()) {}
 
-  async handle(
-    request: FastifyRequest<{ Params: GetAmbienteParams; Headers: { authorization?: string } }>,
-    reply: FastifyReply,
-  ): Promise<void> {
-    const authHeader = request.headers.authorization;
-    const { idAmbiente } = request.params;
-
+  async handle(idAmbiente: string, authHeader?: string): Promise<TAmbienteResponse> {
     const jwtTokenController = new JwtTokenController();
     const { idAplicacao } = await jwtTokenController.getTokenData(authHeader);
 
@@ -23,10 +16,10 @@ export class GetAmbienteController implements IGetAmbienteController {
       throw new AmbienteNotFoundError();
     }
 
-    reply.status(HttpStatusCodeEnum.OK).send({
+    return {
       ...ambiente,
       atualizadoEm: ambiente.atualizadoEm.toISOString(),
       criadoEm: ambiente.criadoEm.toISOString(),
-    });
+    };
   }
 }

@@ -14,6 +14,11 @@ export type TAmbiente = {
   atualizadoEm: Date;
 };
 
+export type TAmbienteResponse = Omit<TAmbiente, "criadoEm" | "atualizadoEm"> & {
+  criadoEm: string;
+  atualizadoEm: string;
+};
+
 type TAmbienteBase = Omit<TAmbiente, "id" | "atualizadoEm" | "criadoEm">;
 
 export type TAmbienteSchema = TAmbienteBase & Document<ObjectId>;

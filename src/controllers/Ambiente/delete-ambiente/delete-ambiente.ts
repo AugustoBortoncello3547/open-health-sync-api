@@ -1,11 +1,9 @@
-import type { FastifyReply, FastifyRequest } from "fastify";
-import { HttpStatusCodeEnum } from "../../../enums/http-status-code-enum.js";
 import { AmbienteNotFoundError } from "../../../errors/ambiente-not-found-error.js";
 import { MongoDeleteAmbienteRepository } from "../../../repositories/ambiente/delete-ambiente/mongo-delete-ambiente.js";
 import { MongoGetAmbienteRepository } from "../../../repositories/ambiente/get-ambiente/mongo-get-ambiente.js";
 import { JwtTokenController } from "../../token/jwt-token-controller.js";
 import type { IGetAmbienteRepository } from "../get-ambiente/types.js";
-import type { DeleteAmbienteParams, IDeleteAmbienteController, IDeleteAmbienteRepository } from "./types.js";
+import type { IDeleteAmbienteController, IDeleteAmbienteRepository } from "./types.js";
 
 export class DeleteAmbienteController implements IDeleteAmbienteController {
   constructor(
@@ -13,13 +11,7 @@ export class DeleteAmbienteController implements IDeleteAmbienteController {
     private readonly deleteAmbienteRepository: IDeleteAmbienteRepository = new MongoDeleteAmbienteRepository(),
   ) {}
 
-  async handle(
-    request: FastifyRequest<{ Params: DeleteAmbienteParams; Headers: { authorization?: string } }>,
-    reply: FastifyReply,
-  ): Promise<void> {
-    const authHeader = request.headers.authorization;
-    const { idAmbiente } = request.params;
-
+  async handle(idAmbiente: string, authHeader?: string): Promise<void> {
     const jwtTokenController = new JwtTokenController();
     const { idAplicacao } = await jwtTokenController.getTokenData(authHeader);
 
@@ -29,8 +21,6 @@ export class DeleteAmbienteController implements IDeleteAmbienteController {
     }
 
     // TODO: validar se não tem pacientes no ambiente
-
     await this.deleteAmbienteRepository.deleteAmbiente(ambiente.id, idAplicacao);
-    reply.status(HttpStatusCodeEnum.NO_CONTENT);
   }
 }

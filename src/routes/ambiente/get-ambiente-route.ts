@@ -3,6 +3,7 @@ import z from "zod";
 import { GetAmbienteController } from "../../controllers/ambiente/get-ambiente/get-ambiente.js";
 import type { GetAmbienteParams } from "../../controllers/ambiente/get-ambiente/types.js";
 import { StatusAmbienteEnum } from "../../enums/ambiente/status-ambiente-enum.js";
+import { HttpStatusCodeEnum } from "../../enums/http-status-code-enum.js";
 import { authHook } from "../../hooks/auth-hook.js";
 import type { FastifyTypedInstance } from "../../types.js";
 
@@ -68,12 +69,17 @@ export function getAmbienteRoute(app: FastifyTypedInstance) {
       },
       preHandler: authHook,
     },
-    (
+    async (
       request: FastifyRequest<{ Params: GetAmbienteParams; Headers: { authorization?: string } }>,
       reply: FastifyReply,
     ) => {
+      const authHeader = request.headers.authorization;
+      const { idAmbiente } = request.params;
+
       const getAmbienteController = new GetAmbienteController();
-      return getAmbienteController.handle(request, reply);
+      const ambiente = await getAmbienteController.handle(idAmbiente, authHeader);
+
+      reply.status(HttpStatusCodeEnum.OK).send(ambiente);
     },
   );
 }

@@ -1,16 +1,11 @@
-import type { FastifyReply, FastifyRequest } from "fastify";
-
 export interface IDeleteAmbienteRepository {
   deleteAmbiente(idAmbiente: string, idAplicacao: string): Promise<boolean>;
 }
 
 export interface IDeleteAmbienteController {
-  handle(
-    request: FastifyRequest<{ Params: DeleteAmbienteParams; Headers: { authorization?: string } }>,
-    reply: FastifyReply,
-  ): Promise<void>;
+  handle(idAmbiente: string, authHeader?: string): Promise<void>;
 }
 
-export type DeleteAmbienteParams = {
+export type TDeleteAmbienteParams = {
   idAmbiente: string;
 };

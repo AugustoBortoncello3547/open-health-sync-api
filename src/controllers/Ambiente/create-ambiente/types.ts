@@ -1,20 +1,16 @@
-import type { FastifyReply, FastifyRequest } from "fastify";
 import type { StatusAmbienteEnum } from "../../../enums/ambiente/status-ambiente-enum.js";
 import type { TAmbiente } from "../types.js";
 
 export interface ICreateAmbienteController {
-  handle(
-    request: FastifyRequest<{ Body: TCreateAmbienteParams; Headers: { authorization?: string } }>,
-    reply: FastifyReply,
-  ): Promise<void>;
+  handle(createAmbienteRequest: TCreateAmbienteRequest, authHeader?: string): Promise<string>;
 }
 
-export type TCreateAmbienteParams = Omit<
+export type TCreateAmbienteRequest = Omit<
   TAmbiente,
   "id" | "status" | "apiKey" | "idAplicacao" | "atualizadoEm" | "criadoEm"
 >;
 
-export type TCreateAmbiente = TCreateAmbienteParams & {
+export type TCreateAmbiente = TCreateAmbienteRequest & {
   status: StatusAmbienteEnum;
   apiKey: string;
   idAplicacao: string;
