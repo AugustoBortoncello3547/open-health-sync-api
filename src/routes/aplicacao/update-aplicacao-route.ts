@@ -77,7 +77,7 @@ export async function updateAplicacaoRoute(app: FastifyTypedInstance) {
       const { idAplicacao } = request.params;
 
       const updateAplicacaoController = new UpdateAplicacaoController();
-      const id = updateAplicacaoController.handle(idAplicacao, updateAplicacacaoRequest);
+      const id = await updateAplicacaoController.handle(idAplicacao, updateAplicacacaoRequest);
 
       reply.status(HttpStatusCodeEnum.OK).send({ id });
     },
