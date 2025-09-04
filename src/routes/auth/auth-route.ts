@@ -3,6 +3,7 @@ import z from "zod";
 import { AuthApiController } from "../../controllers/auth/auth-api-controller.js";
 import type { AuthApiParams } from "../../controllers/auth/types.js";
 import type { FastifyTypedInstance } from "../../types.js";
+import { HttpStatusCodeEnum } from "../../enums/http-status-code-enum.js";
 
 export async function authRoute(app: FastifyTypedInstance) {
   app.post(
@@ -33,9 +34,13 @@ export async function authRoute(app: FastifyTypedInstance) {
         },
       },
     },
-    (request: FastifyRequest<{ Body: AuthApiParams }>, reply: FastifyReply) => {
+    async (request: FastifyRequest<{ Body: AuthApiParams }>, reply: FastifyReply) => {
+      const { email, senha } = request.body;
+
       const authApiController = new AuthApiController();
-      return authApiController.autenticate(request, reply);
+      const autenticateResponse = await authApiController.autenticate(email, senha);
+
+      reply.status(HttpStatusCodeEnum.OK).send(autenticateResponse);
     },
   );
 }

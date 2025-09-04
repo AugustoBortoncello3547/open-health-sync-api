@@ -1,16 +1,9 @@
-import type { FastifyReply, FastifyRequest } from "fastify";
-import { HttpStatusCodeEnum } from "../../../enums/http-status-code-enum.js";
 import { AplicacaoNotFoundError } from "../../../errors/aplicacao-not-found-error.js";
 import { EmailAlreadyInUseError } from "../../../errors/email-already-in-use-error.js";
 import { MongoGetAplicacaoRepository } from "../../../repositories/aplicacacao/get-aplicacao/mongo-get-aplicacao.js";
 import { MongoUpdateAplicacaoRepository } from "../../../repositories/aplicacacao/update-aplicacao/mongo-update-aplicacao.js";
 import type { IGetAplicacaoRepository } from "../get-aplicacao/types.js";
-import type {
-  IUpdateAplicacaoController,
-  IUpdateAplicacaoRepository,
-  TUpdateAplicacao,
-  TUpdateAplicacaoParams,
-} from "./types.js";
+import type { IUpdateAplicacaoController, IUpdateAplicacaoRepository, TUpdateAplicacaoRequest } from "./types.js";
 
 export class UpdateAplicacaoController implements IUpdateAplicacaoController {
   constructor(
@@ -18,19 +11,13 @@ export class UpdateAplicacaoController implements IUpdateAplicacaoController {
     private readonly updateAplicacaoRepository: IUpdateAplicacaoRepository = new MongoUpdateAplicacaoRepository(),
   ) {}
 
-  async handle(
-    request: FastifyRequest<{ Body: TUpdateAplicacao; Params: TUpdateAplicacaoParams }>,
-    reply: FastifyReply,
-  ): Promise<void> {
-    const aplicacacaoRequest = request.body;
-    const { idAplicacao } = request.params;
-
+  async handle(idAplicacao: string, updateAplicacacaoRequest: TUpdateAplicacaoRequest): Promise<string> {
     const aplicacao = await this.getAplicacaoRepository.getAplicacao(idAplicacao);
     if (!aplicacao) {
       throw new AplicacaoNotFoundError();
     }
 
-    const emailUpdateRequest = aplicacacaoRequest.email;
+    const emailUpdateRequest = updateAplicacacaoRequest.email;
     if (emailUpdateRequest) {
       const hasAplicacaoWithSameEmail =
         (await this.getAplicacaoRepository.countAplicacoesByEmail(emailUpdateRequest)) > 0;
@@ -41,17 +28,17 @@ export class UpdateAplicacaoController implements IUpdateAplicacaoController {
       aplicacao.email = emailUpdateRequest;
     }
 
-    if (aplicacacaoRequest.status) {
-      aplicacao.status = aplicacacaoRequest.status;
+    if (updateAplicacacaoRequest.status) {
+      aplicacao.status = updateAplicacacaoRequest.status;
     }
 
-    if (aplicacacaoRequest.dados) {
+    if (updateAplicacacaoRequest.dados) {
       aplicacao.dados = aplicacao.dados || {};
-      this.mergeDeep(aplicacao.dados, aplicacacaoRequest.dados);
+      this.mergeDeep(aplicacao.dados, updateAplicacacaoRequest.dados);
     }
 
-    const id = await this.updateAplicacaoRepository.updateAplicacao(aplicacao.id, aplicacao);
-    reply.status(HttpStatusCodeEnum.OK).send({ id });
+    const idUpdatedAplicacao = await this.updateAplicacaoRepository.updateAplicacao(aplicacao.id, aplicacao);
+    return idUpdatedAplicacao;
   }
 
   mergeDeep(target: any, source: any) {

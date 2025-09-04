@@ -1,8 +1,12 @@
 import type { FastifyReply, FastifyRequest } from "fastify";
 import z from "zod";
-import type { TUpdateAplicacao, TUpdateAplicacaoParams } from "../../controllers/aplicacao/update-aplicacao/types.js";
+import type {
+  TUpdateAplicacaoParams,
+  TUpdateAplicacaoRequest,
+} from "../../controllers/aplicacao/update-aplicacao/types.js";
 import { UpdateAplicacaoController } from "../../controllers/aplicacao/update-aplicacao/update-aplicacao.js";
 import { StatusAplicacaoEnum } from "../../enums/aplicacao/status-aplicacao-enum.js";
+import { HttpStatusCodeEnum } from "../../enums/http-status-code-enum.js";
 import { tipoPessoaEnum } from "../../enums/tipo-pessoa-enum.js";
 import { ufEnum } from "../../enums/uf-enum.js";
 import { adminAuthHook } from "../../hooks/admin-auth-hook.js";
@@ -61,16 +65,21 @@ export async function updateAplicacaoRoute(app: FastifyTypedInstance) {
       },
       preHandler: adminAuthHook,
     },
-    (
+    async (
       request: FastifyRequest<{
-        Body: TUpdateAplicacao;
+        Body: TUpdateAplicacaoRequest;
         Params: TUpdateAplicacaoParams;
         Headers: { authorization?: string };
       }>,
       reply: FastifyReply,
     ) => {
+      const updateAplicacacaoRequest = request.body;
+      const { idAplicacao } = request.params;
+
       const updateAplicacaoController = new UpdateAplicacaoController();
-      return updateAplicacaoController.handle(request, reply);
+      const id = updateAplicacaoController.handle(idAplicacao, updateAplicacacaoRequest);
+
+      reply.status(HttpStatusCodeEnum.OK).send({ id });
     },
   );
 }

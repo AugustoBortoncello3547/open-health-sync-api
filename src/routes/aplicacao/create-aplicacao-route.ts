@@ -1,7 +1,8 @@
 import type { FastifyReply, FastifyRequest } from "fastify";
 import z from "zod";
 import { CreateAplicacaoController } from "../../controllers/aplicacao/create-aplicacao/create-aplicacao.js";
-import type { TCreateAplicacaoParams } from "../../controllers/aplicacao/create-aplicacao/types.js";
+import type { TCreateAplicacaoRequest } from "../../controllers/aplicacao/create-aplicacao/types.js";
+import { HttpStatusCodeEnum } from "../../enums/http-status-code-enum.js";
 import { tipoPessoaEnum } from "../../enums/tipo-pessoa-enum.js";
 import { ufEnum } from "../../enums/uf-enum.js";
 import { adminAuthHook } from "../../hooks/admin-auth-hook.js";
@@ -102,12 +103,16 @@ export async function createAplicacaoRoute(app: FastifyTypedInstance) {
       },
       preHandler: adminAuthHook,
     },
-    (
-      request: FastifyRequest<{ Body: TCreateAplicacaoParams; Headers: { authorization?: string } }>,
+    async (
+      request: FastifyRequest<{ Body: TCreateAplicacaoRequest; Headers: { authorization?: string } }>,
       reply: FastifyReply,
     ) => {
+      const createAplicacaoRequest = request.body;
+
       const createAplicacaoController = new CreateAplicacaoController();
-      return createAplicacaoController.handle(request, reply);
+      const id = await createAplicacaoController.handle(createAplicacaoRequest);
+
+      reply.status(HttpStatusCodeEnum.CREATED).send({ id });
     },
   );
 }

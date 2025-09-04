@@ -1,3 +1,4 @@
+import { RoleApiEnum } from "../../enums/role-api-enum.js";
 import type { IJwtTokenController, TJwtProps, TResponseGTetTokenFromAuthorizationHeader } from "./types.js";
 import jwt from "jsonwebtoken";
 

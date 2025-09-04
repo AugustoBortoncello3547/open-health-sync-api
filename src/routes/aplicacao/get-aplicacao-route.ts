@@ -3,6 +3,7 @@ import z from "zod";
 import { GetAplicacaoController } from "../../controllers/aplicacao/get-aplicacao/get-aplicacao.js";
 import type { GetAplicacaoParams } from "../../controllers/aplicacao/get-aplicacao/types.js";
 import { StatusAplicacaoEnum } from "../../enums/aplicacao/status-aplicacao-enum.js";
+import { HttpStatusCodeEnum } from "../../enums/http-status-code-enum.js";
 import { adminAuthHook } from "../../hooks/admin-auth-hook.js";
 import type { FastifyTypedInstance } from "../../types.js";
 
@@ -68,12 +69,16 @@ export function getAplicacaoRoute(app: FastifyTypedInstance) {
       },
       preHandler: adminAuthHook,
     },
-    (
+    async (
       request: FastifyRequest<{ Params: GetAplicacaoParams; Headers: { authorization?: string } }>,
       reply: FastifyReply,
     ) => {
+      const { idAplicacao } = request.params;
+
       const getAplicacaoController = new GetAplicacaoController();
-      return getAplicacaoController.handle(request, reply);
+      const aplicacao = await getAplicacaoController.handle(idAplicacao);
+
+      reply.status(HttpStatusCodeEnum.OK).send(aplicacao);
     },
   );
 }

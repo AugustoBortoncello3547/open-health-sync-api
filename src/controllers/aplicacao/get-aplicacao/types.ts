@@ -1,8 +1,7 @@
-import type { FastifyReply, FastifyRequest } from "fastify";
 import type { TAplicacao } from "../types.js";
 
 export interface IGetAplicacaoController {
-  handle(request: FastifyRequest<{ Params: GetAplicacaoParams }>, reply: FastifyReply): Promise<void>;
+  handle(idAplicacao: string): Promise<TAplicacaoResponse>;
 }
 
 export interface IGetAplicacaoRepository {
@@ -10,6 +9,11 @@ export interface IGetAplicacaoRepository {
   getAplicacaoByEmail(email: string): Promise<TAplicacao | null>;
   countAplicacoesByEmail(email: string): Promise<number>;
 }
+
+export type TAplicacaoResponse = Omit<TAplicacao, "criadoEm" | "atualizadoEm"> & {
+  criadoEm: string;
+  atualizadoEm: string;
+};
 
 export type GetAplicacaoParams = {
   idAplicacao: string;

@@ -10,7 +10,7 @@ import { InvalidCpfError } from "../../../errors/invalid-cpf-error.js";
 import { MongoCreateAplicacaoRepository } from "../../../repositories/aplicacacao/create-aplicacao/mongo-create-aplicacao.js";
 import { MongoGetAplicacaoRepository } from "../../../repositories/aplicacacao/get-aplicacao/mongo-get-aplicacao.js";
 import type { IGetAplicacaoRepository } from "../get-aplicacao/types.js";
-import type { ICreateAplicacaoController, ICreateAplicacaoRepository, TCreateAplicacaoParams } from "./types.js";
+import type { ICreateAplicacaoController, ICreateAplicacaoRepository, TCreateAplicacaoRequest } from "./types.js";
 
 export class CreateAplicacaoController implements ICreateAplicacaoController {
   constructor(
@@ -18,8 +18,8 @@ export class CreateAplicacaoController implements ICreateAplicacaoController {
     private readonly getAplicacaoRepository: IGetAplicacaoRepository = new MongoGetAplicacaoRepository(),
   ) {}
 
-  async handle(request: FastifyRequest<{ Body: TCreateAplicacaoParams }>, reply: FastifyReply): Promise<void> {
-    const { senha, ...aplicacao } = request.body;
+  async handle(createAplicacaoRequest: TCreateAplicacaoRequest): Promise<string> {
+    const { senha, ...aplicacao } = createAplicacaoRequest;
 
     if (aplicacao.dados.tipoPessoa === tipoPessoaEnum.FISICA && !cpf.isValid(aplicacao.dados.cpfCnpj)) {
       throw new InvalidCpfError();
@@ -38,11 +38,11 @@ export class CreateAplicacaoController implements ICreateAplicacaoController {
     const salt = bcrypt.genSaltSync(saltRounds);
     const passwordHash = bcrypt.hashSync(senha, salt);
 
-    const id = await this.createAplicacaoRepository.createAplicacao({
+    const idAplicacao = await this.createAplicacaoRepository.createAplicacao({
       senha: passwordHash,
       status: StatusAplicacaoEnum.ATIVADO,
       ...aplicacao,
     });
-    reply.status(HttpStatusCodeEnum.CREATED).send({ id });
+    return idAplicacao;
   }
 }
