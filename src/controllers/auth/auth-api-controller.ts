@@ -69,7 +69,7 @@ export class AuthApiController implements IAuthAplicacaoController {
       email: emailAplicacaoToken,
       role,
     } = await jwtTokenController.extractDatafromToken(token);
-    if (!idAplicacaoToken || !emailAplicacaoToken) {
+    if (!idAplicacaoToken || !emailAplicacaoToken || !role) {
       throw new UnauthorizedError("Token fornececido não é valido.");
     }
 

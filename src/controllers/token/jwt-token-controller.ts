@@ -1,6 +1,5 @@
-import { RoleApiEnum } from "../../enums/role-api-enum.js";
-import type { IJwtTokenController, TJwtProps, TResponseGTetTokenFromAuthorizationHeader } from "./types.js";
 import jwt from "jsonwebtoken";
+import type { IJwtTokenController, TJwtProps, TResponseGTetTokenFromAuthorizationHeader } from "./types.js";
 
 export class JwtTokenController implements IJwtTokenController {
   getTokenFromAuthorizationHeader(authHeader?: string): TResponseGTetTokenFromAuthorizationHeader {
@@ -21,6 +20,7 @@ export class JwtTokenController implements IJwtTokenController {
       return {
         idAplicacao: "",
         email: "",
+        role: "",
       };
     }
   }

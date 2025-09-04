@@ -14,5 +14,5 @@ export type TResponseGTetTokenFromAuthorizationHeader = {
 export type TJwtProps = {
   idAplicacao: string;
   email: string;
-  role: RoleApiEnum;
+  role: RoleApiEnum | "";
 };
