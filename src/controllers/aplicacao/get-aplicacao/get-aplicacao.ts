@@ -1,6 +1,6 @@
-import { AplicacaoNotFoundError } from "../../../errors/aplicacao-not-found-error.js";
-import { MongoGetAplicacaoRepository } from "../../../repositories/aplicacacao/get-aplicacao/mongo-get-aplicacao.js";
-import type { IGetAplicacaoController, IGetAplicacaoRepository, TAplicacaoResponse } from "./types.js";
+import { AplicacaoNotFoundError } from "../../../errors/aplicacao-not-found-error";
+import { MongoGetAplicacaoRepository } from "../../../repositories/aplicacacao/get-aplicacao/mongo-get-aplicacao";
+import type { IGetAplicacaoController, IGetAplicacaoRepository, TAplicacaoResponse } from "./types";
 
 export class GetAplicacaoController implements IGetAplicacaoController {
   constructor(private readonly getAplicacaoRepository: IGetAplicacaoRepository = new MongoGetAplicacaoRepository()) {}

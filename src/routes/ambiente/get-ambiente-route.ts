@@ -1,11 +1,11 @@
 import type { FastifyReply, FastifyRequest } from "fastify";
 import z from "zod";
-import { GetAmbienteController } from "../../controllers/ambiente/get-ambiente/get-ambiente.js";
-import type { GetAmbienteParams } from "../../controllers/ambiente/get-ambiente/types.js";
-import { StatusAmbienteEnum } from "../../enums/ambiente/status-ambiente-enum.js";
-import { HttpStatusCodeEnum } from "../../enums/http-status-code-enum.js";
-import { authHook } from "../../hooks/auth-hook.js";
-import type { FastifyTypedInstance } from "../../types.js";
+import { GetAmbienteController } from "../../controllers/ambiente/get-ambiente/get-ambiente";
+import type { GetAmbienteParams } from "../../controllers/ambiente/get-ambiente/types";
+import { StatusAmbienteEnum } from "../../enums/ambiente/status-ambiente-enum";
+import { HttpStatusCodeEnum } from "../../enums/http-status-code-enum";
+import { authHook } from "../../hooks/auth-hook";
+import type { FastifyTypedInstance } from "../../types";
 
 export function getAmbienteRoute(app: FastifyTypedInstance) {
   app.get(

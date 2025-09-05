@@ -9,10 +9,10 @@ import {
   validatorCompiler,
   type ZodTypeProvider,
 } from "fastify-type-provider-zod";
-import { MongoClient } from "./database/mongo.js";
-import { globalErrorHandlerHook } from "./hooks/global-error-handler-hook.js";
-import { registerRoutes } from "./routes/index.js";
-import { notFoundErrorHandlerHook } from "./hooks/not-found-error-handler-hook.js";
+import { MongoClient } from "./database/mongo";
+import { globalErrorHandlerHook } from "./hooks/global-error-handler-hook";
+import { notFoundErrorHandlerHook } from "./hooks/not-found-error-handler-hook";
+import { registerRoutes } from "./routes/index";
 
 async function startServer() {
   dotenv.config();

@@ -1,12 +1,12 @@
 import type { FastifyReply, FastifyRequest } from "fastify";
 import z from "zod";
-import { CreateAplicacaoController } from "../../controllers/aplicacao/create-aplicacao/create-aplicacao.js";
-import type { TCreateAplicacaoRequest } from "../../controllers/aplicacao/create-aplicacao/types.js";
-import { HttpStatusCodeEnum } from "../../enums/http-status-code-enum.js";
-import { tipoPessoaEnum } from "../../enums/tipo-pessoa-enum.js";
-import { ufEnum } from "../../enums/uf-enum.js";
-import { adminAuthHook } from "../../hooks/admin-auth-hook.js";
-import type { FastifyTypedInstance } from "../../types.js";
+import { CreateAplicacaoController } from "../../controllers/aplicacao/create-aplicacao/create-aplicacao";
+import type { TCreateAplicacaoRequest } from "../../controllers/aplicacao/create-aplicacao/types";
+import { HttpStatusCodeEnum } from "../../enums/http-status-code-enum";
+import { tipoPessoaEnum } from "../../enums/tipo-pessoa-enum";
+import { ufEnum } from "../../enums/uf-enum";
+import { adminAuthHook } from "../../hooks/admin-auth-hook";
+import type { FastifyTypedInstance } from "../../types";
 
 export async function createAplicacaoRoute(app: FastifyTypedInstance) {
   app.post(

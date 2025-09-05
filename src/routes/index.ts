@@ -1,12 +1,12 @@
 import type { FastifyInstance } from "fastify";
-import { createAmbienteRoute } from "./ambiente/create-ambiente-route.js";
-import { deleteAmbienteRoute } from "./ambiente/delete-ambiente-route.js";
-import { getAmbienteRoute } from "./ambiente/get-ambiente-route.js";
-import { createAplicacaoRoute } from "./aplicacao/create-aplicacao-route.js";
-import { getAplicacaoRoute } from "./aplicacao/get-aplicacao-route.js";
-import { updateAplicacaoRoute } from "./aplicacao/update-aplicacao-route.js";
-import { authRoute } from "./auth/auth-route.js";
-import { listAmbienteRoute } from "./ambiente/list-ambiente-route.js";
+import { createAmbienteRoute } from "./ambiente/create-ambiente-route";
+import { deleteAmbienteRoute } from "./ambiente/delete-ambiente-route";
+import { getAmbienteRoute } from "./ambiente/get-ambiente-route";
+import { createAplicacaoRoute } from "./aplicacao/create-aplicacao-route";
+import { getAplicacaoRoute } from "./aplicacao/get-aplicacao-route";
+import { updateAplicacaoRoute } from "./aplicacao/update-aplicacao-route";
+import { authRoute } from "./auth/auth-route";
+import { listAmbienteRoute } from "./ambiente/list-ambiente-route";
 
 export function registerRoutes(app: FastifyInstance) {
   // Aplicacao

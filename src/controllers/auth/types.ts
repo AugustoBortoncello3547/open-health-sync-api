@@ -1,5 +1,5 @@
 import type { FastifyReply, FastifyRequest } from "fastify";
-import type { RoleApiEnum } from "../../enums/role-api-enum.js";
+import type { RoleApiEnum } from "../../enums/role-api-enum";
 
 export interface IAuthAplicacaoController {
   autenticate(email: string, senha: string): Promise<TResponseAutenticate>;

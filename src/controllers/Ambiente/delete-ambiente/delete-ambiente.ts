@@ -1,9 +1,9 @@
-import { AmbienteNotFoundError } from "../../../errors/ambiente-not-found-error.js";
-import { MongoDeleteAmbienteRepository } from "../../../repositories/ambiente/delete-ambiente/mongo-delete-ambiente.js";
-import { MongoGetAmbienteRepository } from "../../../repositories/ambiente/get-ambiente/mongo-get-ambiente.js";
-import { JwtTokenController } from "../../token/jwt-token-controller.js";
-import type { IGetAmbienteRepository } from "../get-ambiente/types.js";
-import type { IDeleteAmbienteController, IDeleteAmbienteRepository } from "./types.js";
+import { AmbienteNotFoundError } from "../../../errors/ambiente-not-found-error";
+import { MongoDeleteAmbienteRepository } from "../../../repositories/ambiente/delete-ambiente/mongo-delete-ambiente";
+import { MongoGetAmbienteRepository } from "../../../repositories/ambiente/get-ambiente/mongo-get-ambiente";
+import { JwtTokenController } from "../../token/jwt-token-controller";
+import type { IGetAmbienteRepository } from "../get-ambiente/types";
+import type { IDeleteAmbienteController, IDeleteAmbienteRepository } from "./types";
 
 export class DeleteAmbienteController implements IDeleteAmbienteController {
   constructor(

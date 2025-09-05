@@ -1,16 +1,14 @@
 import bcrypt from "bcrypt";
 import { cnpj, cpf } from "cpf-cnpj-validator";
-import type { FastifyReply, FastifyRequest } from "fastify";
-import { StatusAplicacaoEnum } from "../../../enums/aplicacao/status-aplicacao-enum.js";
-import { HttpStatusCodeEnum } from "../../../enums/http-status-code-enum.js";
-import { tipoPessoaEnum } from "../../../enums/tipo-pessoa-enum.js";
-import { EmailAlreadyInUseError } from "../../../errors/email-already-in-use-error.js";
-import { InvalidCnpjError } from "../../../errors/invalid-cnpj-error.js";
-import { InvalidCpfError } from "../../../errors/invalid-cpf-error.js";
-import { MongoCreateAplicacaoRepository } from "../../../repositories/aplicacacao/create-aplicacao/mongo-create-aplicacao.js";
-import { MongoGetAplicacaoRepository } from "../../../repositories/aplicacacao/get-aplicacao/mongo-get-aplicacao.js";
-import type { IGetAplicacaoRepository } from "../get-aplicacao/types.js";
-import type { ICreateAplicacaoController, ICreateAplicacaoRepository, TCreateAplicacaoRequest } from "./types.js";
+import { StatusAplicacaoEnum } from "../../../enums/aplicacao/status-aplicacao-enum";
+import { tipoPessoaEnum } from "../../../enums/tipo-pessoa-enum";
+import { EmailAlreadyInUseError } from "../../../errors/email-already-in-use-error";
+import { InvalidCnpjError } from "../../../errors/invalid-cnpj-error";
+import { InvalidCpfError } from "../../../errors/invalid-cpf-error";
+import { MongoCreateAplicacaoRepository } from "../../../repositories/aplicacacao/create-aplicacao/mongo-create-aplicacao";
+import { MongoGetAplicacaoRepository } from "../../../repositories/aplicacacao/get-aplicacao/mongo-get-aplicacao";
+import type { IGetAplicacaoRepository } from "../get-aplicacao/types";
+import type { ICreateAplicacaoController, ICreateAplicacaoRepository, TCreateAplicacaoRequest } from "./types";
 
 export class CreateAplicacaoController implements ICreateAplicacaoController {
   constructor(

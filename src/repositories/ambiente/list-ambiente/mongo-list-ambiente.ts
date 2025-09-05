@@ -2,9 +2,9 @@ import type {
   IListAmbienteRepository,
   ListAmbienteParams,
   TQueryListAmbiente,
-} from "../../../controllers/ambiente/list-ambiente/types.js";
-import type { TAmbiente, TAmbienteMongo } from "../../../controllers/ambiente/types.js";
-import { AmbienteModel } from "../../../models/ambiente-model.js";
+} from "../../../controllers/ambiente/list-ambiente/types";
+import type { TAmbiente, TAmbienteMongo } from "../../../controllers/ambiente/types";
+import { AmbienteModel } from "../../../models/ambiente-model";
 
 export class MongoListAmbienteRepository implements IListAmbienteRepository {
   async listAmbiente(filters: Required<ListAmbienteParams>, idAplicacao: string): Promise<TAmbiente[]> {

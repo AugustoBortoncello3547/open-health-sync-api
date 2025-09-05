@@ -1,5 +1,5 @@
 import type { FilterQuery } from "mongoose";
-import type { TAmbiente, TAmbienteResponse, TAmbienteSchema } from "../types.js";
+import type { TAmbiente, TAmbienteResponse, TAmbienteSchema } from "../types";
 
 export interface IListAmbienteController {
   handle(listAmbienteFilters: ListAmbienteParams, authHeader?: string): Promise<TListAmbienteResponse>;
