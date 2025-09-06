@@ -2,7 +2,7 @@ import { fastifyCors } from "@fastify/cors";
 import { fastifySwagger } from "@fastify/swagger";
 import { fastifySwaggerUi } from "@fastify/swagger-ui";
 import dotenv from "dotenv";
-import { fastify, type FastifyReply, type FastifyRequest } from "fastify";
+import { fastify } from "fastify";
 import {
   jsonSchemaTransform,
   serializerCompiler,
@@ -15,7 +15,7 @@ import { globalErrorHandlerHook } from "./hooks/global-error-handler-hook";
 import { notFoundErrorHandlerHook } from "./hooks/not-found-error-handler-hook";
 import { registerRoutes } from "./routes/index";
 
-async function buildApp() {
+export async function buildApp() {
   dotenv.config();
 
   const app = fastify({
@@ -79,15 +79,3 @@ if (isLocalEnvironment) {
     });
   });
 }
-
-// Handler para a vercel
-module.exports = async (req: FastifyRequest, res: FastifyReply) => {
-  try {
-    const app = await buildApp();
-    await app.ready();
-    app.server.emit("request", req, res);
-  } catch (error) {
-    console.error(error);
-    res.status(500).send({ error: "Internal Server Error" });
-  }
-};
