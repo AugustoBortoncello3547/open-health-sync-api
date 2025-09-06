@@ -81,7 +81,7 @@ if (isLocalEnvironment) {
 }
 
 // Handler para a vercel
-export default async (req: FastifyRequest, res: FastifyReply) => {
+module.exports = async (req: FastifyRequest, res: FastifyReply) => {
   try {
     const app = await buildApp();
     await app.ready();
