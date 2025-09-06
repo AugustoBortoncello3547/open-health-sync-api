@@ -1,1 +1,0 @@
-{"version":3,"file":"mongo-delete-ambiente.d.ts","sourceRoot":"","sources":["../../../../src/repositories/ambiente/delete-ambiente/mongo-delete-ambiente.ts"],"names":[],"mappings":"AAAA,OAAO,KAAK,EAAE,yBAAyB,EAAE,MAAM,qDAAqD,CAAC;AAGrG,qBAAa,6BAA8B,YAAW,yBAAyB;IACvE,cAAc,CAAC,UAAU,EAAE,MAAM,EAAE,WAAW,EAAE,MAAM,GAAG,OAAO,CAAC,OAAO,CAAC;CAQhF"}

@@ -1,1 +1,0 @@
-{"version":3,"file":"open-health-sync-api-base-error.d.ts","sourceRoot":"","sources":["../../src/errors/open-health-sync-api-base-error.ts"],"names":[],"mappings":"AAEA,qBAAa,uBAAwB,SAAQ,KAAK;IAChD,SAAgB,UAAU,EAAE,MAAM,CAAC;gBAEvB,OAAO,EAAE,MAAM,EAAE,UAAU,GAAE,MAAiD,EAAE,IAAI,CAAC,EAAE,MAAM;CAK1G"}
