@@ -1,4 +1,4 @@
-import type { TAmbiente, TAmbienteResponse } from "../types.js";
+import type { TAmbiente, TAmbienteResponse } from "../types";
 
 export interface IGetAmbienteController {
   handle(idAmbiente: string, authHeader?: string): Promise<TAmbienteResponse>;

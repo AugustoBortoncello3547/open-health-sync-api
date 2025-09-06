@@ -1,8 +1,5 @@
-import type {
-  ICreateAmbienteRepository,
-  TCreateAmbiente,
-} from "../../../controllers/ambiente/create-ambiente/types.js";
-import { AmbienteModel } from "../../../models/ambiente-model.js";
+import type { ICreateAmbienteRepository, TCreateAmbiente } from "../../../controllers/ambiente/create-ambiente/types";
+import { AmbienteModel } from "../../../models/ambiente-model";
 
 export class MongoCreateAmbienteRepository implements ICreateAmbienteRepository {
   async createAmbiente(aplicacacao: TCreateAmbiente): Promise<string> {

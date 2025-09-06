@@ -1,7 +1,7 @@
 import type { Document, ObjectId } from "mongoose";
-import type { StatusAplicacaoEnum } from "../../enums/aplicacao/status-aplicacao-enum.js";
-import type { tipoPessoaEnum } from "../../enums/tipo-pessoa-enum.js";
-import type { ufEnum } from "../../enums/uf-enum.js";
+import type { StatusAplicacaoEnum } from "../../enums/aplicacao/status-aplicacao-enum";
+import type { tipoPessoaEnum } from "../../enums/tipo-pessoa-enum";
+import type { ufEnum } from "../../enums/uf-enum";
 
 export type TAplicacao = {
   id: string;

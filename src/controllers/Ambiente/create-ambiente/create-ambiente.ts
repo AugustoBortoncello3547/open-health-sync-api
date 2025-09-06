@@ -1,11 +1,11 @@
 import { randomBytes } from "crypto";
-import { StatusAmbienteEnum } from "../../../enums/ambiente/status-ambiente-enum.js";
-import { AmbienteWithIdExternoAlreadyInUseError } from "../../../errors/ambiente-with-idexterno-already-in-use-error.js";
-import { MongoCreateAmbienteRepository } from "../../../repositories/ambiente/create-ambiente/mongo-create-ambiente.js";
-import { MongoGetAmbienteRepository } from "../../../repositories/ambiente/get-ambiente/mongo-get-ambiente.js";
-import { JwtTokenController } from "../../token/jwt-token-controller.js";
-import type { IGetAmbienteRepository } from "../get-ambiente/types.js";
-import type { ICreateAmbienteController, ICreateAmbienteRepository, TCreateAmbienteRequest } from "./types.js";
+import { StatusAmbienteEnum } from "../../../enums/ambiente/status-ambiente-enum";
+import { AmbienteWithIdExternoAlreadyInUseError } from "../../../errors/ambiente-with-idexterno-already-in-use-error";
+import { MongoCreateAmbienteRepository } from "../../../repositories/ambiente/create-ambiente/mongo-create-ambiente";
+import { MongoGetAmbienteRepository } from "../../../repositories/ambiente/get-ambiente/mongo-get-ambiente";
+import { JwtTokenController } from "../../token/jwt-token-controller";
+import type { IGetAmbienteRepository } from "../get-ambiente/types";
+import type { ICreateAmbienteController, ICreateAmbienteRepository, TCreateAmbienteRequest } from "./types";
 
 export class CreateAmbienteController implements ICreateAmbienteController {
   constructor(

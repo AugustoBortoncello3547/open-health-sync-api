@@ -1,7 +1,7 @@
 import fastify, { type FastifyReply, type FastifyRequest } from "fastify";
 import { hasZodFastifySchemaValidationErrors } from "fastify-type-provider-zod";
-import { HttpStatusCodeEnum } from "../enums/http-status-code-enum.js";
-import { OpenHealthSyncBaseError } from "../errors/open-health-sync-api-base-error.js";
+import { HttpStatusCodeEnum } from "../enums/http-status-code-enum";
+import { OpenHealthSyncBaseError } from "../errors/open-health-sync-api-base-error";
 
 export function globalErrorHandlerHook(err: Error, request: FastifyRequest, reply: FastifyReply) {
   if (defineCustosErrorsHandler(err, request, reply)) return;

@@ -1,11 +1,11 @@
 import type { FastifyReply, FastifyRequest } from "fastify";
 import z from "zod";
-import { GetAplicacaoController } from "../../controllers/aplicacao/get-aplicacao/get-aplicacao.js";
-import type { GetAplicacaoParams } from "../../controllers/aplicacao/get-aplicacao/types.js";
-import { StatusAplicacaoEnum } from "../../enums/aplicacao/status-aplicacao-enum.js";
-import { HttpStatusCodeEnum } from "../../enums/http-status-code-enum.js";
-import { adminAuthHook } from "../../hooks/admin-auth-hook.js";
-import type { FastifyTypedInstance } from "../../types.js";
+import { GetAplicacaoController } from "../../controllers/aplicacao/get-aplicacao/get-aplicacao";
+import type { GetAplicacaoParams } from "../../controllers/aplicacao/get-aplicacao/types";
+import { StatusAplicacaoEnum } from "../../enums/aplicacao/status-aplicacao-enum";
+import { HttpStatusCodeEnum } from "../../enums/http-status-code-enum";
+import { adminAuthHook } from "../../hooks/admin-auth-hook";
+import type { FastifyTypedInstance } from "../../types";
 
 export function getAplicacaoRoute(app: FastifyTypedInstance) {
   app.get(

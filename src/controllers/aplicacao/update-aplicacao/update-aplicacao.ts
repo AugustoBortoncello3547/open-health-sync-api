@@ -1,9 +1,9 @@
-import { AplicacaoNotFoundError } from "../../../errors/aplicacao-not-found-error.js";
-import { EmailAlreadyInUseError } from "../../../errors/email-already-in-use-error.js";
-import { MongoGetAplicacaoRepository } from "../../../repositories/aplicacacao/get-aplicacao/mongo-get-aplicacao.js";
-import { MongoUpdateAplicacaoRepository } from "../../../repositories/aplicacacao/update-aplicacao/mongo-update-aplicacao.js";
-import type { IGetAplicacaoRepository } from "../get-aplicacao/types.js";
-import type { IUpdateAplicacaoController, IUpdateAplicacaoRepository, TUpdateAplicacaoRequest } from "./types.js";
+import { AplicacaoNotFoundError } from "../../../errors/aplicacao-not-found-error";
+import { EmailAlreadyInUseError } from "../../../errors/email-already-in-use-error";
+import { MongoGetAplicacaoRepository } from "../../../repositories/aplicacacao/get-aplicacao/mongo-get-aplicacao";
+import { MongoUpdateAplicacaoRepository } from "../../../repositories/aplicacacao/update-aplicacao/mongo-update-aplicacao";
+import type { IGetAplicacaoRepository } from "../get-aplicacao/types";
+import type { IUpdateAplicacaoController, IUpdateAplicacaoRepository, TUpdateAplicacaoRequest } from "./types";
 
 export class UpdateAplicacaoController implements IUpdateAplicacaoController {
   constructor(

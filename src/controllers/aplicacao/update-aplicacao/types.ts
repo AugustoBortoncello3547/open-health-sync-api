@@ -1,4 +1,4 @@
-import type { TAplicacao } from "../types.js";
+import type { TAplicacao } from "../types";
 
 export interface IUpdateAplicacaoController {
   handle(idAplicacao: string, updateAplicacacaoRequest: TUpdateAplicacaoRequest): Promise<string>;

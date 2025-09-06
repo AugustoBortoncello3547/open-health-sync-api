@@ -1,5 +1,5 @@
-import type { StatusAmbienteEnum } from "../../../enums/ambiente/status-ambiente-enum.js";
-import type { TAmbiente } from "../types.js";
+import type { StatusAmbienteEnum } from "../../../enums/ambiente/status-ambiente-enum";
+import type { TAmbiente } from "../types";
 
 export interface ICreateAmbienteController {
   handle(createAmbienteRequest: TCreateAmbienteRequest, authHeader?: string): Promise<string>;
