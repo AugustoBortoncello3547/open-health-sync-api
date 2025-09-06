@@ -1,7 +1,7 @@
 import { fastifyCors } from "@fastify/cors";
 import { fastifySwagger } from "@fastify/swagger";
 import { fastifySwaggerUi } from "@fastify/swagger-ui";
-import dotenv from "dotenv";
+import * as dotenv from "dotenv";
 import { fastify, type FastifyReply, type FastifyRequest } from "fastify";
 import {
   jsonSchemaTransform,
