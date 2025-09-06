@@ -1,5 +1,5 @@
 import { randomBytes } from "crypto";
-import { StatusAmbienteEnum } from "../../../enums/ambiente_tmp/status-ambiente-enum";
+import { StatusAmbienteEnum } from "../../../enums/ambiente/status-ambiente-enum";
 import { AmbienteWithIdExternoAlreadyInUseError } from "../../../errors/ambiente-with-idexterno-already-in-use-error";
 import { MongoCreateAmbienteRepository } from "../../../repositories/ambiente/create-ambiente/mongo-create-ambiente";
 import { MongoGetAmbienteRepository } from "../../../repositories/ambiente/get-ambiente/mongo-get-ambiente";

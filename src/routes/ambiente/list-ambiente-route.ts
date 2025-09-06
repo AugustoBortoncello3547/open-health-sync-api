@@ -2,7 +2,7 @@ import type { FastifyReply, FastifyRequest } from "fastify";
 import z from "zod";
 import { ListAmbienteController } from "../../controllers/ambiente/list-ambiente/list-ambiente";
 import type { ListAmbienteParams } from "../../controllers/ambiente/list-ambiente/types";
-import { StatusAmbienteEnum } from "../../enums/ambiente_tmp/status-ambiente-enum";
+import { StatusAmbienteEnum } from "../../enums/ambiente/status-ambiente-enum";
 import { HttpStatusCodeEnum } from "../../enums/http-status-code-enum";
 import { authHook } from "../../hooks/auth-hook";
 import type { FastifyTypedInstance } from "../../types";

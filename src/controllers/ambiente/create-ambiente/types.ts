@@ -1,4 +1,4 @@
-import type { StatusAmbienteEnum } from "../../../enums/ambiente_tmp/status-ambiente-enum";
+import type { StatusAmbienteEnum } from "../../../enums/ambiente/status-ambiente-enum";
 import type { TAmbiente } from "../types";
 
 export interface ICreateAmbienteController {
