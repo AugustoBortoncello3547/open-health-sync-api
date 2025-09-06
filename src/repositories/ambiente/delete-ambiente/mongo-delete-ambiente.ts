@@ -1,4 +1,4 @@
-import type { IDeleteAmbienteRepository } from "../../../controllers/ambiente/delete-ambiente/types";
+import type { IDeleteAmbienteRepository } from "../../../controllers/ambiente_bkp/delete-ambiente/types";
 import { AmbienteModel } from "../../../models/ambiente-model";
 
 export class MongoDeleteAmbienteRepository implements IDeleteAmbienteRepository {

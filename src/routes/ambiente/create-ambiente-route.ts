@@ -1,7 +1,7 @@
 import type { FastifyReply, FastifyRequest } from "fastify";
 import z from "zod";
-import { CreateAmbienteController } from "../../controllers/ambiente/create-ambiente/create-ambiente";
-import type { TCreateAmbienteRequest } from "../../controllers/ambiente/create-ambiente/types";
+import { CreateAmbienteController } from "../../controllers/ambiente_bkp/create-ambiente/create-ambiente";
+import type { TCreateAmbienteRequest } from "../../controllers/ambiente_bkp/create-ambiente/types";
 import { HttpStatusCodeEnum } from "../../enums/http-status-code-enum";
 import { authHook } from "../../hooks/auth-hook";
 import type { FastifyTypedInstance } from "../../types";

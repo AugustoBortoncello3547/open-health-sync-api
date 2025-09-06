@@ -2,8 +2,8 @@ import type {
   IListAmbienteRepository,
   ListAmbienteParams,
   TQueryListAmbiente,
-} from "../../../controllers/ambiente/list-ambiente/types";
-import type { TAmbiente, TAmbienteMongo } from "../../../controllers/ambiente/types";
+} from "../../../controllers/ambiente_bkp/list-ambiente/types";
+import type { TAmbiente, TAmbienteMongo } from "../../../controllers/ambiente_bkp/types";
 import { AmbienteModel } from "../../../models/ambiente-model";
 
 export class MongoListAmbienteRepository implements IListAmbienteRepository {
