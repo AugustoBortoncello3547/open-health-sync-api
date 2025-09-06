@@ -15,7 +15,7 @@ import { globalErrorHandlerHook } from "./hooks/global-error-handler-hook";
 import { notFoundErrorHandlerHook } from "./hooks/not-found-error-handler-hook";
 import { registerRoutes } from "./routes/index";
 
-export async function buildApp() {
+async function buildApp() {
   dotenv.config();
 
   const app = fastify({
