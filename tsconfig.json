@@ -7,11 +7,13 @@
 
     // Environment Settings
     // See also https://aka.ms/tsconfig/module
-    "module": "nodenext",
-    "target": "ES2023",
+    "module": "ESNext",
+    "target": "ES2020",
     "types": [],
+    "moduleResolution": "Node",
+
     // For nodejs:
-    "lib": ["ES2023", "DOM"],
+    "lib": ["ES2020", "DOM"],
     // "types": ["node"],
     // and npm install -D @types/node
 
