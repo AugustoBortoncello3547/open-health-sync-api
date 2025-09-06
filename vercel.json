@@ -11,5 +11,7 @@
       "source": "/(.*)",
       "destination": "dist/index.js"
     }
-  ]
+  ],
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist"
 }
