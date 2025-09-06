@@ -3,9 +3,9 @@
     "rootDir": "./src",
     "outDir": "./dist",
     "module": "ESNext",
-    "target": "ES2023",
+    "target": "ESNext",
     "types": [],
-    "lib": ["ES2023", "DOM"],
+    "lib": ["DOM"],
     "moduleResolution": "node",
 
     "sourceMap": true,
@@ -17,11 +17,9 @@
 
     "esModuleInterop": true,
     "strict": true,
-    "jsx": "react-jsx",
     "verbatimModuleSyntax": true,
     "isolatedModules": true,
     "noUncheckedSideEffectImports": true,
-    "moduleDetection": "force",
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true
   },

@@ -6,7 +6,6 @@
   "type": "module",
   "scripts": {
     "dev": "tsx watch src/index.ts",
-    "build:start": "tsc && node --import tsx ./dist/index.js",
     "build": "tsc",
     "start": "node --import tsx ./dist/index.js",
     "lint": "eslint . --ext .ts,.tsx,.js,.jsx",
