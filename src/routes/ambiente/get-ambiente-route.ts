@@ -1,7 +1,7 @@
 import type { FastifyReply, FastifyRequest } from "fastify";
 import z from "zod";
-import { GetAmbienteController } from "../../controllers/Ambiente/get-ambiente/get-ambiente";
-import type { GetAmbienteParams } from "../../controllers/Ambiente/get-ambiente/types";
+import { GetAmbienteController } from "../../controllers/ambiente/get-ambiente/get-ambiente";
+import type { GetAmbienteParams } from "../../controllers/ambiente/get-ambiente/types";
 import { StatusAmbienteEnum } from "../../enums/ambiente/status-ambiente-enum";
 import { HttpStatusCodeEnum } from "../../enums/http-status-code-enum";
 import { authHook } from "../../hooks/auth-hook";

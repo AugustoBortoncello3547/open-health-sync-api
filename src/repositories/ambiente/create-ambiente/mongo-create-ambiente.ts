@@ -1,4 +1,4 @@
-import type { ICreateAmbienteRepository, TCreateAmbiente } from "../../../controllers/Ambiente/create-ambiente/types";
+import type { ICreateAmbienteRepository, TCreateAmbiente } from "../../../controllers/ambiente/create-ambiente/types";
 import { AmbienteModel } from "../../../models/ambiente-model";
 
 export class MongoCreateAmbienteRepository implements ICreateAmbienteRepository {
