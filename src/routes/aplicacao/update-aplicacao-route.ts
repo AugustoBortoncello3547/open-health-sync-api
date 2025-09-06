@@ -3,14 +3,14 @@ import z from "zod";
 import type {
   TUpdateAplicacaoParams,
   TUpdateAplicacaoRequest,
-} from "../../controllers/aplicacao/update-aplicacao/types";
-import { UpdateAplicacaoController } from "../../controllers/aplicacao/update-aplicacao/update-aplicacao";
-import { StatusAplicacaoEnum } from "../../enums/aplicacao/status-aplicacao-enum";
-import { HttpStatusCodeEnum } from "../../enums/http-status-code-enum";
-import { tipoPessoaEnum } from "../../enums/tipo-pessoa-enum";
-import { ufEnum } from "../../enums/uf-enum";
-import { adminAuthHook } from "../../hooks/admin-auth-hook";
-import type { FastifyTypedInstance } from "../../types";
+} from "../../controllers/aplicacao/update-aplicacao/types.js";
+import { UpdateAplicacaoController } from "../../controllers/aplicacao/update-aplicacao/update-aplicacao.js";
+import { StatusAplicacaoEnum } from "../../enums/aplicacao/status-aplicacao-enum.js";
+import { HttpStatusCodeEnum } from "../../enums/http-status-code-enum.js";
+import { tipoPessoaEnum } from "../../enums/tipo-pessoa-enum.js";
+import { ufEnum } from "../../enums/uf-enum.js";
+import { adminAuthHook } from "../../hooks/admin-auth-hook.js";
+import type { FastifyTypedInstance } from "../../types.js";
 
 export async function updateAplicacaoRoute(app: FastifyTypedInstance) {
   app.put(

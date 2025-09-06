@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
-import type { TAmbiente, TAmbienteMongo } from "../../../controllers/ambiente/types";
-import { AmbienteModel } from "../../../models/ambiente-model";
-import type { IGetAmbienteRepository } from "../../../controllers/ambiente/get-ambiente/types";
+import type { TAmbiente, TAmbienteMongo } from "../../../controllers/ambiente/types.js";
+import { AmbienteModel } from "../../../models/ambiente-model.js";
+import type { IGetAmbienteRepository } from "../../../controllers/ambiente/get-ambiente/types.js";
 
 export class MongoGetAmbienteRepository implements IGetAmbienteRepository {
   async getAmbiente(id: string, idAplicacao: string): Promise<TAmbiente | null> {

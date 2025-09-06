@@ -1,5 +1,5 @@
 import type { FastifyReply, FastifyRequest } from "fastify";
-import { HttpStatusCodeEnum } from "../enums/http-status-code-enum";
+import { HttpStatusCodeEnum } from "../enums/http-status-code-enum.js";
 
 export function notFoundErrorHandlerHook(request: FastifyRequest, reply: FastifyReply) {
   reply.status(HttpStatusCodeEnum.NOT_FOUND).send({

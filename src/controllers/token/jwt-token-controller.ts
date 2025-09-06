@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import type { IJwtTokenController, TJwtProps, TResponseGTetTokenFromAuthorizationHeader } from "./types";
+import type { IJwtTokenController, TJwtProps, TResponseGTetTokenFromAuthorizationHeader } from "./types.js";
 
 export class JwtTokenController implements IJwtTokenController {
   getTokenFromAuthorizationHeader(authHeader?: string): TResponseGTetTokenFromAuthorizationHeader {

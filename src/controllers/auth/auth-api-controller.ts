@@ -1,14 +1,14 @@
 import { compare } from "bcrypt";
 import { type FastifyReply, type FastifyRequest } from "fastify";
 import jwt from "jsonwebtoken";
-import { BLOCKED_STATUS } from "../../enums/aplicacao/status-aplicacao-enum";
-import { RoleApiEnum } from "../../enums/role-api-enum";
-import { UnauthorizedError } from "../../errors/unauthorized-error";
-import { MongoGetAplicacaoRepository } from "../../repositories/aplicacacao/get-aplicacao/mongo-get-aplicacao";
-import type { IGetAplicacaoRepository } from "../aplicacao/get-aplicacao/types";
-import { JwtTokenController } from "../token/jwt-token-controller";
-import type { TJwtProps } from "../token/types";
-import type { IAuthAplicacaoController, TResponseAutenticate } from "./types";
+import { BLOCKED_STATUS } from "../../enums/aplicacao/status-aplicacao-enum.js";
+import { RoleApiEnum } from "../../enums/role-api-enum.js";
+import { UnauthorizedError } from "../../errors/unauthorized-error.js";
+import { MongoGetAplicacaoRepository } from "../../repositories/aplicacacao/get-aplicacao/mongo-get-aplicacao.js";
+import type { IGetAplicacaoRepository } from "../aplicacao/get-aplicacao/types.js";
+import { JwtTokenController } from "../token/jwt-token-controller.js";
+import type { TJwtProps } from "../token/types.js";
+import type { IAuthAplicacaoController, TResponseAutenticate } from "./types.js";
 
 export class AuthApiController implements IAuthAplicacaoController {
   constructor(private readonly getAplicacaoRepository: IGetAplicacaoRepository = new MongoGetAplicacaoRepository()) {}

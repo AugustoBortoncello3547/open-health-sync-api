@@ -1,6 +1,6 @@
 import type { FastifyReply, FastifyRequest } from "fastify";
-import type { StatusAplicacaoEnum } from "../../../enums/aplicacao/status-aplicacao-enum";
-import type { TAplicacao } from "../types";
+import type { StatusAplicacaoEnum } from "../../../enums/aplicacao/status-aplicacao-enum.js";
+import type { TAplicacao } from "../types.js";
 
 export interface ICreateAplicacaoController {
   handle(createAplicacaoRequest: TCreateAplicacaoRequest): Promise<string>;

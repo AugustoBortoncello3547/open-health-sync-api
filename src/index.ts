@@ -9,11 +9,11 @@ import {
   validatorCompiler,
   type ZodTypeProvider,
 } from "fastify-type-provider-zod";
-import { MongoClient } from "./database/mongo";
-import { AmbienteApiEnum } from "./enums/ambiente-api-enum";
-import { globalErrorHandlerHook } from "./hooks/global-error-handler-hook";
-import { notFoundErrorHandlerHook } from "./hooks/not-found-error-handler-hook";
-import { registerRoutes } from "./routes/index";
+import { MongoClient } from "./database/mongo.js";
+import { AmbienteApiEnum } from "./enums/ambiente-api-enum.js";
+import { globalErrorHandlerHook } from "./hooks/global-error-handler-hook.js";
+import { notFoundErrorHandlerHook } from "./hooks/not-found-error-handler-hook.js";
+import { registerRoutes } from "./routes/index.js";
 
 async function buildApp() {
   dotenv.config();
