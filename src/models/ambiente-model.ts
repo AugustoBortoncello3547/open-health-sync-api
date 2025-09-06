@@ -1,7 +1,7 @@
 import dotenv from "dotenv";
 import { Schema, model } from "mongoose";
 import encrypt from "mongoose-encryption";
-import type { TAmbienteSchema } from "../controllers/ambiente_bkp/types";
+import type { TAmbienteSchema } from "../controllers/ambiente/types";
 import { StatusAmbienteEnum } from "../enums/ambiente/status-ambiente-enum";
 
 dotenv.config();
