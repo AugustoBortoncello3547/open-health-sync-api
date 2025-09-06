@@ -1,0 +1,1 @@
+{"version":3,"file":"invalid-cnpj-error.js","sourceRoot":"","sources":["../../src/errors/invalid-cnpj-error.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,kBAAkB,EAAE,MAAM,gCAAgC,CAAC;AACpE,OAAO,EAAE,uBAAuB,EAAE,MAAM,mCAAmC,CAAC;AAE5E,MAAM,OAAO,gBAAiB,SAAQ,uBAAuB;IAC3D;QACE,KAAK,CAAC,8BAA8B,EAAE,kBAAkB,CAAC,WAAW,CAAC,CAAC;QACtE,IAAI,CAAC,IAAI,GAAG,kBAAkB,CAAC;IACjC,CAAC;CACF"}
