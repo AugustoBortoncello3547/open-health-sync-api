@@ -1,5 +1,5 @@
-import { FastifyReply, FastifyRequest } from "fastify";
-import { buildApp } from "../src";
+import type { FastifyReply, FastifyRequest } from "fastify";
+import { buildApp } from "..";
 
 export default async (req: FastifyRequest, res: FastifyReply) => {
   try {
