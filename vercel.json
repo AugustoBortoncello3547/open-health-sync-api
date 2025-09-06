@@ -1,14 +1,15 @@
 {
   "version": 2,
-  "functions": {
-    "dist/server.js": {
-      "runtime": "@vercel/node"
+  "builds": [
+    {
+      "src": "dist/index.js",
+      "use": "@vercel/node"
     }
-  },
+  ],
   "rewrites": [
     {
       "source": "/(.*)",
-      "destination": "/dist/server.js"
+      "destination": "dist/index.js"
     }
   ]
 }
