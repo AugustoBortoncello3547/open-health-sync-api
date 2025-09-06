@@ -15,7 +15,7 @@ import { globalErrorHandlerHook } from "./hooks/global-error-handler-hook";
 import { notFoundErrorHandlerHook } from "./hooks/not-found-error-handler-hook";
 import { registerRoutes } from "./routes/index";
 
-async function buildApp() {
+export async function buildApp() {
   dotenv.config();
 
   const app = fastify({
@@ -81,7 +81,7 @@ if (isLocalEnvironment) {
 }
 
 // Handler para a vercel
-export default async (req: any, res: any) => {
+export default async (req: FastifyRequest, res: FastifyReply) => {
   try {
     const app = await buildApp();
     await app.ready();
