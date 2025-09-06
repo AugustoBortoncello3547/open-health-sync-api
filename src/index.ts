@@ -2,7 +2,7 @@ import { fastifyCors } from "@fastify/cors";
 import { fastifySwagger } from "@fastify/swagger";
 import { fastifySwaggerUi } from "@fastify/swagger-ui";
 import dotenv from "dotenv";
-import { fastify } from "fastify";
+import { fastify, type FastifyReply, type FastifyRequest } from "fastify";
 import {
   jsonSchemaTransform,
   serializerCompiler,
@@ -10,11 +10,12 @@ import {
   type ZodTypeProvider,
 } from "fastify-type-provider-zod";
 import { MongoClient } from "./database/mongo";
+import { AmbienteApiEnum } from "./enums/ambiente-api-enum";
 import { globalErrorHandlerHook } from "./hooks/global-error-handler-hook";
 import { notFoundErrorHandlerHook } from "./hooks/not-found-error-handler-hook";
 import { registerRoutes } from "./routes/index";
 
-async function startServer() {
+async function buildApp() {
   dotenv.config();
 
   const app = fastify({
@@ -66,21 +67,22 @@ async function startServer() {
   app.setNotFoundHandler(notFoundErrorHandlerHook);
   app.setErrorHandler(globalErrorHandlerHook);
 
-  const port = process.env.PORT || 3333;
-  app.listen({ port: port }).then(() => {
-    console.log("HTTP Server is runnig...");
-  });
+  return app;
+}
 
-  // Shutdown mais seguro
-  const listeners = ["SIGINT", "SIGTERM"];
-  listeners.forEach((signal) => {
-    process.on(signal, async () => {
-      console.log("HTTP Server shuting down...");
-      await app.close();
-      await mongoDBClient.disconnect();
-      process.exit(0);
+const isLocalEnvironment = process.env.AMBIENTE === AmbienteApiEnum.LOCAL;
+if (isLocalEnvironment) {
+  buildApp().then((app) => {
+    const port = process.env.PORT || 3333;
+    app.listen({ port: port }).then(() => {
+      console.log("HTTP Server is runnig...");
     });
   });
 }
 
-startServer();
+// Handler para a vercel
+export default async (req: FastifyRequest, res: FastifyReply) => {
+  const app = await buildApp();
+  await app.ready();
+  app.server.emit("request", req, res);
+};
