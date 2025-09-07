@@ -3,15 +3,11 @@ import fastifySwagger from "@fastify/swagger";
 import fastifySwaggerUi from "@fastify/swagger-ui";
 import type { FastifyInstance, FastifyServerOptions } from "fastify";
 import { jsonSchemaTransform, serializerCompiler, validatorCompiler } from "fastify-type-provider-zod";
-import { MongoClient } from "./database/mongo.js";
 import { globalErrorHandlerHook } from "./hooks/global-error-handler-hook.js";
 import { notFoundErrorHandlerHook } from "./hooks/not-found-error-handler-hook.js";
 import { registerRoutes } from "./routes/index.js";
 
 export default async function app(app: FastifyInstance, _: FastifyServerOptions) {
-  // const mongoDBClient = MongoClient.getInstance();
-  // await mongoDBClient.connect();
-
   app.setValidatorCompiler(validatorCompiler);
   app.setSerializerCompiler(serializerCompiler);
 

@@ -1,6 +1,7 @@
 import Fastify from "fastify";
 import { type ZodTypeProvider } from "fastify-type-provider-zod";
 import app from "./app.js";
+import { MongoClient } from "./database/mongo.js";
 import { AmbienteApiEnum } from "./enums/ambiente-api-enum.js";
 
 const fastify = Fastify({
@@ -15,6 +16,9 @@ const fastify = Fastify({
   },
   disableRequestLogging: true,
 }).withTypeProvider<ZodTypeProvider>();
+
+const mongoDBClient = MongoClient.getInstance();
+await mongoDBClient.connect();
 
 fastify.register(app);
 
