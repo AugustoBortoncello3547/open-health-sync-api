@@ -1,7 +1,7 @@
 {
   "builds": [
-    { "src": "package.json", "use": "@vercel/static-build" },
-    { "src": "api/index.ts", "use": "@vercel/node" }
+    { "src": "api", "use": "@vercel/node" },
+    { "src": "src", "use": "@vercel/node" }
   ],
   "rewrites": [
     {
