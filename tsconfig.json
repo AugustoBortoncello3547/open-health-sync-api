@@ -20,11 +20,7 @@
     "isolatedModules": true,
     "noUncheckedSideEffectImports": true,
     "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true,
-    "baseUrl": ".",
-    "paths": {
-      "@/*": ["src/*"]
-    }
+    "forceConsistentCasingInFileNames": true
   },
   "exclude": ["node_modules", "**/*.test.ts", "eslint.config.mts", "fast_test.ts"],
   "include": ["./src/**/*.ts", "api/index.ts"]
