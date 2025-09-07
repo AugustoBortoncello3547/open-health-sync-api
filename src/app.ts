@@ -1,5 +1,5 @@
 import type { FastifyInstance, FastifyServerOptions } from "fastify";
-import { MongoClient } from "./database/mongo";
+import { MongoClient } from "./database/mongo.js";
 import { jsonSchemaTransform, serializerCompiler, validatorCompiler } from "fastify-type-provider-zod";
 import fastifyCors from "@fastify/cors";
 import fastifySwagger from "@fastify/swagger";
