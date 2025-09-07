@@ -2,7 +2,7 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 import Fastify, { type FastifyReply, type FastifyRequest } from "fastify";
-import { app } from "../src/app";
+import { app } from "../src/app.js";
 import { type ZodTypeProvider } from "fastify-type-provider-zod";
 
 const fastify = Fastify({
