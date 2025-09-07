@@ -1,9 +1,9 @@
 import * as dotenv from "dotenv";
 dotenv.config();
 
-import Fastify from "fastify";
-import { type ZodTypeProvider } from "fastify-type-provider-zod";
+import Fastify, { type FastifyReply, type FastifyRequest } from "fastify";
 import app from "../src/app.js";
+import { type ZodTypeProvider } from "fastify-type-provider-zod";
 
 const fastify = Fastify({
   logger: true,
@@ -12,14 +12,12 @@ const fastify = Fastify({
 
 fastify.register(app);
 
-const readyPromise = fastify.ready();
-
-export default async (req: any, res: any) => {
+export default async (req: FastifyRequest, res: FastifyReply) => {
   try {
-    await readyPromise;
+    await fastify.ready();
     fastify.server.emit("request", req, res);
-  } catch (err) {
-    console.error(err);
+  } catch (error) {
+    console.error(error);
     res.status(500).send({ error: "Internal Server Error" });
   }
 };
