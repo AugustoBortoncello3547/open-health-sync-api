@@ -1,10 +1,10 @@
 import dotenv from "dotenv";
 import { Schema, model } from "mongoose";
 import encrypt from "mongoose-encryption";
-import type { TAplicacaoSchema } from "../controllers/aplicacao/types";
-import { StatusAplicacaoEnum } from "../enums/aplicacao/status-aplicacao-enum";
-import { tipoPessoaEnum } from "../enums/tipo-pessoa-enum";
-import { ufEnum } from "../enums/uf-enum";
+import type { TAplicacaoSchema } from "../controllers/aplicacao/types.js";
+import { StatusAplicacaoEnum } from "../enums/aplicacao/status-aplicacao-enum.js";
+import { tipoPessoaEnum } from "../enums/tipo-pessoa-enum.js";
+import { ufEnum } from "../enums/uf-enum.js";
 
 dotenv.config();
 

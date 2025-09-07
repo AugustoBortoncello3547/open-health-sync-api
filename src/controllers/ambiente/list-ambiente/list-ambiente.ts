@@ -1,11 +1,11 @@
-import { MongoListAmbienteRepository } from "../../../repositories/ambiente/list-ambiente/mongo-list-ambiente";
-import { JwtTokenController } from "../../token/jwt-token-controller";
+import { MongoListAmbienteRepository } from "../../../repositories/ambiente/list-ambiente/mongo-list-ambiente.js";
+import { JwtTokenController } from "../../token/jwt-token-controller.js";
 import type {
   IListAmbienteController,
   IListAmbienteRepository,
   ListAmbienteParams,
   TListAmbienteResponse,
-} from "./types";
+} from "./types.js";
 
 export class ListAmbienteController implements IListAmbienteController {
   constructor(private readonly listAmbienteRepository: IListAmbienteRepository = new MongoListAmbienteRepository()) {}

@@ -1,9 +1,9 @@
 import type { FastifyReply, FastifyRequest } from "fastify";
 import z from "zod";
-import { AuthApiController } from "../../controllers/auth/auth-api-controller";
-import type { AuthApiParams } from "../../controllers/auth/types";
-import type { FastifyTypedInstance } from "../../types";
-import { HttpStatusCodeEnum } from "../../enums/http-status-code-enum";
+import { AuthApiController } from "../../controllers/auth/auth-api-controller.js";
+import type { AuthApiParams } from "../../controllers/auth/types.js";
+import type { FastifyTypedInstance } from "../../types.js";
+import { HttpStatusCodeEnum } from "../../enums/http-status-code-enum.js";
 
 export async function authRoute(app: FastifyTypedInstance) {
   app.post(

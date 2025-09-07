@@ -1,11 +1,10 @@
 {
   "compilerOptions": {
     "outDir": "./dist",
-    "module": "ESNext",
+    "module": "NodeNext",
     "target": "ESNext",
     "types": [],
     "lib": ["DOM"],
-    "moduleResolution": "node",
 
     "sourceMap": true,
     "declaration": true,

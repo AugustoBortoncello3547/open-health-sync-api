@@ -1,7 +1,7 @@
 import Fastify from "fastify";
 import { type ZodTypeProvider } from "fastify-type-provider-zod";
-import { app } from "./app";
-import { AmbienteApiEnum } from "./enums/ambiente-api-enum";
+import { app } from "./app.js";
+import { AmbienteApiEnum } from "./enums/ambiente-api-enum.js";
 
 const fastify = Fastify({
   logger: {

@@ -1,5 +1,5 @@
-import { HttpStatusCodeEnum } from "../enums/http-status-code-enum";
-import { OpenHealthSyncBaseError } from "./open-health-sync-api-base-error";
+import { HttpStatusCodeEnum } from "../enums/http-status-code-enum.js";
+import { OpenHealthSyncBaseError } from "./open-health-sync-api-base-error.js";
 
 export class AmbienteNotFoundError extends OpenHealthSyncBaseError {
   constructor() {

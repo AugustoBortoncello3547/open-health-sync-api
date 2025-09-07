@@ -1,8 +1,8 @@
 import type {
   IUpdateAplicacaoRepository,
   TUpdateAplicacaoRequest,
-} from "../../../controllers/aplicacao/update-aplicacao/types";
-import { AplicacaoModel } from "../../../models/aplicacao-model";
+} from "../../../controllers/aplicacao/update-aplicacao/types.js";
+import { AplicacaoModel } from "../../../models/aplicacao-model.js";
 
 export class MongoUpdateAplicacaoRepository implements IUpdateAplicacaoRepository {
   async updateAplicacao(idAplicacao: string, updateAplicacao: TUpdateAplicacaoRequest): Promise<string> {

@@ -1,10 +1,10 @@
 import type { FastifyReply, FastifyRequest } from "fastify";
 import z from "zod";
-import { DeleteAmbienteController } from "../../controllers/ambiente/delete-ambiente/delete-ambiente";
-import type { TDeleteAmbienteParams } from "../../controllers/ambiente/delete-ambiente/types";
-import { HttpStatusCodeEnum } from "../../enums/http-status-code-enum";
-import { authHook } from "../../hooks/auth-hook";
-import type { FastifyTypedInstance } from "../../types";
+import { DeleteAmbienteController } from "../../controllers/ambiente/delete-ambiente/delete-ambiente.js";
+import type { TDeleteAmbienteParams } from "../../controllers/ambiente/delete-ambiente/types.js";
+import { HttpStatusCodeEnum } from "../../enums/http-status-code-enum.js";
+import { authHook } from "../../hooks/auth-hook.js";
+import type { FastifyTypedInstance } from "../../types.js";
 
 export function deleteAmbienteRoute(app: FastifyTypedInstance) {
   app.delete(

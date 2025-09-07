@@ -1,4 +1,4 @@
-import type { TAplicacao } from "../types";
+import type { TAplicacao } from "../types.js";
 
 export interface IGetAplicacaoController {
   handle(idAplicacao: string): Promise<TAplicacaoResponse>;

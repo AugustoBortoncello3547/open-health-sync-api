@@ -1,10 +1,10 @@
 import type { FastifyReply, FastifyRequest } from "fastify";
 import z from "zod";
-import { CreateAmbienteController } from "../../controllers/ambiente/create-ambiente/create-ambiente";
-import type { TCreateAmbienteRequest } from "../../controllers/ambiente/create-ambiente/types";
-import { HttpStatusCodeEnum } from "../../enums/http-status-code-enum";
-import { authHook } from "../../hooks/auth-hook";
-import type { FastifyTypedInstance } from "../../types";
+import { CreateAmbienteController } from "../../controllers/ambiente/create-ambiente/create-ambiente.js";
+import type { TCreateAmbienteRequest } from "../../controllers/ambiente/create-ambiente/types.js";
+import { HttpStatusCodeEnum } from "../../enums/http-status-code-enum.js";
+import { authHook } from "../../hooks/auth-hook.js";
+import type { FastifyTypedInstance } from "../../types.js";
 
 export async function createAmbienteRoute(app: FastifyTypedInstance) {
   app.post(

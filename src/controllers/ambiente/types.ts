@@ -1,5 +1,5 @@
 import type { Document, ObjectId } from "mongoose";
-import type { StatusAmbienteEnum } from "../../enums/ambiente/status-ambiente-enum";
+import type { StatusAmbienteEnum } from "../../enums/ambiente/status-ambiente-enum.js";
 
 export type TAmbiente = {
   id: string;

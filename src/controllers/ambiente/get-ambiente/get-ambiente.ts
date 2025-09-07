@@ -1,8 +1,8 @@
-import { AmbienteNotFoundError } from "../../../errors/ambiente-not-found-error";
-import { MongoGetAmbienteRepository } from "../../../repositories/ambiente/get-ambiente/mongo-get-ambiente";
-import { JwtTokenController } from "../../token/jwt-token-controller";
-import type { TAmbienteResponse } from "../types";
-import type { IGetAmbienteController, IGetAmbienteRepository } from "./types";
+import { AmbienteNotFoundError } from "../../../errors/ambiente-not-found-error.js";
+import { MongoGetAmbienteRepository } from "../../../repositories/ambiente/get-ambiente/mongo-get-ambiente.js";
+import { JwtTokenController } from "../../token/jwt-token-controller.js";
+import type { TAmbienteResponse } from "../types.js";
+import type { IGetAmbienteController, IGetAmbienteRepository } from "./types.js";
 
 export class GetAmbienteController implements IGetAmbienteController {
   constructor(private readonly getAmbienteRepository: IGetAmbienteRepository = new MongoGetAmbienteRepository()) {}

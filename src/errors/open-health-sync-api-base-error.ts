@@ -1,4 +1,4 @@
-import { HttpStatusCodeEnum } from "../enums/http-status-code-enum";
+import { HttpStatusCodeEnum } from "../enums/http-status-code-enum.js";
 
 export class OpenHealthSyncBaseError extends Error {
   public readonly statusCode: number;
