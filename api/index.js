@@ -1,9 +1,8 @@
 import * as dotenv from "dotenv";
 dotenv.config();
 
-import Fastify, { type FastifyReply, type FastifyRequest } from "fastify";
+import Fastify from "fastify";
 import { app } from "../src/app";
-import { type ZodTypeProvider } from "fastify-type-provider-zod";
 
 const fastify = Fastify({
   logger: {
@@ -16,11 +15,11 @@ const fastify = Fastify({
     },
   },
   disableRequestLogging: true,
-}).withTypeProvider<ZodTypeProvider>();
+});
 
 fastify.register(app);
 
-export default async (req: FastifyRequest, res: FastifyReply) => {
+export default async (req, res) => {
   try {
     await fastify.ready();
     fastify.server.emit("request", req, res);
