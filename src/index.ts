@@ -1,93 +1,27 @@
-import { fastifyCors } from "@fastify/cors";
-import { fastifySwagger } from "@fastify/swagger";
-import { fastifySwaggerUi } from "@fastify/swagger-ui";
-import dotenv from "dotenv";
-import { fastify } from "fastify";
-import {
-  jsonSchemaTransform,
-  serializerCompiler,
-  validatorCompiler,
-  type ZodTypeProvider,
-} from "fastify-type-provider-zod";
-import { MongoClient } from "./database/mongo";
+import Fastify from "fastify";
+import { type ZodTypeProvider } from "fastify-type-provider-zod";
+import { app } from "./app";
 import { AmbienteApiEnum } from "./enums/ambiente-api-enum";
-import { globalErrorHandlerHook } from "./hooks/global-error-handler-hook";
-import { notFoundErrorHandlerHook } from "./hooks/not-found-error-handler-hook";
-import { registerRoutes } from "./routes/index";
 
-export async function buildApp() {
-  dotenv.config();
-
-  const app = fastify({
-    logger: {
-      transport: {
-        target: "pino-pretty",
-        options: {
-          translateTime: "HH:MM:ss Z",
-          ignore: "pid,hostname",
-        },
+const fastify = Fastify({
+  logger: {
+    transport: {
+      target: "pino-pretty",
+      options: {
+        translateTime: "HH:MM:ss Z",
+        ignore: "pid,hostname",
       },
     },
-    disableRequestLogging: true,
-  }).withTypeProvider<ZodTypeProvider>();
+  },
+  disableRequestLogging: true,
+}).withTypeProvider<ZodTypeProvider>();
 
-  const mongoDBClient = MongoClient.getInstance();
-  await mongoDBClient.connect();
-
-  app.setValidatorCompiler(validatorCompiler);
-  app.setSerializerCompiler(serializerCompiler);
-
-  app.register(fastifyCors, { origin: "*" });
-  app.register(fastifySwagger, {
-    openapi: {
-      info: {
-        title: "Open Health Sync API",
-        version: "1.0.0",
-      },
-      components: {
-        securitySchemes: {
-          bearerAuth: {
-            type: "http",
-            scheme: "bearer",
-            bearerFormat: "JWT",
-          },
-        },
-      },
-    },
-    transform: jsonSchemaTransform,
-  });
-
-  app.register(fastifySwaggerUi, {
-    routePrefix: "/docs",
-  });
-
-  const apiVersion = process.env.API_VERSION || "v1";
-  app.register(registerRoutes, { prefix: apiVersion });
-
-  app.setNotFoundHandler(notFoundErrorHandlerHook);
-  app.setErrorHandler(globalErrorHandlerHook);
-
-  return app;
-}
+fastify.register(app);
 
 const isLocalEnvironment = process.env.AMBIENTE === AmbienteApiEnum.LOCAL;
 if (isLocalEnvironment) {
-  buildApp().then((app) => {
-    const port = process.env.PORT || 3333;
-    app.listen({ port: port }).then(() => {
-      console.log("HTTP Server is runnig...");
-    });
+  const port = process.env.PORT || 3333;
+  fastify.listen({ port: port }).then(() => {
+    console.log("HTTP Server is runnig...");
   });
-}
-
-export default async function handler(req: any, res: any) {
-  try {
-    const app = await buildApp();
-    await app.ready();
-
-    return app.server.emit("request", req, res);
-  } catch (error) {
-    console.error("Error in Vercel handler:", error);
-    return res.status(500).json({ error: "Internal Server Error" });
-  }
 }
