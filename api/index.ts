@@ -6,15 +6,7 @@ import { app } from "../src/app.js";
 import { type ZodTypeProvider } from "fastify-type-provider-zod";
 
 const fastify = Fastify({
-  logger: {
-    transport: {
-      target: "pino-pretty",
-      options: {
-        translateTime: "HH:MM:ss Z",
-        ignore: "pid,hostname",
-      },
-    },
-  },
+  logger: true,
   disableRequestLogging: true,
 }).withTypeProvider<ZodTypeProvider>();
 
