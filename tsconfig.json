@@ -23,6 +23,6 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true
   },
-  "exclude": ["node_modules", "**/*.test.ts", "eslint.config.mts", "fast_test.ts"],
-  "include": ["./src/**/*.ts", "api/index.js"]
+  "exclude": ["node_modules", "**/*.test.ts", "eslint.config.mts", "fast_test.ts", "api"],
+  "include": ["./src/**/*.ts"]
 }

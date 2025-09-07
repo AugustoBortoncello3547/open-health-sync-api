@@ -2,7 +2,7 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 import Fastify from "fastify";
-import { app } from "../src/app";
+import app from "../dist/src/app";
 
 const fastify = Fastify({
   logger: {
