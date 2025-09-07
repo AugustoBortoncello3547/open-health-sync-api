@@ -8,7 +8,7 @@ import { globalErrorHandlerHook } from "./hooks/global-error-handler-hook.js";
 import { notFoundErrorHandlerHook } from "./hooks/not-found-error-handler-hook.js";
 import { registerRoutes } from "./routes/index.js";
 
-export async function app(app: FastifyInstance, _: FastifyServerOptions) {
+export default async function app(app: FastifyInstance, _: FastifyServerOptions) {
   const mongoDBClient = MongoClient.getInstance();
   await mongoDBClient.connect();
 
