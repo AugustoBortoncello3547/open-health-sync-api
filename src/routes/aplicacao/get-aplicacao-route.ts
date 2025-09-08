@@ -67,7 +67,7 @@ export function getAplicacaoRoute(app: FastifyTypedInstance) {
             .describe("Erro interno do servidor. Algo inesperado ocorreu ao processar a requisição."),
         },
       },
-      preHandler: adminAuthHook,
+      // preHandler: adminAuthHook,
     },
     async (
       request: FastifyRequest<{ Params: GetAplicacaoParams; Headers: { authorization?: string } }>,
