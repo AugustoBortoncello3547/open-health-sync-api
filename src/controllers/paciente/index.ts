@@ -8,6 +8,11 @@ export type TPaciente = {
   atualizadoEm: Date;
 };
 
+export type TPacienteResponse = Omit<TPaciente, "criadoEm" | "atualizadoEm"> & {
+  criadoEm: string;
+  atualizadoEm: string;
+};
+
 type TPacienteBase = Omit<TPaciente, "id" | "atualizadoEm" | "criadoEm">;
 
 export type TPacienteSchema = TPacienteBase & Document<ObjectId>;
