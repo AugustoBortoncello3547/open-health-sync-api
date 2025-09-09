@@ -5,9 +5,9 @@ import type {
 import { AmbienteModel } from "../../../models/ambiente-model.js";
 
 export class MongoCreateAmbienteRepository implements ICreateAmbienteRepository {
-  async createAmbiente(aplicacacao: TCreateAmbiente): Promise<string> {
-    const ambiente = new AmbienteModel(aplicacacao);
-    const saved = await ambiente.save();
+  async createAmbiente(ambiente: TCreateAmbiente): Promise<string> {
+    const ambienteModel = new AmbienteModel(ambiente);
+    const saved = await ambienteModel.save();
     return saved._id.toString();
   }
 }
