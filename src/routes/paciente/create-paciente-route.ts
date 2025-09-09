@@ -19,7 +19,7 @@ export async function createPacienteRoute(app: FastifyTypedInstance) {
         }),
         body: z.object({
           idExterno: z.string().optional().describe("Identificador externo do paciente, definido pelo cliente."),
-          dados: z.looseObject({}),
+          dados: z.looseObject({}).describe("Os dados do paciente. Pode ser um objeto com multiplos níveis."),
         }),
         response: {
           201: z

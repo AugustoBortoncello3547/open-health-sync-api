@@ -24,7 +24,11 @@ export function getPacienteRoute(app: FastifyTypedInstance) {
           200: z.object({
             id: z.string().describe("Identificador interno do paciente, gerado pelo sistema."),
             idExterno: z.string().describe("Identificador externo do paciente, definido pelo cliente na criação."),
-            dados: z.looseObject({}),
+            dados: z
+              .looseObject({})
+              .describe(
+                "Os dados do paciente. Estes dados são retonados na mesma estrutura que foram cadastrados previamente.",
+              ),
             atualizadoEm: z.string().describe("Data e hora da última atualização do paciente."),
             criadoEm: z.string().describe("Data e hora de criação do paciente."),
           }),
