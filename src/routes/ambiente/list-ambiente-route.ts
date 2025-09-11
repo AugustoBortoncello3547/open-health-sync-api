@@ -57,8 +57,30 @@ export function listAmbienteRoute(app: FastifyTypedInstance) {
           }),
           400: z
             .object({
-              error: z.string(),
-              message: z.string(),
+              error: z.string().describe("Tipo do erro, usado para identificação do problema."),
+              message: z.string().describe("Mensagem resumida e legível explicando o motivo do erro."),
+              statusCode: z.number().optional().describe("Código HTTP retornado."),
+              details: z
+                .object({
+                  issues: z
+                    .array(
+                      z.object({
+                        keyword: z
+                          .string()
+                          .describe("Código do tipo de erro de validação (ex.: 'invalid_type', 'required')."),
+                        instancePath: z.string().describe("Caminho do campo que falhou na validação."),
+                        schemaPath: z.string().describe("Caminho no schema que causou o erro."),
+                        message: z.string().describe("Mensagem detalhada de validação, legível para o usuário."),
+                      }),
+                    )
+                    .describe("Lista de erros de validação detectados no payload."),
+                  method: z.string().describe("Método HTTP da requisição que causou o erro."),
+                  url: z.string().describe("URL da requisição que gerou o erro."),
+                })
+                .optional()
+                .describe(
+                  "Detalhes adicionais sobre o erro, incluindo validações específicas e contexto da requisição.",
+                ),
             })
             .describe("A requisição não pôde ser processada devido a dados inválidos ou formato incorreto do payload."),
           401: z
