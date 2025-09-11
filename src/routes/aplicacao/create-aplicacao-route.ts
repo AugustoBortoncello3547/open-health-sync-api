@@ -3,8 +3,8 @@ import z from "zod";
 import { CreateAplicacaoController } from "../../controllers/aplicacao/create-aplicacao/create-aplicacao.js";
 import type { TCreateAplicacaoRequest } from "../../controllers/aplicacao/create-aplicacao/types.js";
 import { HttpStatusCodeEnum } from "../../enums/http-status-code-enum.js";
-import { tipoPessoaEnum } from "../../enums/tipo-pessoa-enum.js";
-import { ufEnum } from "../../enums/uf-enum.js";
+import { TipoPessoaEnum } from "../../enums/tipo-pessoa-enum.js";
+import { UfEnum } from "../../enums/uf-enum.js";
 import { adminAuthHook } from "../../hooks/admin-auth-hook.js";
 import type { FastifyTypedInstance } from "../../types.js";
 
@@ -30,7 +30,7 @@ export async function createAplicacaoRoute(app: FastifyTypedInstance) {
           dados: z.object({
             nome: z.string("O nome é obrigatório.").describe("O nome da aplicação."),
             tipoPessoa: z
-              .enum(tipoPessoaEnum, "O tipo de pessoa é obrigatório.")
+              .enum(TipoPessoaEnum, "O tipo de pessoa é obrigatório.")
               .describe("O tipo de pessoa da aplicação."),
             cpfCnpj: z
               .string("O CPF/CNPJ é obrigatório")
@@ -43,7 +43,7 @@ export async function createAplicacaoRoute(app: FastifyTypedInstance) {
                 bairro: z.string().optional().describe("O bairro da aplicação."),
                 complemento: z.string().optional().describe("O complemento do endereço da aplicação."),
                 cep: z.string("O CEP é obrigatório.").describe("O CEP da aplicação."),
-                uf: z.enum(ufEnum, "O UF é obrigatório.").describe("O estado da aplicação."),
+                uf: z.enum(UfEnum, "O UF é obrigatório.").describe("O estado da aplicação."),
                 cidade: z.string("A cidade é obrigatória.").describe("A cidade do endereço da aplicação."),
               })
               .describe("Os dados para o endereço da aplicação."),

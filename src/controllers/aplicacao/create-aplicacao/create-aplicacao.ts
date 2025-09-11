@@ -1,9 +1,7 @@
 import bcrypt from "bcrypt";
 import { cnpj, cpf } from "cpf-cnpj-validator";
-import type { FastifyReply, FastifyRequest } from "fastify";
 import { StatusAplicacaoEnum } from "../../../enums/aplicacao/status-aplicacao-enum.js";
-import { HttpStatusCodeEnum } from "../../../enums/http-status-code-enum.js";
-import { tipoPessoaEnum } from "../../../enums/tipo-pessoa-enum.js";
+import { TipoPessoaEnum } from "../../../enums/tipo-pessoa-enum.js";
 import { EmailAlreadyInUseError } from "../../../errors/email-already-in-use-error.js";
 import { InvalidCnpjError } from "../../../errors/invalid-cnpj-error.js";
 import { InvalidCpfError } from "../../../errors/invalid-cpf-error.js";
@@ -21,11 +19,11 @@ export class CreateAplicacaoController implements ICreateAplicacaoController {
   async handle(createAplicacaoRequest: TCreateAplicacaoRequest): Promise<string> {
     const { senha, ...aplicacao } = createAplicacaoRequest;
 
-    if (aplicacao.dados.tipoPessoa === tipoPessoaEnum.FISICA && !cpf.isValid(aplicacao.dados.cpfCnpj)) {
+    if (aplicacao.dados.tipoPessoa === TipoPessoaEnum.FISICA && !cpf.isValid(aplicacao.dados.cpfCnpj)) {
       throw new InvalidCpfError();
     }
 
-    if (aplicacao.dados.tipoPessoa === tipoPessoaEnum.JURIDICA && !cnpj.isValid(aplicacao.dados.cpfCnpj)) {
+    if (aplicacao.dados.tipoPessoa === TipoPessoaEnum.JURIDICA && !cnpj.isValid(aplicacao.dados.cpfCnpj)) {
       throw new InvalidCnpjError();
     }
 

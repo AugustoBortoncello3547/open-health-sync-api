@@ -1,4 +1,4 @@
-export enum ufEnum {
+export enum UfEnum {
   AC = "AC",
   AL = "AL",
   AP = "AP",

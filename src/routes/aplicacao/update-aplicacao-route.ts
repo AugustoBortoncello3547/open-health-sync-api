@@ -7,8 +7,8 @@ import type {
 import { UpdateAplicacaoController } from "../../controllers/aplicacao/update-aplicacao/update-aplicacao.js";
 import { StatusAplicacaoEnum } from "../../enums/aplicacao/status-aplicacao-enum.js";
 import { HttpStatusCodeEnum } from "../../enums/http-status-code-enum.js";
-import { tipoPessoaEnum } from "../../enums/tipo-pessoa-enum.js";
-import { ufEnum } from "../../enums/uf-enum.js";
+import { TipoPessoaEnum } from "../../enums/tipo-pessoa-enum.js";
+import { UfEnum } from "../../enums/uf-enum.js";
 import { adminAuthHook } from "../../hooks/admin-auth-hook.js";
 import type { FastifyTypedInstance } from "../../types.js";
 
@@ -29,7 +29,7 @@ export async function updateAplicacaoRoute(app: FastifyTypedInstance) {
           dados: z
             .object({
               nome: z.string().optional(),
-              tipoPessoa: z.enum(tipoPessoaEnum).optional(),
+              tipoPessoa: z.enum(TipoPessoaEnum).optional(),
               telefone: z.string().optional(),
               endereco: z
                 .object({
@@ -38,7 +38,7 @@ export async function updateAplicacaoRoute(app: FastifyTypedInstance) {
                   bairro: z.string().optional(),
                   complemento: z.string().optional(),
                   cep: z.string().optional(),
-                  uf: z.enum(ufEnum).optional(),
+                  uf: z.enum(UfEnum).optional(),
                   cidade: z.string().optional(),
                 })
                 .optional(),

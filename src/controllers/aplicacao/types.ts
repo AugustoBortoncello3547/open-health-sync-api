@@ -1,7 +1,7 @@
 import type { Document, ObjectId } from "mongoose";
 import type { StatusAplicacaoEnum } from "../../enums/aplicacao/status-aplicacao-enum.js";
-import type { tipoPessoaEnum } from "../../enums/tipo-pessoa-enum.js";
-import type { ufEnum } from "../../enums/uf-enum.js";
+import type { TipoPessoaEnum } from "../../enums/tipo-pessoa-enum.js";
+import type { UfEnum } from "../../enums/uf-enum.js";
 
 export type TAplicacao = {
   id: string;
@@ -10,7 +10,7 @@ export type TAplicacao = {
   status: StatusAplicacaoEnum;
   dados: {
     nome: string;
-    tipoPessoa: tipoPessoaEnum;
+    tipoPessoa: TipoPessoaEnum;
     cpfCnpj: string;
     telefone: string;
     endereco: {
@@ -19,7 +19,7 @@ export type TAplicacao = {
       bairro: string;
       complemento: string;
       cep: string;
-      uf: ufEnum;
+      uf: UfEnum;
       cidade: string;
     };
   };

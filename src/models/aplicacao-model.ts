@@ -3,8 +3,8 @@ import { Schema, model } from "mongoose";
 import encrypt from "mongoose-encryption";
 import type { TAplicacaoSchema } from "../controllers/aplicacao/types.js";
 import { StatusAplicacaoEnum } from "../enums/aplicacao/status-aplicacao-enum.js";
-import { tipoPessoaEnum } from "../enums/tipo-pessoa-enum.js";
-import { ufEnum } from "../enums/uf-enum.js";
+import { TipoPessoaEnum } from "../enums/tipo-pessoa-enum.js";
+import { UfEnum } from "../enums/uf-enum.js";
 
 dotenv.config();
 
@@ -15,7 +15,7 @@ const EnderecoSchema = new Schema(
     bairro: { type: String, required: false },
     complemento: { type: String, required: false },
     cep: { type: String, required: false },
-    uf: { type: String, enum: Object.values(ufEnum), required: false },
+    uf: { type: String, enum: Object.values(UfEnum), required: false },
     cidade: { type: String, required: false },
   },
   {
@@ -26,7 +26,7 @@ const EnderecoSchema = new Schema(
 const DadosSchema = new Schema(
   {
     nome: { type: String, required: false },
-    tipoPessoa: { type: String, enum: Object.values(tipoPessoaEnum), required: false },
+    tipoPessoa: { type: String, enum: Object.values(TipoPessoaEnum), required: false },
     cpfCnpj: { type: String, required: false },
     telefone: { type: String, required: false },
     endereco: { type: EnderecoSchema, required: false },
