@@ -9,7 +9,7 @@ import type { FastifyTypedInstance } from "../../types.js";
 
 export function listAmbienteRoute(app: FastifyTypedInstance) {
   app.get(
-    "/ambientes",
+    "/ambiente",
     {
       schema: {
         tags: ["Ambiente"],
