@@ -10,6 +10,7 @@ import { authRoute } from "./auth/auth-route.js";
 import { createPacienteRoute } from "./paciente/create-paciente-route.js";
 import { deletePacienteRoute } from "./paciente/delete-paciente-route.js";
 import { getPacienteRoute } from "./paciente/get-paciente-route.js";
+import { listPacienteRoute } from "./paciente/list-paciente-route.js";
 
 export function registerRoutes(app: FastifyInstance) {
   // Aplicacao
@@ -28,6 +29,7 @@ export function registerRoutes(app: FastifyInstance) {
 
   // Paciente
   app.register(createPacienteRoute);
+  app.register(listPacienteRoute);
   app.register(getPacienteRoute);
   app.register(deletePacienteRoute);
 }
