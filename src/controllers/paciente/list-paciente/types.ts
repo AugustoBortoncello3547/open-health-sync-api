@@ -18,9 +18,9 @@ export type TListPacienteResponse = {
 };
 
 export type ListPacienteParams = {
-  tipoData: TipoDataFiltroEnum;
-  dataInicial: string;
-  dataFinal: string;
+  tipoData?: TipoDataFiltroEnum;
+  dataInicial?: string;
+  dataFinal?: string;
   limit: number;
   offset: number;
 };
