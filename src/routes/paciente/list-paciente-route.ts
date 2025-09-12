@@ -6,10 +6,11 @@ import { HttpStatusCodeEnum } from "../../enums/http-status-code-enum.js";
 import { TipoDataFiltroEnum } from "../../enums/tipo-data-filtro-enum.js";
 import { authHook } from "../../hooks/auth-hook.js";
 import type { FastifyTypedInstance } from "../../types.js";
+import type { TPacienteEndpoitsCommonParams } from "../../controllers/paciente/index.js";
 
 export function listPacienteRoute(app: FastifyTypedInstance) {
   app.get(
-    "/paciente",
+    "/ambiente/:idAmbiente/paciente",
     {
       schema: {
         tags: ["Paciente"],
@@ -17,6 +18,9 @@ export function listPacienteRoute(app: FastifyTypedInstance) {
         security: [{ bearerAuth: [] }],
         headers: z.object({
           authorization: z.string().optional(),
+        }),
+        params: z.object({
+          idAmbiente: z.string().describe("Identificador do ambiente onde será buscado os pacientes."),
         }),
         querystring: z
           .object({
@@ -116,6 +120,18 @@ export function listPacienteRoute(app: FastifyTypedInstance) {
               message: z.string(),
             })
             .describe("Autenticação necessária ou inválida. O token ou credenciais fornecidos não são válidos."),
+          403: z
+            .object({
+              error: z.string(),
+              message: z.string().describe("Mensagem contendo qual recurso está sem permissão/condição de uso."),
+            })
+            .describe("Recurso existe, porém sem permissão/condição de usa-ló."),
+          404: z
+            .object({
+              error: z.string(),
+              message: z.string().describe("Mensagem contendo qual recurso que não foi encontrado."),
+            })
+            .describe("Recurso não encontrado"),
           500: z
             .object({
               error: z.string(),
@@ -127,14 +143,19 @@ export function listPacienteRoute(app: FastifyTypedInstance) {
       preHandler: authHook,
     },
     async (
-      request: FastifyRequest<{ Querystring: ListPacienteParams; Headers: { authorization?: string } }>,
+      request: FastifyRequest<{
+        Params: TPacienteEndpoitsCommonParams;
+        Querystring: ListPacienteParams;
+        Headers: { authorization?: string };
+      }>,
       reply: FastifyReply,
     ) => {
       const authHeader = request.headers.authorization;
       const listPacienteFilters = request.query;
+      const { idAmbiente } = request.params;
 
       const listPacienteController = new ListPacienteController();
-      const listPacienteResponse = await listPacienteController.handle(listPacienteFilters, authHeader);
+      const listPacienteResponse = await listPacienteController.handle(idAmbiente, listPacienteFilters, authHeader);
 
       reply.status(HttpStatusCodeEnum.OK).send(listPacienteResponse);
     },

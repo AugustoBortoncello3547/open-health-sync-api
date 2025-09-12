@@ -8,7 +8,7 @@ import type { FastifyTypedInstance } from "../../types.js";
 
 export function deletePacienteRoute(app: FastifyTypedInstance) {
   app.delete(
-    "/paciente/:idPaciente",
+    "/ambiente/:idAmbiente/paciente/:idPaciente",
     {
       schema: {
         tags: ["Paciente"],
@@ -18,6 +18,7 @@ export function deletePacienteRoute(app: FastifyTypedInstance) {
           authorization: z.string().optional(),
         }),
         params: z.object({
+          idAmbiente: z.string().describe("Identificador do ambiente onde o paciente será excluído."),
           idPaciente: z.string().describe("Identificador do paciente, podendo ser o id interno ou o idExterno."),
         }),
         response: {
@@ -34,12 +35,18 @@ export function deletePacienteRoute(app: FastifyTypedInstance) {
               message: z.string(),
             })
             .describe("Autenticação necessária ou inválida. O token ou credenciais fornecidos não são válidos."),
+          403: z
+            .object({
+              error: z.string(),
+              message: z.string().describe("Mensagem contendo qual recurso está sem permissão/condição de uso."),
+            })
+            .describe("Recurso existe, porém sem permissão/condição de usa-ló."),
           404: z
             .object({
               error: z.string(),
-              message: z.string(),
+              message: z.string().describe("Mensagem contendo qual recurso que não foi encontrado."),
             })
-            .describe("Paciente não encontrado"),
+            .describe("Recurso não encontrado"),
           500: z
             .object({
               error: z.string(),
@@ -55,10 +62,10 @@ export function deletePacienteRoute(app: FastifyTypedInstance) {
       reply: FastifyReply,
     ) => {
       const authHeader = request.headers.authorization;
-      const { idPaciente } = request.params;
+      const { idAmbiente, idPaciente } = request.params;
 
       const deletePacienteController = new DeletePacienteController();
-      await deletePacienteController.handle(idPaciente, authHeader);
+      await deletePacienteController.handle(idAmbiente, idPaciente, authHeader);
 
       reply.status(HttpStatusCodeEnum.NO_CONTENT);
     },

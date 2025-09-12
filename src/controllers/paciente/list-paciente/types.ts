@@ -3,11 +3,15 @@ import type { TPaciente, TPacienteResponse, TPacienteSchema } from "../index.js"
 import type { TipoDataFiltroEnum } from "../../../enums/tipo-data-filtro-enum.js";
 
 export interface IListPacienteController {
-  handle(listPacienteFilters: ListPacienteParams, authHeader?: string): Promise<TListPacienteResponse>;
+  handle(
+    idAmbiente: string,
+    listPacienteFilters: ListPacienteParams,
+    authHeader?: string,
+  ): Promise<TListPacienteResponse>;
 }
 
 export interface IListPacienteRepository {
-  listPaciente(filters: ListPacienteParams, idAplicacao: string): Promise<TPaciente[]>;
+  listPaciente(filters: ListPacienteParams, idAplicacao: string, idAmbiente: string): Promise<TPaciente[]>;
 }
 
 export type TListPacienteResponse = {

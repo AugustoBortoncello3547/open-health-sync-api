@@ -7,6 +7,7 @@ dotenv.config();
 
 const PacienteSchema = new Schema(
   {
+    idAmbiente: { type: String, required: false },
     idExterno: { type: String, required: false },
     idAplicacao: { type: String, required: false },
     dados: { type: Schema.Types.Mixed, required: false },

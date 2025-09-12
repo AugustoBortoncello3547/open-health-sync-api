@@ -1,12 +1,13 @@
 import type { TPaciente } from "../index.js";
 
 export interface ICreatePacienteController {
-  handle(createPacienteRequest: TCreatePacienteRequest, authHeader?: string): Promise<string>;
+  handle(idAmbiente: string, createPacienteRequest: TCreatePacienteRequest, authHeader?: string): Promise<string>;
 }
 
-export type TCreatePacienteRequest = Omit<TPaciente, "id" | "idAplicacao" | "atualizadoEm" | "criadoEm">;
+export type TCreatePacienteRequest = Omit<TPaciente, "id" | "idAmbiente" | "idAplicacao" | "atualizadoEm" | "criadoEm">;
 
 export type TCreatePaciente = TCreatePacienteRequest & {
+  idAmbiente: string;
   idAplicacao: string;
 };
 

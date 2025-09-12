@@ -2,6 +2,7 @@ import type { Document, ObjectId } from "mongoose";
 
 export type TPaciente = {
   id: string;
+  idAmbiente: string;
   idExterno: string;
   dados: Record<string, unknown>;
   criadoEm: Date;
@@ -11,6 +12,10 @@ export type TPaciente = {
 export type TPacienteResponse = Omit<TPaciente, "criadoEm" | "atualizadoEm"> & {
   criadoEm: string;
   atualizadoEm: string;
+};
+
+export type TPacienteEndpoitsCommonParams = {
+  idAmbiente: string;
 };
 
 type TPacienteBase = Omit<TPaciente, "id" | "atualizadoEm" | "criadoEm">;
