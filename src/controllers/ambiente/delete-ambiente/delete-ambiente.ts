@@ -30,6 +30,7 @@ export class DeleteAmbienteController implements IDeleteAmbienteController {
         limit: 1,
       },
       idAplicacao,
+      idAmbiente,
     );
     const hasPacientesOnThisAmbiente = pacientes.length === 1;
     if (hasPacientesOnThisAmbiente) {
