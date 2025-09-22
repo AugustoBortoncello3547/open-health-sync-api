@@ -11,6 +11,7 @@ import { createPacienteRoute } from "./paciente/create-paciente-route.js";
 import { deletePacienteRoute } from "./paciente/delete-paciente-route.js";
 import { getPacienteRoute } from "./paciente/get-paciente-route.js";
 import { listPacienteRoute } from "./paciente/list-paciente-route.js";
+import { createDadoSaudePacienteRoute } from "./dadoSaudePaciente/create-dado-saude-paciente-route.js";
 
 export function registerRoutes(app: FastifyInstance) {
   // Aplicacao
@@ -32,4 +33,7 @@ export function registerRoutes(app: FastifyInstance) {
   app.register(listPacienteRoute);
   app.register(getPacienteRoute);
   app.register(deletePacienteRoute);
+
+  // Dado de saúde do paciente
+  app.register(createDadoSaudePacienteRoute);
 }
