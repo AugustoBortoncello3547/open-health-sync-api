@@ -27,4 +27,4 @@ AmbienteSchema.plugin(encrypt, {
   encryptedFields: ["urlWebhook", "tokenWebhook"],
 });
 
-export const AmbienteModel = model<TAmbienteSchema>("Ambiente", AmbienteSchema);
+export const AmbienteModel = model<TAmbienteSchema>("ambiente", AmbienteSchema);

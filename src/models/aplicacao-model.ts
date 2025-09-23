@@ -54,4 +54,4 @@ AplicacaoSchema.plugin(encrypt, {
   encryptedFields: ["dados"],
 });
 
-export const AplicacaoModel = model<TAplicacaoSchema>("Aplicacao", AplicacaoSchema);
+export const AplicacaoModel = model<TAplicacaoSchema>("aplicacao", AplicacaoSchema);
