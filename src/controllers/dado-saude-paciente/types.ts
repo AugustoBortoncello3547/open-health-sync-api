@@ -9,7 +9,7 @@ export type TDadoSaudePaciente = {
   atualizadoEm: Date;
 };
 
-export type TDadoSaudeResponse = Omit<TDadoSaudePaciente, "criadoEm" | "atualizadoEm"> & {
+export type TDadoSaudePacienteResponse = Omit<TDadoSaudePaciente, "criadoEm" | "atualizadoEm"> & {
   criadoEm: string;
   atualizadoEm: string;
 };

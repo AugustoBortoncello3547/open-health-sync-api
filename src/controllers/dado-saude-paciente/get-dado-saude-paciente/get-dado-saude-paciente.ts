@@ -1,17 +1,15 @@
 import { DadoSaudePacienteNotFoundError } from "../../../errors/dado-saude-paciente-not-found-error.js";
-import { MongoDeleteDadoSaudePacienteRepository } from "../../../repositories/dado-saude-paciente/delete-dado-saude-paciente/mongo-delete-dado-saude-paciente.js";
 import { MongoGetDadoSaudePacienteRepository } from "../../../repositories/dado-saude-paciente/get-dado-saude-paciente/mongo-get-dado-saude-paciente.js";
 import { JwtTokenController } from "../../token/jwt-token-controller.js";
-import type { IGetDadoSaudePacienteRepository } from "../get-dado-saude-paciente/types.js";
-import type { IDeleteDadoSaudePacienteController, IDeleteDadoSaudePacienteRepository } from "./types.js";
+import type { TDadoSaudePacienteResponse } from "../types.js";
+import type { IGetDadoSaudePacienteController, IGetDadoSaudePacienteRepository } from "./types.js";
 
-export class DeleteDadoSaudePacienteController implements IDeleteDadoSaudePacienteController {
+export class GetDadoSaudePacienteController implements IGetDadoSaudePacienteController {
   constructor(
     private readonly getDadoSaudePacienteRepository: IGetDadoSaudePacienteRepository = new MongoGetDadoSaudePacienteRepository(),
-    private readonly deleteDadoSaudePacienteRepository: IDeleteDadoSaudePacienteRepository = new MongoDeleteDadoSaudePacienteRepository(),
   ) {}
 
-  async handle(idRegistro: string, idPaciente: string, authHeader?: string): Promise<void> {
+  async handle(idRegistro: string, idPaciente: string, authHeader?: string): Promise<TDadoSaudePacienteResponse> {
     const jwtTokenController = new JwtTokenController();
     const { idAplicacao } = await jwtTokenController.getTokenData(authHeader);
 
@@ -24,6 +22,10 @@ export class DeleteDadoSaudePacienteController implements IDeleteDadoSaudePacien
       throw new DadoSaudePacienteNotFoundError();
     }
 
-    await this.deleteDadoSaudePacienteRepository.deleteDadoSaudePaciente(idRegistro, idAplicacao);
+    return {
+      ...dadoSaudePaciente,
+      atualizadoEm: dadoSaudePaciente.atualizadoEm.toISOString(),
+      criadoEm: dadoSaudePaciente.criadoEm.toISOString(),
+    };
   }
 }
