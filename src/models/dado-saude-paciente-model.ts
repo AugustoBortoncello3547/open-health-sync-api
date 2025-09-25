@@ -23,4 +23,4 @@ DadoSaudePacienteSchema.plugin(encrypt, {
   encryptedFields: ["dados"],
 });
 
-export const DadoSaudePacienteModel = model<TDadoSaudePacienteSchema>("dado_saude_paciente", DadoSaudePacienteSchema);
+export const DadoSaudePacienteModel = model<TDadoSaudePacienteSchema>("Dado_Saude_Paciente", DadoSaudePacienteSchema);
