@@ -29,4 +29,4 @@ export type ListPacienteParams = {
   offset: number;
 };
 
-export type TQueryListPaciente = FilterQuery<TPacienteSchema>;
+export type TQueryPaciente = FilterQuery<TPacienteSchema>;

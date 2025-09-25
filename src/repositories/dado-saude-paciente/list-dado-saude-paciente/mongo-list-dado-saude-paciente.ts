@@ -3,7 +3,7 @@ import type {
   ListDadoSaudePacienteParams,
 } from "../../../controllers/dado-saude-paciente/list-dado-saude-paciente/types.js";
 import type { TDadoSaudePaciente, TDadoSaudePacienteMongo } from "../../../controllers/dado-saude-paciente/types.js";
-import type { TQueryListPaciente } from "../../../controllers/paciente/list-paciente/types.js";
+import type { TQueryPaciente } from "../../../controllers/paciente/list-paciente/types.js";
 import { getMapFieldBD } from "../../../enums/tipo-data-filtro-enum.js";
 import { DadoSaudePacienteModel } from "../../../models/dado-saude-paciente-model.js";
 
@@ -15,7 +15,7 @@ export class MongoListDadoSaudePacienteRepository implements IListDadoSaudePacie
   ): Promise<TDadoSaudePaciente[]> {
     const { tipoData, dataInicial, dataFinal, limit, offset } = filters;
 
-    const query: TQueryListPaciente = { idPaciente, idAplicacao };
+    const query: TQueryPaciente = { idPaciente, idAplicacao };
 
     if (dataInicial || dataFinal) {
       const range: Record<string, Date> = {};

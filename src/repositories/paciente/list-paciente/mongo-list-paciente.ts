@@ -2,7 +2,7 @@ import type { TPaciente, TPacienteMongo } from "../../../controllers/paciente/in
 import type {
   IListPacienteRepository,
   ListPacienteParams,
-  TQueryListPaciente,
+  TQueryPaciente,
 } from "../../../controllers/paciente/list-paciente/types.js";
 import { getMapFieldBD } from "../../../enums/tipo-data-filtro-enum.js";
 import { PacienteModel } from "../../../models/paciente-model.js";
@@ -15,7 +15,7 @@ export class MongoListPacienteRepository implements IListPacienteRepository {
   ): Promise<TPaciente[]> {
     const { tipoData, dataInicial, dataFinal, limit, offset } = filters;
 
-    const query: TQueryListPaciente = { idAmbiente, idAplicacao };
+    const query: TQueryPaciente = { idAmbiente, idAplicacao };
 
     if (dataInicial || dataFinal) {
       const range: Record<string, Date> = {};
