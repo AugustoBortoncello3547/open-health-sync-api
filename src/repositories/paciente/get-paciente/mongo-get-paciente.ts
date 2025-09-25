@@ -4,7 +4,7 @@ import type { TPaciente, TPacienteMongo } from "../../../controllers/paciente/in
 import { PacienteModel } from "../../../models/paciente-model.js";
 
 export class MongoGetPacienteRepository implements IGetPacienteRepository {
-  async getPaciente(id: string, idAplicacao: string, idAmbiente: string): Promise<TPaciente | null> {
+  async getPaciente(id: string, idAplicacao: string, idAmbiente?: string): Promise<TPaciente | null> {
     let pacienteDoc = null;
 
     // Primeiro tentamos buscar pelo id da collection do mongo
@@ -37,7 +37,7 @@ export class MongoGetPacienteRepository implements IGetPacienteRepository {
   async getPacienteOnlyByIdExterno(
     idExterno: string,
     idAplicacao: string,
-    idAmbiente: string,
+    idAmbiente?: string,
   ): Promise<TPaciente | null> {
     const pacienteDoc = await PacienteModel.findOne({ idAmbiente, idExterno, idAplicacao }).exec();
     if (!pacienteDoc) {

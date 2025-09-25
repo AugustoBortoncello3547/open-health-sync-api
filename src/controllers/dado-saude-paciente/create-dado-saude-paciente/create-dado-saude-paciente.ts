@@ -1,5 +1,11 @@
+import { DadoSaudePacienteWithIdExternoAlreadyInUseError } from "../../../errors/dado-saude-paciente-with-Id-externo-already-in-use-error.js";
+import { PacienteNotFoundError } from "../../../errors/paciente-not-found-error.js";
 import { MongoCreateDadoSaudePacienteRepository } from "../../../repositories/dado-saude-paciente/create-dado-saude-paciente/mongo-create-dado-saude-paciente.js";
+import { MongoGetDadoSaudePacienteRepository } from "../../../repositories/dado-saude-paciente/get-dado-saude-paciente/mongo-get-dado-saude-paciente.js";
+import { MongoGetPacienteRepository } from "../../../repositories/paciente/get-paciente/mongo-get-paciente.js";
+import type { IGetPacienteRepository } from "../../paciente/get-paciente/types.js";
 import { JwtTokenController } from "../../token/jwt-token-controller.js";
+import type { IGetDadoSaudePacienteRepository } from "../get-dado-saude-paciente/types.js";
 import type {
   ICreateDadoSaudePacienteController,
   ICreateDadoSaudePacienteRepository,
@@ -9,6 +15,8 @@ import type {
 export class CreateDadoSaudePacienteController implements ICreateDadoSaudePacienteController {
   constructor(
     private readonly createDadoSaudePacienteRepository: ICreateDadoSaudePacienteRepository = new MongoCreateDadoSaudePacienteRepository(),
+    private readonly getDadoSaudePacienteRepository: IGetDadoSaudePacienteRepository = new MongoGetDadoSaudePacienteRepository(),
+    private readonly getPacienteRepository: IGetPacienteRepository = new MongoGetPacienteRepository(),
   ) {}
 
   async handle(
@@ -19,7 +27,20 @@ export class CreateDadoSaudePacienteController implements ICreateDadoSaudePacien
     const jwtTokenController = new JwtTokenController();
     const { idAplicacao } = await jwtTokenController.getTokenData(authHeader);
 
-    // TODO: validar idExternoRegistro
+    const paciente = await this.getPacienteRepository.getPaciente(idPaciente, idAplicacao, undefined);
+    if (!paciente) {
+      throw new PacienteNotFoundError();
+    }
+
+    const dadosSaudepacienteWithSameIdExterno =
+      await this.getDadoSaudePacienteRepository.getDadoSaudePacienteOnlyByIdExterno(
+        createDadoSaudePacienteRequest.idExterno,
+        idAplicacao,
+        idPaciente,
+      );
+    if (dadosSaudepacienteWithSameIdExterno) {
+      throw new DadoSaudePacienteWithIdExternoAlreadyInUseError();
+    }
 
     const idRegistro = await this.createDadoSaudePacienteRepository.createDadoSaudePaciente({
       idPaciente: idPaciente,

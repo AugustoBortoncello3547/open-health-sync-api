@@ -1,4 +1,7 @@
+import { PacienteNotFoundError } from "../../../errors/paciente-not-found-error.js";
 import { MongoListDadoSaudePacienteRepository } from "../../../repositories/dado-saude-paciente/list-dado-saude-paciente/mongo-list-dado-saude-paciente.js";
+import { MongoGetPacienteRepository } from "../../../repositories/paciente/get-paciente/mongo-get-paciente.js";
+import type { IGetPacienteRepository } from "../../paciente/get-paciente/types.js";
 import { JwtTokenController } from "../../token/jwt-token-controller.js";
 import type {
   IListDadoSaudePacienteController,
@@ -10,6 +13,7 @@ import type {
 export class ListDadoSaudePacienteController implements IListDadoSaudePacienteController {
   constructor(
     private readonly listDadoSaudePacienteRepository: IListDadoSaudePacienteRepository = new MongoListDadoSaudePacienteRepository(),
+    private readonly getPacienteRepository: IGetPacienteRepository = new MongoGetPacienteRepository(),
   ) {}
 
   async handle(
@@ -19,6 +23,11 @@ export class ListDadoSaudePacienteController implements IListDadoSaudePacienteCo
   ): Promise<TListDadoSaudePacienteResponse> {
     const jwtTokenController = new JwtTokenController();
     const { idAplicacao } = await jwtTokenController.getTokenData(authHeader);
+
+    const paciente = await this.getPacienteRepository.getPaciente(idPaciente, idAplicacao, undefined);
+    if (!paciente) {
+      throw new PacienteNotFoundError();
+    }
 
     const dadosSaudePacientes = await this.listDadoSaudePacienteRepository.listDadoSaudePaciente(
       listDadoSaudePacienteFilters,
