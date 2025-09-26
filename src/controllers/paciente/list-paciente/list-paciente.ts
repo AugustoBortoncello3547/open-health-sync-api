@@ -1,5 +1,6 @@
 import { MongoListPacienteRepository } from "../../../repositories/paciente/list-paciente/mongo-list-paciente.js";
 import { GetAmbienteController } from "../../ambiente/get-ambiente/get-ambiente.js";
+import type { IGetAmbienteController } from "../../ambiente/get-ambiente/types.js";
 import { JwtTokenController } from "../../token/jwt-token-controller.js";
 import type {
   IListPacienteController,
@@ -9,7 +10,10 @@ import type {
 } from "./types.js";
 
 export class ListPacienteController implements IListPacienteController {
-  constructor(private readonly listPacienteRepository: IListPacienteRepository = new MongoListPacienteRepository()) {}
+  constructor(
+    private readonly listPacienteRepository: IListPacienteRepository = new MongoListPacienteRepository(),
+    private readonly getAmbienteController: IGetAmbienteController = new GetAmbienteController(),
+  ) {}
 
   async handle(
     idAmbiente: string,
@@ -19,8 +23,7 @@ export class ListPacienteController implements IListPacienteController {
     const jwtTokenController = new JwtTokenController();
     const { idAplicacao } = await jwtTokenController.getTokenData(authHeader);
 
-    const getAmbienteController = new GetAmbienteController();
-    await getAmbienteController.validateAmbienteIsAvailable(idAmbiente, idAplicacao);
+    await this.getAmbienteController.validateAmbienteIsAvailable(idAmbiente, idAplicacao);
 
     const pacientes = await this.listPacienteRepository.listPaciente(listPacienteFilters, idAplicacao, idAmbiente);
     const normalizedPacientes = pacientes.map((paciente) => {
