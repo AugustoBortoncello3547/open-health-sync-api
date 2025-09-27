@@ -4,6 +4,8 @@ dist
 
 .env
 
+coverage
+
 todolist.txt
 
 fast_test.ts
