@@ -3,15 +3,18 @@ import { AmbienteNotFoundError } from "../../../errors/ambiente-not-found-error.
 import { AmbienteUnavailableError } from "../../../errors/ambiente-unavailable-error.js";
 import { MongoGetAmbienteRepository } from "../../../repositories/ambiente/get-ambiente/mongo-get-ambiente.js";
 import { JwtTokenController } from "../../token/jwt-token-controller.js";
+import type { IJwtTokenController } from "../../token/types.js";
 import type { TAmbienteResponse } from "../types.js";
 import type { IGetAmbienteController, IGetAmbienteRepository } from "./types.js";
 
 export class GetAmbienteController implements IGetAmbienteController {
-  constructor(private readonly getAmbienteRepository: IGetAmbienteRepository = new MongoGetAmbienteRepository()) {}
+  constructor(
+    private readonly getAmbienteRepository: IGetAmbienteRepository = new MongoGetAmbienteRepository(),
+    private readonly jwtTokenController: IJwtTokenController = new JwtTokenController(),
+  ) {}
 
   async handle(idAmbiente: string, authHeader?: string): Promise<TAmbienteResponse> {
-    const jwtTokenController = new JwtTokenController();
-    const { idAplicacao } = await jwtTokenController.getTokenData(authHeader);
+    const { idAplicacao } = await this.jwtTokenController.getTokenData(authHeader);
 
     const ambiente = await this.getAmbienteRepository.getAmbiente(idAmbiente, idAplicacao);
     if (!ambiente) {

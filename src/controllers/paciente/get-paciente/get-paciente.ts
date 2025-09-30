@@ -3,6 +3,7 @@ import { MongoGetPacienteRepository } from "../../../repositories/paciente/get-p
 import { GetAmbienteController } from "../../ambiente/get-ambiente/get-ambiente.js";
 import type { IGetAmbienteController } from "../../ambiente/get-ambiente/types.js";
 import { JwtTokenController } from "../../token/jwt-token-controller.js";
+import type { IJwtTokenController } from "../../token/types.js";
 import type { TPacienteResponse } from "../index.js";
 import type { IGetPacienteController, IGetPacienteRepository } from "./types.js";
 
@@ -10,11 +11,11 @@ export class GetPacienteController implements IGetPacienteController {
   constructor(
     private readonly getPacienteRepository: IGetPacienteRepository = new MongoGetPacienteRepository(),
     private readonly getAmbienteController: IGetAmbienteController = new GetAmbienteController(),
+    private readonly jwtTokenController: IJwtTokenController = new JwtTokenController(),
   ) {}
 
   async handle(idAmbiente: string, idPaciente: string, authHeader?: string): Promise<TPacienteResponse> {
-    const jwtTokenController = new JwtTokenController();
-    const { idAplicacao } = await jwtTokenController.getTokenData(authHeader);
+    const { idAplicacao } = await this.jwtTokenController.getTokenData(authHeader);
 
     await this.getAmbienteController.validateAmbienteIsAvailable(idAmbiente, idAplicacao);
 

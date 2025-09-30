@@ -2,6 +2,7 @@ import { MongoListPacienteRepository } from "../../../repositories/paciente/list
 import { GetAmbienteController } from "../../ambiente/get-ambiente/get-ambiente.js";
 import type { IGetAmbienteController } from "../../ambiente/get-ambiente/types.js";
 import { JwtTokenController } from "../../token/jwt-token-controller.js";
+import type { IJwtTokenController } from "../../token/types.js";
 import type {
   IListPacienteController,
   IListPacienteRepository,
@@ -13,6 +14,7 @@ export class ListPacienteController implements IListPacienteController {
   constructor(
     private readonly listPacienteRepository: IListPacienteRepository = new MongoListPacienteRepository(),
     private readonly getAmbienteController: IGetAmbienteController = new GetAmbienteController(),
+    private readonly jwtTokenController: IJwtTokenController = new JwtTokenController(),
   ) {}
 
   async handle(
@@ -20,8 +22,7 @@ export class ListPacienteController implements IListPacienteController {
     listPacienteFilters: ListPacienteParams,
     authHeader?: string,
   ): Promise<TListPacienteResponse> {
-    const jwtTokenController = new JwtTokenController();
-    const { idAplicacao } = await jwtTokenController.getTokenData(authHeader);
+    const { idAplicacao } = await this.jwtTokenController.getTokenData(authHeader);
 
     await this.getAmbienteController.validateAmbienteIsAvailable(idAmbiente, idAplicacao);
 

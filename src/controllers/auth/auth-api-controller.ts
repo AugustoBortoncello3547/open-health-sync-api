@@ -7,11 +7,14 @@ import { UnauthorizedError } from "../../errors/unauthorized-error.js";
 import { MongoGetAplicacaoRepository } from "../../repositories/aplicacacao/get-aplicacao/mongo-get-aplicacao.js";
 import type { IGetAplicacaoRepository } from "../aplicacao/get-aplicacao/types.js";
 import { JwtTokenController } from "../token/jwt-token-controller.js";
-import type { TJwtProps } from "../token/types.js";
+import type { IJwtTokenController, TJwtProps } from "../token/types.js";
 import type { IAuthAplicacaoController, TResponseAutenticate } from "./types.js";
 
 export class AuthApiController implements IAuthAplicacaoController {
-  constructor(private readonly getAplicacaoRepository: IGetAplicacaoRepository = new MongoGetAplicacaoRepository()) {}
+  constructor(
+    private readonly getAplicacaoRepository: IGetAplicacaoRepository = new MongoGetAplicacaoRepository(),
+    private readonly jwtTokenController: IJwtTokenController = new JwtTokenController(),
+  ) {}
 
   async autenticate(email: string, senha: string): Promise<TResponseAutenticate> {
     const aplicacao = await this.getAplicacaoRepository.getAplicacaoByEmail(email);
@@ -53,8 +56,7 @@ export class AuthApiController implements IAuthAplicacaoController {
     roleToCheck: RoleApiEnum,
   ): Promise<void> {
     const authHeader = request.headers.authorization;
-    const jwtTokenController = new JwtTokenController();
-    const { scheme, token } = jwtTokenController.getTokenFromAuthorizationHeader(authHeader);
+    const { scheme, token } = this.jwtTokenController.getTokenFromAuthorizationHeader(authHeader);
 
     if (!scheme && !token) {
       throw new UnauthorizedError("Token não informado.");
@@ -68,7 +70,7 @@ export class AuthApiController implements IAuthAplicacaoController {
       idAplicacao: idAplicacaoToken,
       email: emailAplicacaoToken,
       role,
-    } = await jwtTokenController.extractDatafromToken(token);
+    } = await this.jwtTokenController.extractDatafromToken(token);
     if (!idAplicacaoToken || !emailAplicacaoToken || !role) {
       throw new UnauthorizedError("Token fornecido não é valido.");
     }

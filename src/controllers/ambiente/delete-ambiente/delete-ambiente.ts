@@ -5,6 +5,7 @@ import { MongoGetAmbienteRepository } from "../../../repositories/ambiente/get-a
 import { MongoListPacienteRepository } from "../../../repositories/paciente/list-paciente/mongo-list-paciente.js";
 import type { IListPacienteRepository } from "../../paciente/list-paciente/types.js";
 import { JwtTokenController } from "../../token/jwt-token-controller.js";
+import type { IJwtTokenController } from "../../token/types.js";
 import type { IGetAmbienteRepository } from "../get-ambiente/types.js";
 import type { IDeleteAmbienteController, IDeleteAmbienteRepository } from "./types.js";
 
@@ -13,11 +14,11 @@ export class DeleteAmbienteController implements IDeleteAmbienteController {
     private readonly getAmbienteRepository: IGetAmbienteRepository = new MongoGetAmbienteRepository(),
     private readonly deleteAmbienteRepository: IDeleteAmbienteRepository = new MongoDeleteAmbienteRepository(),
     private readonly listPacienteRepository: IListPacienteRepository = new MongoListPacienteRepository(),
+    private readonly jwtTokenController: IJwtTokenController = new JwtTokenController(),
   ) {}
 
   async handle(idAmbiente: string, authHeader?: string): Promise<void> {
-    const jwtTokenController = new JwtTokenController();
-    const { idAplicacao } = await jwtTokenController.getTokenData(authHeader);
+    const { idAplicacao } = await this.jwtTokenController.getTokenData(authHeader);
 
     const ambiente = await this.getAmbienteRepository.getAmbiente(idAmbiente, idAplicacao);
     if (!ambiente) {
