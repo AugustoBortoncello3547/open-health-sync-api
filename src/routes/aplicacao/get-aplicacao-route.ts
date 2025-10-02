@@ -4,7 +4,7 @@ import { GetAplicacaoController } from "../../controllers/aplicacao/get-aplicaca
 import type { GetAplicacaoParams } from "../../controllers/aplicacao/get-aplicacao/types.js";
 import { StatusAplicacaoEnum } from "../../enums/aplicacao/status-aplicacao-enum.js";
 import { HttpStatusCodeEnum } from "../../enums/http-status-code-enum.js";
-import { adminAuthHook } from "../../hooks/admin-auth-hook.js";
+import { authHook } from "../../hooks/auth-hook.js";
 import type { FastifyTypedInstance } from "../../types.js";
 
 export function getAplicacaoRoute(app: FastifyTypedInstance) {
@@ -67,7 +67,7 @@ export function getAplicacaoRoute(app: FastifyTypedInstance) {
             .describe("Erro interno do servidor. Algo inesperado ocorreu ao processar a requisição."),
         },
       },
-      preHandler: adminAuthHook,
+      preHandler: authHook,
     },
     async (
       request: FastifyRequest<{ Params: GetAplicacaoParams; Headers: { authorization?: string } }>,

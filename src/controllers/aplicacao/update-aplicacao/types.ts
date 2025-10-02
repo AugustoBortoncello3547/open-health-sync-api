@@ -12,4 +12,6 @@ export type TUpdateAplicacaoParams = {
   idAplicacao: string;
 };
 
-export type TUpdateAplicacaoRequest = Partial<Omit<TAplicacao, "id" | "criadoEm" | "atualizadoEm">>;
+export type TUpdateAplicacaoRequest = Partial<
+  Omit<TAplicacao, "id" | "status" | "senha" | "criadoEm" | "atualizadoEm">
+>;

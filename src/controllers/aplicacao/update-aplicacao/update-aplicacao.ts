@@ -28,10 +28,6 @@ export class UpdateAplicacaoController implements IUpdateAplicacaoController {
       aplicacao.email = emailUpdateRequest;
     }
 
-    if (updateAplicacacaoRequest.status) {
-      aplicacao.status = updateAplicacacaoRequest.status;
-    }
-
     if (updateAplicacacaoRequest.dados) {
       aplicacao.dados = aplicacao.dados || {};
       this.mergeDeep(aplicacao.dados, updateAplicacacaoRequest.dados);

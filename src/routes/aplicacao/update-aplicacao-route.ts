@@ -9,7 +9,7 @@ import { StatusAplicacaoEnum } from "../../enums/aplicacao/status-aplicacao-enum
 import { HttpStatusCodeEnum } from "../../enums/http-status-code-enum.js";
 import { TipoPessoaEnum } from "../../enums/tipo-pessoa-enum.js";
 import { UfEnum } from "../../enums/uf-enum.js";
-import { adminAuthHook } from "../../hooks/admin-auth-hook.js";
+import { authHook } from "../../hooks/auth-hook.js";
 import type { FastifyTypedInstance } from "../../types.js";
 
 export async function updateAplicacaoRoute(app: FastifyTypedInstance) {
@@ -25,7 +25,6 @@ export async function updateAplicacaoRoute(app: FastifyTypedInstance) {
         }),
         body: z.object({
           email: z.email().optional(),
-          status: z.enum(StatusAplicacaoEnum).optional(),
           dados: z
             .object({
               nome: z.string().optional(),
@@ -63,7 +62,7 @@ export async function updateAplicacaoRoute(app: FastifyTypedInstance) {
             .describe("Erro interno do servidor. Algo inesperado ocorreu ao processar a requisição."),
         },
       },
-      preHandler: adminAuthHook,
+      preHandler: authHook,
     },
     async (
       request: FastifyRequest<{

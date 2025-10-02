@@ -5,7 +5,6 @@ import type { TCreateAplicacaoRequest } from "../../controllers/aplicacao/create
 import { HttpStatusCodeEnum } from "../../enums/http-status-code-enum.js";
 import { TipoPessoaEnum } from "../../enums/tipo-pessoa-enum.js";
 import { UfEnum } from "../../enums/uf-enum.js";
-import { adminAuthHook } from "../../hooks/admin-auth-hook.js";
 import type { FastifyTypedInstance } from "../../types.js";
 
 export async function createAplicacaoRoute(app: FastifyTypedInstance) {
@@ -15,7 +14,6 @@ export async function createAplicacaoRoute(app: FastifyTypedInstance) {
       schema: {
         tags: ["Aplicação"],
         description: "Criar nova aplicação",
-        security: [{ bearerAuth: [] }],
         body: z.object({
           email: z
             .email("O e-mail informado não é válido.")
@@ -101,7 +99,6 @@ export async function createAplicacaoRoute(app: FastifyTypedInstance) {
             .describe("Erro interno do servidor. Algo inesperado ocorreu ao processar a requisição."),
         },
       },
-      preHandler: adminAuthHook,
     },
     async (
       request: FastifyRequest<{ Body: TCreateAplicacaoRequest; Headers: { authorization?: string } }>,
