@@ -1,3 +1,4 @@
+import { EventTypeDispatchEnum } from "../../../enums/event-type-dispatch-enum.js";
 import { PacienteWithIdExternoAlreadyInUseError } from "../../../errors/paciente-with-Id-externo-already-in-use-error.js";
 import { MongoCreatePacienteRepository } from "../../../repositories/paciente/create-paciente/mongo-create-paciente.js";
 import { MongoGetPacienteRepository } from "../../../repositories/paciente/get-paciente/mongo-get-paciente.js";
@@ -5,6 +6,8 @@ import { GetAmbienteController } from "../../ambiente/get-ambiente/get-ambiente.
 import type { IGetAmbienteController } from "../../ambiente/get-ambiente/types.js";
 import { JwtTokenController } from "../../token/jwt-token-controller.js";
 import type { IJwtTokenController } from "../../token/types.js";
+import { SyncDispatchEventController } from "../../webhook/sync-dispatch-event-controller.js";
+import type { IDispatchEventController } from "../../webhook/types.js";
 import type { IGetPacienteRepository } from "../get-paciente/types.js";
 import type { ICreatePacienteController, ICreatePacienteRepository, TCreatePacienteRequest } from "./types.js";
 
@@ -14,6 +17,7 @@ export class CreatePacienteController implements ICreatePacienteController {
     private readonly getPacienteRepository: IGetPacienteRepository = new MongoGetPacienteRepository(),
     private readonly getAmbienteController: IGetAmbienteController = new GetAmbienteController(),
     private readonly jwtTokenController: IJwtTokenController = new JwtTokenController(),
+    private readonly dispatchEventController: IDispatchEventController = new SyncDispatchEventController(),
   ) {}
 
   async handle(
@@ -39,6 +43,17 @@ export class CreatePacienteController implements ICreatePacienteController {
       idAplicacao: idAplicacao,
       ...createPacienteRequest,
     });
+
+    const pacienteCreated = await this.getPacienteRepository.getPaciente(idPaciente, idAplicacao, idAmbiente);
+    if (pacienteCreated) {
+      await this.dispatchEventController.dispatch(
+        idAplicacao,
+        idAmbiente,
+        EventTypeDispatchEnum.CREATE_PACIENTE,
+        pacienteCreated,
+      );
+    }
+
     return idPaciente;
   }
 }
