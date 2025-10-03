@@ -7,7 +7,6 @@ export type TAmbiente = {
   idAplicacao: string;
   nome: string;
   status: StatusAmbienteEnum;
-  apiKey: string;
   urlWebhook: string;
   tokenWebhook: string;
   criadoEm: Date;

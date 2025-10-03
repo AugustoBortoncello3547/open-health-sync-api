@@ -5,7 +5,6 @@ import type {
   TUpdateAplicacaoRequest,
 } from "../../controllers/aplicacao/update-aplicacao/types.js";
 import { UpdateAplicacaoController } from "../../controllers/aplicacao/update-aplicacao/update-aplicacao.js";
-import { StatusAplicacaoEnum } from "../../enums/aplicacao/status-aplicacao-enum.js";
 import { HttpStatusCodeEnum } from "../../enums/http-status-code-enum.js";
 import { TipoPessoaEnum } from "../../enums/tipo-pessoa-enum.js";
 import { UfEnum } from "../../enums/uf-enum.js";

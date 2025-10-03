@@ -3,18 +3,19 @@ import { createAmbienteRoute } from "./ambiente/create-ambiente-route.js";
 import { deleteAmbienteRoute } from "./ambiente/delete-ambiente-route.js";
 import { getAmbienteRoute } from "./ambiente/get-ambiente-route.js";
 import { listAmbienteRoute } from "./ambiente/list-ambiente-route.js";
+import { updateAmbienteRoute } from "./ambiente/update-ambiente-route.js";
 import { createAplicacaoRoute } from "./aplicacao/create-aplicacao-route.js";
 import { getAplicacaoRoute } from "./aplicacao/get-aplicacao-route.js";
 import { updateAplicacaoRoute } from "./aplicacao/update-aplicacao-route.js";
 import { authRoute } from "./auth/auth-route.js";
-import { createPacienteRoute } from "./paciente/create-paciente-route.js";
-import { deletePacienteRoute } from "./paciente/delete-paciente-route.js";
-import { getPacienteRoute } from "./paciente/get-paciente-route.js";
-import { listPacienteRoute } from "./paciente/list-paciente-route.js";
 import { createDadoSaudePacienteRoute } from "./dado-saude-paciente/create-dado-saude-paciente-route.js";
 import { deleteDadoSaudePacienteRoute } from "./dado-saude-paciente/delete-dado-saude-paciente-route.js";
 import { getDadoSaudePacienteRoute } from "./dado-saude-paciente/get-dado-saude-paciente-route.js";
 import { listDadoSaudePacienteRoute } from "./dado-saude-paciente/list-dado-saude-paciente-route.js";
+import { createPacienteRoute } from "./paciente/create-paciente-route.js";
+import { deletePacienteRoute } from "./paciente/delete-paciente-route.js";
+import { getPacienteRoute } from "./paciente/get-paciente-route.js";
+import { listPacienteRoute } from "./paciente/list-paciente-route.js";
 
 export function registerRoutes(app: FastifyInstance) {
   // Aplicacao
@@ -35,6 +36,7 @@ export function registerRoutes(app: FastifyInstance) {
   app.register(createPacienteRoute);
   app.register(listPacienteRoute);
   app.register(getPacienteRoute);
+  app.register(updateAmbienteRoute);
   app.register(deletePacienteRoute);
 
   // Dado de saúde do paciente
