@@ -17,7 +17,10 @@ describe("CreateDadoSaudePacienteController", () => {
 
   beforeEach(() => {
     createDadoSaudePacienteRepository = { createDadoSaudePaciente: vi.fn() };
-    getDadoSaudePacienteRepository = { getDadoSaudePacienteOnlyByIdExterno: vi.fn() };
+    getDadoSaudePacienteRepository = {
+      getDadoSaudePaciente: vi.fn(),
+      getDadoSaudePacienteOnlyByIdExterno: vi.fn(),
+    };
     getPacienteRepository = { getPaciente: vi.fn() };
     jwtTokenController = { getTokenData: vi.fn() };
 
@@ -51,6 +54,11 @@ describe("CreateDadoSaudePacienteController", () => {
       idAplicacao: fakeIdAplicacao,
       ...fakeDadoSaudeRequest,
     });
+    expect(getDadoSaudePacienteRepository.getDadoSaudePaciente).toHaveBeenCalledWith(
+      "ds-123",
+      fakeIdAplicacao,
+      fakeIdPaciente,
+    );
   });
 
   it("deve lançar erro se o paciente não for encontrado", async () => {

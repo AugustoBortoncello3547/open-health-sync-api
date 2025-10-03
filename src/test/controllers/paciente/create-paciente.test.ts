@@ -16,7 +16,10 @@ describe("CreatePacienteController", () => {
 
   beforeEach(() => {
     createPacienteRepository = { createPaciente: vi.fn() };
-    getPacienteRepository = { getPacienteOnlyByIdExterno: vi.fn() };
+    getPacienteRepository = {
+      getPaciente: vi.fn(),
+      getPacienteOnlyByIdExterno: vi.fn(),
+    };
     getAmbienteController = { validateAmbienteIsAvailable: vi.fn() };
     jwtTokenController = { getTokenData: vi.fn() };
 
@@ -49,6 +52,7 @@ describe("CreatePacienteController", () => {
       idAplicacao: fakeIdAplicacao,
       ...fakePacienteRequest,
     });
+    expect(getPacienteRepository.getPaciente).toHaveBeenCalledWith("paciente-123", fakeIdAplicacao, fakeIdAmbiente);
   });
 
   it("deve lançar erro se o ambiente não estiver disponível", async () => {
