@@ -1,43 +1,44 @@
-import type { FastifyReply, FastifyRequest } from "fastify";
 import z from "zod";
-import type { TUpdatePacienteRequest, UpdatePacienteParams } from "../../controllers/paciente/update-paciente/types.js";
-import { UpdatePacienteController } from "../../controllers/paciente/update-paciente/update-paciente.js";
-import { HttpStatusCodeEnum } from "../../enums/http-status-code-enum.js";
-import { authHook } from "../../hooks/auth-hook.js";
 import type { FastifyTypedInstance } from "../../types.js";
+import { authHook } from "../../hooks/auth-hook.js";
+import type { FastifyReply, FastifyRequest } from "fastify";
+import type {
+  TUpdateDadoSaudePacienteRequest,
+  UpdateDadoSaudePacienteParams,
+} from "../../controllers/dado-saude-paciente/update-dado-saude-paciente/types.js";
+import { HttpStatusCodeEnum } from "../../enums/http-status-code-enum.js";
+import { UpdateDadoSaudePacienteController } from "../../controllers/dado-saude-paciente/update-dado-saude-paciente/update-dado-saude-paciente.js";
 
-export async function updatePacienteRoute(app: FastifyTypedInstance) {
+export async function updateDadoSaudePacienteRoute(app: FastifyTypedInstance) {
   app.put(
-    "/ambiente/:idAmbiente/paciente/:idPaciente",
+    "/paciente/:idPaciente/registro/:idRegistro",
     {
       schema: {
-        tags: ["Paciente"],
-        description: "Atualizar paciente.",
+        tags: ["Registro de saúde do paciente"],
+        description: "Atualizar registro de saúde do paciente.",
         security: [{ bearerAuth: [] }],
         headers: z.object({
           authorization: z.string().optional(),
         }),
         params: z.object({
-          idAmbiente: z.string().describe("Identificador do ambiente onde o paciente será atualizado."),
-          idPaciente: z.string().describe("Identificador inerno do paciente."),
+          idPaciente: z.string().describe("Identificador interno do paciente."),
+          idRegistro: z.string().describe("Identificador do dado de saúde do paciente que será atualizado."),
         }),
         body: z.object({
           idExterno: z
             .string()
             .optional()
-            .describe("Identificador externo do paciente, definido pelo cliente.")
+            .describe("Identificador externo do registro de saúde, definido pelo cliente.")
             .optional(),
           dados: z
             .looseObject({})
-            .describe(
-              "Os dados do paciente. Pode ser um objeto com multiplos níveis. Este objeto sobrescreverá todos os dados cadastrados previamente.",
-            )
+            .describe("Os dados do registro de saúde. Pode ser um objeto com multiplos níveis.")
             .optional(),
         }),
         response: {
           201: z
-            .object({ id: z.string().describe("O id do paciente gerado pela API.") })
-            .describe("Paciente atualizado com sucesso."),
+            .object({ id: z.string().describe("O id do registro de saúde do paciente gerado pela API.") })
+            .describe("Registro de saúde do paciente atualizado com sucesso."),
           400: z
             .object({
               error: z.string().describe("Tipo do erro, usado para identificação do problema."),
@@ -102,18 +103,23 @@ export async function updatePacienteRoute(app: FastifyTypedInstance) {
     },
     async (
       request: FastifyRequest<{
-        Params: UpdatePacienteParams;
-        Body: TUpdatePacienteRequest;
+        Params: UpdateDadoSaudePacienteParams;
+        Body: TUpdateDadoSaudePacienteRequest;
         Headers: { authorization?: string };
       }>,
       reply: FastifyReply,
     ) => {
       const authHeader = request.headers.authorization;
-      const updatePacienteRequest = request.body;
-      const { idPaciente, idAmbiente } = request.params;
+      const updateDadoSaudePacienteRequest = request.body;
+      const { idPaciente, idRegistro } = request.params;
 
-      const updatePacienteController = new UpdatePacienteController();
-      const id = await updatePacienteController.handle(idPaciente, idAmbiente, updatePacienteRequest, authHeader);
+      const updateDadoSaudePacienteController = new UpdateDadoSaudePacienteController();
+      const id = await updateDadoSaudePacienteController.handle(
+        idRegistro,
+        idPaciente,
+        updateDadoSaudePacienteRequest,
+        authHeader,
+      );
 
       reply.status(HttpStatusCodeEnum.OK).send({ id });
     },
