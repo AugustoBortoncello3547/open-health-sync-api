@@ -19,7 +19,7 @@ export async function updatePacienteRoute(app: FastifyTypedInstance) {
         }),
         params: z.object({
           idAmbiente: z.string().describe("Identificador do ambiente onde o paciente será atualizado."),
-          idPaciente: z.string().describe("Identificador inerno do paciente."),
+          idPaciente: z.string().describe("Identificador do paciente, podendo ser o id interno ou o idExterno."),
         }),
         body: z.object({
           idExterno: z

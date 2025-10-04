@@ -19,7 +19,7 @@ export async function createDadoSaudePacienteRoute(app: FastifyTypedInstance) {
           authorization: z.string().optional(),
         }),
         params: z.object({
-          idPaciente: z.string().describe("Identificador do paciente."),
+          idPaciente: z.string().describe("Identificador do paciente, podendo ser o id interno ou o idExterno."),
         }),
         body: z.object({
           idExterno: z
