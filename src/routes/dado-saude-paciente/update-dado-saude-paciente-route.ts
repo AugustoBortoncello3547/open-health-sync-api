@@ -36,7 +36,7 @@ export async function updateDadoSaudePacienteRoute(app: FastifyTypedInstance) {
             .optional(),
         }),
         response: {
-          201: z
+          200: z
             .object({ id: z.string().describe("O id do registro de saúde do paciente gerado pela API.") })
             .describe("Registro de saúde do paciente atualizado com sucesso."),
           400: z
