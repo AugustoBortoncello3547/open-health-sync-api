@@ -16,7 +16,7 @@ export class UpdateAmbienteController implements IUpdateAmbienteController {
 
   async handle(
     idAmbiente: string,
-    updateAplicacacaoRequest: TUpdateAmbienteRequest,
+    updateAmbienteRequest: TUpdateAmbienteRequest,
     authHeader?: string,
   ): Promise<string> {
     const { idAplicacao } = await this.jwtTokenController.getTokenData(authHeader);
@@ -26,7 +26,7 @@ export class UpdateAmbienteController implements IUpdateAmbienteController {
       throw new AmbienteNotFoundError();
     }
 
-    const { idExterno, nome, status, urlWebhook, tokenWebhook } = updateAplicacacaoRequest;
+    const { idExterno, nome, status, urlWebhook, tokenWebhook } = updateAmbienteRequest;
     if (idExterno) {
       const ambienteWithSameIdExterno = await this.getAmbienteRepository.getAmbienteOnlyByIdExterno(
         idExterno,

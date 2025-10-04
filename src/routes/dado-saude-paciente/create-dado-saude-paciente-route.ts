@@ -25,7 +25,7 @@ export async function createDadoSaudePacienteRoute(app: FastifyTypedInstance) {
           idExterno: z
             .string()
             .optional()
-            .describe("Identificador externo do registro de saíude, definido pelo cliente."),
+            .describe("Identificador externo do registro de saúde, definido pelo cliente."),
           dados: z.looseObject({}).describe("Os dados do registro de saúde. Pode ser um objeto com multiplos níveis."),
         }),
         response: {
