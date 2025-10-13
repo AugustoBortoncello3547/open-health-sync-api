@@ -30,7 +30,7 @@ export class DeletePacienteController implements IDeletePacienteController {
       throw new PacienteNotFoundError();
     }
 
-    const isDeleted = await this.deletePacienteRepository.deletePaciente(pacienteToDelete.id, idAplicacao);
+    const isDeleted = await this.deletePacienteRepository.deletePaciente(pacienteToDelete.id, idAmbiente, idAplicacao);
     if (isDeleted) {
       await this.dispatchEventController.dispatch(
         idAplicacao,

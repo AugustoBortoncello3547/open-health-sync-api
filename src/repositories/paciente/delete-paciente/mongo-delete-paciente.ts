@@ -2,10 +2,11 @@ import type { IDeletePacienteRepository } from "../../../controllers/paciente/de
 import { PacienteModel } from "../../../models/paciente-model.js";
 
 export class MongoDeletePacienteRepository implements IDeletePacienteRepository {
-  async deletePaciente(idPaciente: string, idAplicacao: string): Promise<boolean> {
+  async deletePaciente(idPaciente: string, idAmbiente: string, idAplicacao: string): Promise<boolean> {
     const result = await PacienteModel.deleteOne({
       _id: idPaciente,
       idAplicacao: idAplicacao,
+      idAmbiente: idAmbiente,
     }).exec();
 
     return result.deletedCount > 0;
