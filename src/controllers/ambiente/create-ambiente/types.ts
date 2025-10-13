@@ -5,14 +5,10 @@ export interface ICreateAmbienteController {
   handle(createAmbienteRequest: TCreateAmbienteRequest, authHeader?: string): Promise<string>;
 }
 
-export type TCreateAmbienteRequest = Omit<
-  TAmbiente,
-  "id" | "status" | "apiKey" | "idAplicacao" | "atualizadoEm" | "criadoEm"
->;
+export type TCreateAmbienteRequest = Omit<TAmbiente, "id" | "status" | "idAplicacao" | "atualizadoEm" | "criadoEm">;
 
 export type TCreateAmbiente = TCreateAmbienteRequest & {
   status: StatusAmbienteEnum;
-  apiKey: string;
   idAplicacao: string;
 };
 

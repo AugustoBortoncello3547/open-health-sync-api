@@ -26,7 +26,6 @@ describe("GetAmbienteController", () => {
         idAplicacao: "app123",
         nome: "Ambiente Teste",
         status: StatusAmbienteEnum.ATIVO,
-        apiKey: "chave123",
         urlWebhook: "http://webhook",
         tokenWebhook: "token123",
         criadoEm: new Date("2025-01-01T00:00:00Z"),

@@ -26,17 +26,11 @@ export class CreateAmbienteController implements ICreateAmbienteController {
       throw new AmbienteWithIdExternoAlreadyInUseError();
     }
 
-    const generatedApiKey = await this.generateAmbienteApiKey();
     const idAmbiente = await this.createAmbienteRepository.createAmbiente({
       status: StatusAmbienteEnum.ATIVO,
-      apiKey: generatedApiKey,
       idAplicacao: idAplicacao,
       ...createAmbienteRequest,
     });
     return idAmbiente;
-  }
-
-  async generateAmbienteApiKey(): Promise<string> {
-    return "amb_" + randomBytes(24).toString("hex");
   }
 }

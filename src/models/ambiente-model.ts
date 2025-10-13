@@ -12,7 +12,6 @@ const AmbienteSchema = new Schema(
     idAplicacao: { type: String, required: false },
     nome: { type: String, required: false },
     status: { type: String, enum: Object.values(StatusAmbienteEnum), required: false },
-    apiKey: { type: String, required: false },
     urlWebhook: { type: String, required: false },
     tokenWebhook: { type: String, required: false },
   },

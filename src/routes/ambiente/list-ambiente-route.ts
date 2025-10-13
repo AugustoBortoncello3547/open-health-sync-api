@@ -36,11 +36,6 @@ export function listAmbienteRoute(app: FastifyTypedInstance) {
                 idExterno: z.string().describe("Identificador externo do ambiente, definido pelo cliente na criação."),
                 nome: z.string().describe("Nome do ambiente."),
                 status: z.enum(StatusAmbienteEnum).describe("Status atual do ambiente."),
-                apiKey: z
-                  .string()
-                  .describe(
-                    "Chave de autenticação exclusiva do ambiente, usada para salvar dados dos pacientes e seus dados.",
-                  ),
                 urlWebhook: z
                   .string()
                   .describe("URL do webhook para envio de notificações ou atualizações dos pacientes e seus dados."),

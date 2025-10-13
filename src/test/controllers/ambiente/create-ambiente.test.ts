@@ -33,9 +33,6 @@ describe("CreateAmbienteController", () => {
     getAmbienteRepository.getAmbienteOnlyByIdExterno.mockResolvedValue(null);
     createAmbienteRepository.createAmbiente.mockResolvedValue("amb-001");
 
-    // Espionamos o generateAmbienteApiKey para garantir previsibilidade
-    const spyApiKey = vi.spyOn(controller, "generateAmbienteApiKey").mockResolvedValue("amb_apiKey_fake");
-
     const result = await controller.handle(fakeCreateAmbienteRequest, fakeAuthHeader);
 
     expect(result).toBe("amb-001");
@@ -49,10 +46,7 @@ describe("CreateAmbienteController", () => {
       ...fakeCreateAmbienteRequest,
       idAplicacao: fakeIdAplicacao,
       status: StatusAmbienteEnum.ATIVO,
-      apiKey: "amb_apiKey_fake",
     });
-
-    spyApiKey.mockRestore();
   });
 
   it("deve lançar erro se já existir ambiente com mesmo idExterno", async () => {
@@ -68,10 +62,5 @@ describe("CreateAmbienteController", () => {
     createAmbienteRepository.createAmbiente.mockRejectedValue(new Error("Falha no banco"));
 
     await expect(controller.handle(fakeCreateAmbienteRequest, fakeAuthHeader)).rejects.toThrow("Falha no banco");
-  });
-
-  it("deve gerar apiKey com prefixo amb_", async () => {
-    const apiKey = await controller.generateAmbienteApiKey();
-    expect(apiKey).toMatch(/^amb_[a-f0-9]{48}$/); // 24 bytes em hex → 48 chars
   });
 });
