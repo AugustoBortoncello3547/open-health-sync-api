@@ -38,7 +38,11 @@ export class DeleteDadoSaudePacienteController implements IDeleteDadoSaudePacien
       throw new DadoSaudePacienteNotFoundError();
     }
 
-    const isDeleted = await this.deleteDadoSaudePacienteRepository.deleteDadoSaudePaciente(idRegistro, idAplicacao);
+    const isDeleted = await this.deleteDadoSaudePacienteRepository.deleteDadoSaudePaciente(
+      idRegistro,
+      idPaciente,
+      idAplicacao,
+    );
     if (isDeleted) {
       await this.dispatchEventController.dispatch(
         idAplicacao,

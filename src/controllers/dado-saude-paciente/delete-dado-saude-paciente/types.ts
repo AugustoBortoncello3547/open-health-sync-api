@@ -1,7 +1,7 @@
 import type { TDadoSaudePacienteEndpoitsCommonParams } from "../types.js";
 
 export interface IDeleteDadoSaudePacienteRepository {
-  deleteDadoSaudePaciente(idRegistro: string, idAplicacao: string): Promise<boolean>;
+  deleteDadoSaudePaciente(idRegistro: string, idPaciente: string, idAplicacao: string): Promise<boolean>;
 }
 
 export interface IDeleteDadoSaudePacienteController {
