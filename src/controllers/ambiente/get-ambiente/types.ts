@@ -6,7 +6,7 @@ export interface IGetAmbienteController {
 }
 
 export interface IGetAmbienteRepository {
-  getAmbiente(id: string, idAplicacao: string): Promise<TAmbiente | null>;
+  getAmbiente(idAmbiente: string, idAplicacao: string): Promise<TAmbiente | null>;
   getAmbienteOnlyByIdExterno(idExterno: string, idAplicacao: string): Promise<TAmbiente | null>;
 }
 

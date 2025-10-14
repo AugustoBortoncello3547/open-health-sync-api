@@ -5,11 +5,11 @@ import { PacienteModel } from "../../../models/paciente-model.js";
 import type { TQueryPaciente } from "../../../controllers/paciente/list-paciente/types.js";
 
 export class MongoGetPacienteRepository implements IGetPacienteRepository {
-  async getPaciente(id: string, idAplicacao: string, idAmbiente?: string): Promise<TPaciente | null> {
+  async getPaciente(idPaciente: string, idAplicacao: string, idAmbiente?: string): Promise<TPaciente | null> {
     let pacienteDoc = null;
 
     let query: TQueryPaciente = {
-      _id: id,
+      _id: idPaciente,
       idAplicacao,
     };
 
@@ -18,13 +18,13 @@ export class MongoGetPacienteRepository implements IGetPacienteRepository {
     }
 
     // Primeiro tentamos buscar pelo id da collection do mongo
-    if (mongoose.isValidObjectId(id)) {
+    if (mongoose.isValidObjectId(idPaciente)) {
       pacienteDoc = await PacienteModel.findOne(query).exec();
     }
 
     // Se não achou nada, tenta buscar pelo idExterno
     if (!pacienteDoc) {
-      return await this.getPacienteOnlyByIdExterno(id, idAplicacao, idAmbiente);
+      return await this.getPacienteOnlyByIdExterno(idPaciente, idAplicacao, idAmbiente);
     }
 
     if (!pacienteDoc) {

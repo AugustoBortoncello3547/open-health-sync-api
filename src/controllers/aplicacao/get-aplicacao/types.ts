@@ -5,7 +5,7 @@ export interface IGetAplicacaoController {
 }
 
 export interface IGetAplicacaoRepository {
-  getAplicacao(id: string): Promise<TAplicacao | null>;
+  getAplicacao(idAplicacao: string): Promise<TAplicacao | null>;
   getAplicacaoByEmail(email: string): Promise<TAplicacao | null>;
   countAplicacoesByEmail(email: string): Promise<number>;
 }

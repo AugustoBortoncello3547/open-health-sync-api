@@ -4,12 +4,12 @@ import type { TAplicacao, TAplicacaoMongo } from "../../../controllers/aplicacao
 import { AplicacaoModel } from "../../../models/aplicacao-model.js";
 
 export class MongoGetAplicacaoRepository implements IGetAplicacaoRepository {
-  async getAplicacao(id: string): Promise<TAplicacao | null> {
-    if (!mongoose.isValidObjectId(id)) {
+  async getAplicacao(idAplicacao: string): Promise<TAplicacao | null> {
+    if (!mongoose.isValidObjectId(idAplicacao)) {
       return null;
     }
 
-    let aplicacaoDoc = await AplicacaoModel.findById(id).exec();
+    let aplicacaoDoc = await AplicacaoModel.findById(idAplicacao).exec();
     if (!aplicacaoDoc) {
       return null;
     }

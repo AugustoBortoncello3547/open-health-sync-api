@@ -5,7 +5,7 @@ export interface IGetPacienteController {
 }
 
 export interface IGetPacienteRepository {
-  getPaciente(id: string, idAplicacao: string, idAmbiente?: string): Promise<TPaciente | null>;
+  getPaciente(idPaciente: string, idAplicacao: string, idAmbiente?: string): Promise<TPaciente | null>;
   getPacienteOnlyByIdExterno(idExterno: string, idAplicacao: string, idAmbiente?: string): Promise<TPaciente | null>;
 }
 
