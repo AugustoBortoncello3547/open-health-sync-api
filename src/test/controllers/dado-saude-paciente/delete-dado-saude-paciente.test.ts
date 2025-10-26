@@ -47,6 +47,7 @@ describe("DeleteDadoSaudePacienteController", () => {
     );
     expect(deleteDadoSaudePacienteRepository.deleteDadoSaudePaciente).toHaveBeenCalledWith(
       fakeRegistro.id,
+      fakeIdPaciente,
       fakeIdAplicacao,
     );
   });

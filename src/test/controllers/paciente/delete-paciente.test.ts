@@ -39,7 +39,11 @@ describe("DeletePacienteController", () => {
     expect(jwtTokenController.getTokenData).toHaveBeenCalledWith(fakeAuthHeader);
     expect(getAmbienteController.validateAmbienteIsAvailable).toHaveBeenCalledWith(fakeIdAmbiente, fakeIdAplicacao);
     expect(getPacienteRepository.getPaciente).toHaveBeenCalledWith(fakePaciente.id, fakeIdAplicacao, fakeIdAmbiente);
-    expect(deletePacienteRepository.deletePaciente).toHaveBeenCalledWith(fakePaciente.id, fakeIdAplicacao);
+    expect(deletePacienteRepository.deletePaciente).toHaveBeenCalledWith(
+      fakePaciente.id,
+      fakeIdAmbiente,
+      fakeIdAplicacao,
+    );
   });
 
   it("deve lançar erro se o ambiente não estiver disponível", async () => {
