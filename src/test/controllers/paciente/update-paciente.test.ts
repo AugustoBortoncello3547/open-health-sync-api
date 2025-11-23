@@ -8,12 +8,14 @@ import { UpdatePacienteController } from "../../../controllers/paciente/update-p
 import type { IJwtTokenController } from "../../../controllers/token/types.js";
 import { PacienteNotFoundError } from "../../../errors/paciente-not-found-error.js";
 import { PacienteWithIdExternoAlreadyInUseError } from "../../../errors/paciente-with-Id-externo-already-in-use-error.js";
+import type { IDispatchEventController } from "../../../controllers/webhook/types.js";
 
 describe("UpdatePacienteController", () => {
   let getPacienteRepository: IGetPacienteRepository;
   let updatePacienteRepository: IUpdatePacienteRepository;
   let jwtTokenController: IJwtTokenController;
   let controller: UpdatePacienteController;
+  let dispatchEventController: IDispatchEventController;
 
   const pacienteBase = {
     id: "pac-1",
@@ -37,7 +39,16 @@ describe("UpdatePacienteController", () => {
       extractDatafromToken: vi.fn(),
     };
 
-    controller = new UpdatePacienteController(getPacienteRepository, updatePacienteRepository, jwtTokenController);
+    dispatchEventController = {
+      dispatch: vi.fn().mockResolvedValue(undefined),
+    };
+
+    controller = new UpdatePacienteController(
+      getPacienteRepository,
+      updatePacienteRepository,
+      jwtTokenController,
+      dispatchEventController,
+    );
   });
 
   it("deve atualizar um paciente com sucesso", async () => {

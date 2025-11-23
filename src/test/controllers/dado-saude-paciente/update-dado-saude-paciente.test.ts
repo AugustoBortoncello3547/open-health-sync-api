@@ -8,13 +8,17 @@ import type { IJwtTokenController } from "../../../controllers/token/types.js";
 import { UpdateDadoSaudePacienteController } from "../../../controllers/dado-saude-paciente/update-dado-saude-paciente/update-dado-saude-paciente.js";
 import { DadoSaudePacienteNotFoundError } from "../../../errors/dado-saude-paciente-not-found-error.js";
 import { DadoSaudePacienteWithIdExternoAlreadyInUseError } from "../../../errors/dado-saude-paciente-with-Id-externo-already-in-use-error.js";
+import type { IDispatchEventController } from "../../../controllers/webhook/types.js";
 
 describe("UpdateDadoSaudePacienteController", () => {
   let getDadoSaudePacienteRepository: IGetDadoSaudePacienteRepository;
   let updateDadoSaudePacienteRepository: IUpdateDadoSaudePacienteRepository;
   let jwtTokenController: IJwtTokenController;
   let controller: UpdateDadoSaudePacienteController;
+  let getPacienteRepository: any;
+  let dispatchEventController: IDispatchEventController;
 
+  const fakeIdPaciente = "pac-123";
   const dadoSaudeBase = {
     id: "ds-1",
     idExterno: "old-ext",
@@ -37,14 +41,23 @@ describe("UpdateDadoSaudePacienteController", () => {
       extractDatafromToken: vi.fn(),
     };
 
+    getPacienteRepository = { getPaciente: vi.fn() };
+
+    dispatchEventController = {
+      dispatch: vi.fn().mockResolvedValue(undefined),
+    };
+
     controller = new UpdateDadoSaudePacienteController(
       getDadoSaudePacienteRepository,
       updateDadoSaudePacienteRepository,
       jwtTokenController,
+      getPacienteRepository,
+      dispatchEventController,
     );
   });
 
   it("deve atualizar um dado de saúde com sucesso", async () => {
+    getPacienteRepository.getPaciente.mockResolvedValue({ id: fakeIdPaciente });
     (jwtTokenController.getTokenData as any).mockResolvedValue({ idAplicacao: "app-1" });
     (getDadoSaudePacienteRepository.getDadoSaudePaciente as any).mockResolvedValue({ ...dadoSaudeBase });
     (getDadoSaudePacienteRepository.getDadoSaudePacienteOnlyByIdExterno as any).mockResolvedValue(null);
@@ -65,6 +78,7 @@ describe("UpdateDadoSaudePacienteController", () => {
   });
 
   it("deve lançar DadoSaudePacienteNotFoundError se não encontrar o registro", async () => {
+    getPacienteRepository.getPaciente.mockResolvedValue({ id: fakeIdPaciente });
     (jwtTokenController.getTokenData as any).mockResolvedValue({ idAplicacao: "app-1" });
     (getDadoSaudePacienteRepository.getDadoSaudePaciente as any).mockResolvedValue(null);
 
@@ -74,6 +88,7 @@ describe("UpdateDadoSaudePacienteController", () => {
   });
 
   it("deve lançar DadoSaudePacienteWithIdExternoAlreadyInUseError se idExterno já estiver em uso", async () => {
+    getPacienteRepository.getPaciente.mockResolvedValue({ id: fakeIdPaciente });
     (jwtTokenController.getTokenData as any).mockResolvedValue({ idAplicacao: "app-1" });
     (getDadoSaudePacienteRepository.getDadoSaudePaciente as any).mockResolvedValue({ ...dadoSaudeBase });
     (getDadoSaudePacienteRepository.getDadoSaudePacienteOnlyByIdExterno as any).mockResolvedValue({ id: "outro" });
@@ -84,6 +99,7 @@ describe("UpdateDadoSaudePacienteController", () => {
   });
 
   it("deve permitir atualização apenas de dados", async () => {
+    getPacienteRepository.getPaciente.mockResolvedValue({ id: fakeIdPaciente });
     (jwtTokenController.getTokenData as any).mockResolvedValue({ idAplicacao: "app-1" });
     (getDadoSaudePacienteRepository.getDadoSaudePaciente as any).mockResolvedValue({ ...dadoSaudeBase });
     (getDadoSaudePacienteRepository.getDadoSaudePacienteOnlyByIdExterno as any).mockResolvedValue(null);
